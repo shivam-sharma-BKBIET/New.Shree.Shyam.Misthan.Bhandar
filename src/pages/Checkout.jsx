@@ -20,11 +20,10 @@ const Checkout = () => {
 
   const generateUPILink = () => {
     const pa = "shivam7777@fam";
-    const pn = "shivam";
+    const pn = encodeURIComponent("New Shree Shyam Misthan Bhandar");
     const am = cartTotal.toFixed(2);
     const cu = "INR";
-    const tn = encodeURIComponent(`Order_SweetDelight_${Date.now()}`);
-    return `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=${cu}&tn=${tn}`;
+    return `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=${cu}`;
   };
 
   const handleStepSubmit = (step, e) => {
@@ -40,10 +39,31 @@ const Checkout = () => {
 
   const placeOrder = (e) => {
     e.preventDefault();
+    
+    // If it's UPI and UTR is empty, it's a mobile deep-link intent trigger
     if (paymentMethod === 'upi' && !utrNumber) {
-      alert("Please enter the Payment Reference (UTR) number to confirm your order.");
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (!isMobile) {
+        alert("Desktop users: Please scan the QR code using your phone's UPI app (GPay/PhonePe/Paytm). Once paid, enter the 12-digit UTR number here.");
+        return;
+      }
+
+      // Action A: Mobile Redirect
+      alert("Opening your UPI app... Pay the amount and return here to enters your 12-digit UTR to confirm.");
+      window.location.href = generateUPILink();
       return;
     }
+
+    if (paymentMethod === 'upi') {
+      const cleanUTR = utrNumber.trim();
+      if (cleanUTR.length < 12) {
+        alert("The Payment Reference (UTR) number must be exactly 12 digits. Please check your transaction details.");
+        return;
+      }
+    }
+
+    // Success flow
     setIsSuccess(true);
     setTimeout(() => {
       clearCart();
@@ -198,25 +218,30 @@ const Checkout = () => {
                           <span className="method-name">UPI (QR / PhonePe / GPay)</span>
                           {paymentMethod === 'upi' && (
                             <div className="upi-expanded-content">
-                              <p className="upi-desc">Scan QR or use deep link upi client to pay.</p>
+                              <p className="upi-desc">Scan QR or use one-click pay to open apps like Google Pay / PhonePe.</p>
                               
                               <div className="qr-container-mini">
-                                <img src="/assets/upi_qr.png" alt="UPI QR Code" className="payment-qr" onError={(e) => e.target.style.display='none'} />
+                                <img 
+                                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(generateUPILink())}`} 
+                                  alt="UPI QR Code" 
+                                  className="payment-qr" 
+                                />
                                 <div className="qr-info-mini">
                                   <strong>UPI ID:</strong> shivam7777@fam
                                 </div>
                               </div>
                               
-                              <div className="mobile-upi-action">
-                                <a href={generateUPILink()} className="btn btn-purple upi-app-btn">Pay via App (Mobile)</a>
-                              </div>
-                              
                               <div className="form-group mt-3">
-                                <label>Payment UTR Number (required)</label>
-                                <input type="text" className="input-field" placeholder="12-digit UTR" value={utrNumber} onChange={(e) => setUtrNumber(e.target.value)} required />
+                                <label>Payment Reference (UTR) Number</label>
+                                <input type="text" className="input-field" placeholder="12-digit UTR" value={utrNumber} onChange={(e) => setUtrNumber(e.target.value)} />
+                                <small className="helper-text d-block mt-1" style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                  (Mobile users: Click Pay to open UPI app. Once paid, return here to enter your UTR)
+                                </small>
                               </div>
                               
-                              <button type="submit" className="btn btn-orange action-btn mt-3">PAY ₹{cartTotal}</button>
+                              <button type="submit" className="btn btn-orange action-btn mt-3">
+                                {utrNumber ? `CONFIRM ORDER ₹${cartTotal}` : `PAY ₹${cartTotal}`}
+                              </button>
                             </div>
                           )}
                         </div>

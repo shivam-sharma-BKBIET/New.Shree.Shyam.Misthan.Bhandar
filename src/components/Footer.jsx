@@ -36,16 +36,45 @@ const Footer = () => {
           <ul>
             <li><MapPin size={18} /> 
               <span>
-                <a href={`https://maps.google.com/?q=${encodeURIComponent(footerData?.address || "123 Sweet Lane, Jaipur, Rajasthan")}`} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-                  {footerData?.address || "123 Sweet Lane, Jaipur, Rajasthan"}
-                </a>
+                {footerData?.addresses?.length > 0 ? footerData.addresses.map((addr, index) => (
+                  <div key={index} style={{ marginBottom: index === footerData.addresses.length - 1 ? 0 : '4px' }}>
+                    <a 
+                      href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      style={{ color: 'inherit', textDecoration: 'none' }}
+                    >
+                      {addr}
+                    </a>
+                  </div>
+                )) : (
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent("123 Sweet Lane, Jaipur, Rajasthan")}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    123 Sweet Lane, Jaipur, Rajasthan
+                  </a>
+                )}
               </span>
             </li>
             <li><Phone size={18} /> 
               <span>
-                <a href={`tel:${(footerData?.phone || "+91 9876543210").replace(/\s/g, '')}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                  {footerData?.phone || "+91 9876543210"}
-                </a>
+                {footerData?.phoneNumbers?.length > 0 ? footerData.phoneNumbers.map((phone, index) => (
+                  <div key={index} style={{ marginBottom: index === footerData.phoneNumbers.length - 1 ? 0 : '4px' }}>
+                    <a 
+                      href={`tel:${phone.replace(/\s/g, '')}`} 
+                      style={{ color: 'inherit', textDecoration: 'none' }}
+                    >
+                      {phone}
+                    </a>
+                  </div>
+                )) : (
+                  <a href="tel:+919876543210" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    +91 9876543210
+                  </a>
+                )}
               </span>
             </li>
             <li><Mail size={18} /> 

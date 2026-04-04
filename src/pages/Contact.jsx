@@ -5,13 +5,21 @@ import './Contact.css';
 
 const Contact = () => {
   const { footerData } = useProducts();
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', mobileNumber: '', message: '' });
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Construct WhatsApp Message
+    const whatsappMessage = `New Website Inquiry:\nName: ${formData.name}\nMobile: ${formData.mobileNumber}\nMessage: ${formData.message}`;
+    const whatsappUrl = `https://wa.me/918529434514?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+    
     setSuccess(true);
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({ name: '', mobileNumber: '', message: '' });
     setTimeout(() => setSuccess(false), 3000);
   };
 
@@ -26,29 +34,38 @@ const Contact = () => {
             <div className="info-card">
               <div className="icon-wrapper"><MapPin size={24} /></div>
               <h3>Visit Our Store</h3>
-              <p>
-                <a 
-                  href={`https://maps.google.com/?q=${encodeURIComponent(footerData?.address || "123 Sweet Lane, Jaipur, Rajasthan")}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  {footerData?.address || <>123 Mithai Wala Lane, Model Town<br/>Sweet City, SC 400001</>}
-                </a>
-              </p>
+              {(footerData?.addresses && footerData.addresses.length > 0) ? footerData.addresses.map((addr, index) => (
+                <p key={index} style={{ marginBottom: index === footerData.addresses.length - 1 ? 0 : '8px' }}>
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {addr}
+                  </a>
+                </p>
+              )) : (
+                <p>123 Mithai Wala Lane, Model Town<br/>Sweet City, SC 400001</p>
+              )}
             </div>
             
             <div className="info-card">
               <div className="icon-wrapper"><Phone size={24} /></div>
               <h3>Call Us</h3>
-              <p>
-                <a 
-                  href={`tel:${(footerData?.phone || "+919876543210").replace(/\s/g, '')}`} 
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  {footerData?.phone || "+91 98765 43210"}
-                </a>
-                <br/>
+              {(footerData?.phoneNumbers && footerData.phoneNumbers.length > 0) ? footerData.phoneNumbers.map((phone, index) => (
+                <p key={index} style={{ marginBottom: '4px' }}>
+                  <a 
+                    href={`tel:${phone.replace(/\s/g, '')}`} 
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {phone}
+                  </a>
+                </p>
+              )) : (
+                <p>+91 98765 43210</p>
+              )}
+              <p className="hours-text" style={{ marginTop: '8px', fontSize: '0.9rem', opacity: 0.8 }}>
                 {footerData?.hours || "Mon-Sun: 9:00 AM - 10:00 PM"}
               </p>
             </div>
@@ -74,7 +91,7 @@ const Contact = () => {
             
             {success && (
               <div className="alert-success">
-                Message sent successfully! We will get back to you soon.
+                Redirecting to WhatsApp... Thank you for reaching out!
               </div>
             )}
             
@@ -92,14 +109,14 @@ const Contact = () => {
               </div>
               
               <div className="form-group">
-                <label>Email Address</label>
+                <label>Mobile Number</label>
                 <input 
-                  type="email" 
+                  type="tel" 
                   className="input-field" 
                   required 
-                  value={formData.email}
-                  onChange={e => setFormData({...formData, email: e.target.value})}
-                  placeholder="rahul@example.com" 
+                  value={formData.mobileNumber}
+                  onChange={e => setFormData({...formData, mobileNumber: e.target.value})}
+                  placeholder="Enter your 10-digit mobile number" 
                 />
               </div>
               
@@ -116,7 +133,7 @@ const Contact = () => {
               </div>
               
               <button type="submit" className="btn btn-primary w-100 send-btn">
-                <Send size={18} style={{marginRight: '8px'}} /> Send Message
+                <Send size={18} style={{marginRight: '8px'}} /> Send via WhatsApp
               </button>
             </form>
           </div>
