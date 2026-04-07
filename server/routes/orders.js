@@ -13,7 +13,7 @@ const router = express.Router();
 const getLocalIp = () => {
   const interfaces = os.networkInterfaces();
   const candidates = [];
-  
+
   for (const name of Object.keys(interfaces)) {
     for (const iface of interfaces[name]) {
       if (iface.family === 'IPv4' && !iface.internal) {
@@ -44,7 +44,7 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id;
+    req.userId = decoded.id || decoded._id || decoded.userId;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Invalid token' });
@@ -59,14 +59,14 @@ router.post('/', verifyToken, async (req, res) => {
     if (!userId && req.body.userId) {
       userId = req.body.userId;
     }
-    
+
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing or invalid token' });
     }
 
-    const order = await Order.create({ 
+    const order = await Order.create({
       userId, items, totalAmount, address, phone, orderRef,
-      transactionStatus: 'PENDING_VERIFICATION' 
+      transactionStatus: 'PENDING_VERIFICATION'
     });
 
     // Generate secure token for magic link
@@ -81,10 +81,10 @@ router.post('/', verifyToken, async (req, res) => {
       console.error("🔔 [NOTIFICATION FAILED] Orders saved but alerts failed:", notifyError.message);
     }
 
-    res.status(201).json({ 
-      message: 'Order placed, awaiting approval', 
+    res.status(201).json({
+      message: 'Order placed, awaiting approval',
       orderId: order._id,
-      orderRef: order.orderRef 
+      orderRef: order.orderRef
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -103,9 +103,9 @@ router.get('/track/status', async (req, res) => {
     }).sort({ createdAt: -1 });
 
     if (!order) return res.status(404).json({ message: 'Order not found' });
-    
-    res.json({ 
-      status: order.transactionStatus, 
+
+    res.json({
+      status: order.transactionStatus,
       orderRef: order.orderRef,
       deliveryDate: order.deliveryDate,
       deliveryTime: order.deliveryTime
@@ -119,7 +119,7 @@ router.get('/track/status', async (req, res) => {
 router.get('/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     // Validate if the ID is a valid MongoDB ObjectId to avoid Cast Error
     if (id.length !== 24) {
       return res.status(404).json({ message: 'Invalid Order ID format' });
@@ -127,7 +127,7 @@ router.get('/:id/status', async (req, res) => {
 
     const order = await Order.findById(id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
-    
+
     res.json({ status: order.transactionStatus, orderRef: order.orderRef });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -238,7 +238,7 @@ const sendTelegramNotification = async (order, token) => {
   try {
     const baseUrl = getBaseUrl();
     const portalUrl = `${baseUrl}/api/orders/verify-portal/${order._id}?token=${token}`;
-    
+
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -291,7 +291,7 @@ const sendAdminNotification = async (order, token) => {
   const baseUrl = getBaseUrl();
   const portalUrl = `${baseUrl}/api/orders/verify-portal/${order._id}?token=${token}`;
   const adminPhone = process.env.ADMIN_PHONE || '+918529434514';
-  
+
   // Format based on strict specification
   const message = `New Order: Rs. ${order.totalAmount} by ${order.userId}. Verify payment here: ${portalUrl}`;
 
@@ -325,12 +325,14 @@ const sendAdminNotification = async (order, token) => {
     // Fallback: Construct Direct WhatsApp Link for Manual Sharing
     const cleanPhone = adminPhone.replace(/\D/g, '');
     const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
-    
+
     console.log('\n--- ADMIN MANUAL ACTION (SMS FAILED) ---');
     console.log('If you did not receive the SMS, please click or share this link:');
     console.log(whatsappUrl);
     console.log('-------------------------------------------\n');
   }
 };
+
+
 
 export default router;

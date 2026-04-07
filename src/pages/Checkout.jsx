@@ -61,10 +61,21 @@ const Checkout = () => {
 
   const completePayment = async () => {
     try {
+      // 1. Safe extraction logic handling all edge cases
+      const extractedUserId = user?.id || user?._id || user?.userId;
+
+      // 2. Strict Frontend Check before API Call
+      if (!extractedUserId || extractedUserId === '') {
+        console.error("Verification Error: Missing userId. Cannot process payment.");
+        setError("User verification failed. Please login again to complete your order.");
+        setIsVerifying(false);
+        return;
+      }
+
       setError('');
       setIsVerifying(true);
       const orderData = {
-        userId: user?.id || user?._id || '',
+        userId: extractedUserId,
         items: cartItems,
         totalAmount: cartTotal,
         address,

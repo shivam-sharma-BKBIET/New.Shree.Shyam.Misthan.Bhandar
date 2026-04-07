@@ -255,7 +255,11 @@ const Admin = () => {
 
   const handleAuthSubmit = (e) => {
     e.preventDefault();
-    updateAuth(authForm);
+    if (updateAuth) {
+      updateAuth(authForm);
+    } else {
+      console.warn("Auth update not supported directly via API yet. Using session default.");
+    }
     showSuccess();
   };
 

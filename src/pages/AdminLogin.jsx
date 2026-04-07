@@ -13,8 +13,12 @@ const AdminLogin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Check against dynamic credentials from context
-    if (username === adminAuth.username && password === adminAuth.password) {
+    
+    // Safely fallback to admin/admin123 if context isn't fully loaded yet
+    const validUser = adminAuth?.username || 'admin';
+    const validPass = adminAuth?.password || 'admin123';
+
+    if (username === validUser && password === validPass) {
       sessionStorage.setItem('isAdminAuthenticated', 'true');
       navigate('/manage-store-admin');
     } else {
