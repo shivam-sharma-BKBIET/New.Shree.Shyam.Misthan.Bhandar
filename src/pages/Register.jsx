@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Lock, Phone, ArrowRight, Loader2, Facebook, Chrome } from 'lucide-react';
+import { getApiUrl } from '../config';
 import './AuthStyles.css';
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,7 +29,8 @@ const Register = () => {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(getApiUrl('/api/auth/register'), {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

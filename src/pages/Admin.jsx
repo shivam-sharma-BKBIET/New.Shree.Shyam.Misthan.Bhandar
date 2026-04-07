@@ -4,7 +4,9 @@ import {
   Pencil, Trash, Plus, Search, X, Check, Save, 
   Package, Info, Settings, Image as ImageIcon, User, Lock, ExternalLink, Layout, MapPin, Tag, Users, ShoppingCart
 } from 'lucide-react';
+import { getApiUrl } from '../config';
 import './Admin.css';
+
 
 const Admin = () => {
   const { 
@@ -35,7 +37,8 @@ const Admin = () => {
       return;
     }
     try {
-      const response = await fetch(`/api/admin/orders/${orderId}/schedule`, {
+      const response = await fetch(getApiUrl(`/api/admin/orders/${orderId}/schedule`), {
+
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -90,7 +93,8 @@ const Admin = () => {
 
   const fetchOrdersSilently = async () => {
     try {
-      const resp = await fetch('/api/admin/orders', { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+      const resp = await fetch(getApiUrl('/api/admin/orders'), { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+
       const data = await resp.json();
       
       // Check for New Orders
@@ -117,7 +121,8 @@ const Admin = () => {
   const fetchCustomers = async () => {
     setIsLoadingData(true);
     try {
-      const resp = await fetch('/api/admin/customers', { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+      const resp = await fetch(getApiUrl('/api/admin/customers'), { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+
       const data = await resp.json();
       setAllCustomers(data);
     } catch (err) {
@@ -130,10 +135,11 @@ const Admin = () => {
   const deleteOrder = async (id) => {
     if(!window.confirm('Delete this order?')) return;
     try {
-      await fetch(`/api/admin/orders/${id}`, { 
-        method: 'DELETE',
-        headers: { 'x-admin-key': 'NewShyamSecretKey2026' }
-      });
+      await fetch(getApiUrl(`/api/admin/orders/${id}`), { 
+                method: 'DELETE',
+                headers: { 'x-admin-key': 'NewShyamSecretKey2026' }
+              });
+
       fetchOrders();
     } catch (err) {
       console.error('Failed to delete order', err);
@@ -142,7 +148,8 @@ const Admin = () => {
 
   const handleUpdateStatus = async (id, status) => {
     try {
-      const response = await fetch(`/api/admin/orders/${id}/status`, {
+      const response = await fetch(getApiUrl(`/api/admin/orders/${id}/status`), {
+
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -161,7 +168,8 @@ const Admin = () => {
 
   const handleResend = async (id) => {
     try {
-      const response = await fetch(`/api/admin/orders/${id}/resend`, {
+      const response = await fetch(getApiUrl(`/api/admin/orders/${id}/resend`), {
+
         method: 'POST',
         headers: { 'x-admin-key': 'NewShyamSecretKey2026' }
       });

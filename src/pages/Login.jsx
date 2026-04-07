@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, Facebook, Chrome } from 'lucide-react';
+import { getApiUrl } from '../config';
 import './AuthStyles.css';
+
 
 const Login = () => {
   const { login } = useAuth();
@@ -21,7 +23,8 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(getApiUrl('/api/auth/login'), {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

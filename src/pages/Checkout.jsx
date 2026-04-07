@@ -3,7 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { CheckCircle, CreditCard, DollarSign, Check, ShieldCheck, Loader2, Lock } from 'lucide-react';
+import { getApiUrl } from '../config';
 import './Checkout.css';
+
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
@@ -70,7 +72,8 @@ const Checkout = () => {
         orderRef
       };
 
-      const response = await fetch('/api/orders', {
+      const response = await fetch(getApiUrl('/api/orders'), {
+
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

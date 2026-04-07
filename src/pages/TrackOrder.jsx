@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, MapPin, CheckCircle, Package, Truck, ShoppingBag, CreditCard, Clock, AlertCircle, Loader2 } from 'lucide-react';
+import { getApiUrl } from '../config';
 import './TrackOrder.css';
+
 
 const TrackOrder = () => {
   const [searchParams] = useSearchParams();
@@ -45,7 +47,8 @@ const TrackOrder = () => {
     }
 
     try {
-      const res = await fetch(`/api/orders/track/status?query=${encodeURIComponent(searchQuery.trim())}`);
+      const res = await fetch(getApiUrl(`/api/orders/track/status?query=${encodeURIComponent(searchQuery.trim())}`));
+
       const data = await res.json();
       
       if (!res.ok) {
