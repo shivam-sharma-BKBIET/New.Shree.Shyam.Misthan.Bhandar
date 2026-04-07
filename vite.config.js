@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Proxy sirf local development ke liye hota hai, 
+  // Vercel par hum direct URL use karenge
   server: {
     proxy: {
       '/api': {
@@ -12,5 +13,7 @@ export default defineConfig({
         secure: false,
       }
     }
-  }
+  },
+  // Yeh line zaroori hai taaki Vercel sahi rasta dhoond sake
+  base: '/',
 })
