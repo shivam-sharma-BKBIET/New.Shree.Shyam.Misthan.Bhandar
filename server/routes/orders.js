@@ -52,9 +52,18 @@ const verifyToken = (req, res, next) => {
 };
 
 // Place Order
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
-    const { userId, items, totalAmount, address, phone, orderRef } = req.body;
+    const { items, totalAmount, address, phone, orderRef } = req.body;
+    let userId = req.userId;
+    if (!userId && req.body.userId) {
+      userId = req.body.userId;
+    }
+    
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is missing or invalid token' });
+    }
+
     const order = await Order.create({ 
       userId, items, totalAmount, address, phone, orderRef,
       transactionStatus: 'PENDING_VERIFICATION' 

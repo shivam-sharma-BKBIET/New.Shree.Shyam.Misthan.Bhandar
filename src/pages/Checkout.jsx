@@ -64,7 +64,7 @@ const Checkout = () => {
       setError('');
       setIsVerifying(true);
       const orderData = {
-        userId: user.id || user._id,
+        userId: user?.id || user?._id || '',
         items: cartItems,
         totalAmount: cartTotal,
         address,
