@@ -4,10 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
-// Detection for local environment
-const isDev = process.env.NODE_ENV !== 'production' || 
-              (process.env.BASE_URL && process.env.BASE_URL.includes('localhost')) ||
-              !process.env.BASE_URL;
+// Detection for production environment (Render/Vercel)
+const isDev = process.env.NODE_ENV !== 'production';
 
 let bot;
 
