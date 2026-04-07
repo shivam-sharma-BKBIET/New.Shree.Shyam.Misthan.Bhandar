@@ -71,6 +71,12 @@ const TrackOrder = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
+      case 'DELIVERED':
+        return (
+          <div className="status-badge success-badge" style={{ background: '#d4edda', color: '#155724', padding: '10px 15px', borderRadius: '8px', border: '1px solid #c3e6cb', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', marginBottom: '15px' }}>
+            <CheckCircle size={18} /> Order Successfully Delivered!
+          </div>
+        );
       case 'VERIFIED':
       case 'PAYMENT_VERIFIED':
         return (
@@ -168,26 +174,26 @@ const TrackOrder = () => {
                 <div className={`timeline-connector ${(result.status === 'VERIFIED' || result.status === 'PAYMENT_VERIFIED') ? 'completed' : ''}`}></div>
 
                 {/* Step 3: Scheduled / Dispatched */}
-                <div className={`timeline-node ${result.deliveryDate ? 'completed' : ''}`}>
+                <div className={`timeline-node ${result.deliveryDate || result.status === 'DELIVERED' ? 'completed' : ''}`}>
                   <div className="node-icon"><Package size={18} /></div>
                   <div className="node-content">
                     <h4>Order Scheduled</h4>
                     {result.deliveryDate ? (
                        <p style={{ fontWeight: '500', color: '#27ae60' }}>Scheduled: {result.deliveryDate} at {result.deliveryTime}</p>
                     ) : (
-                       <p>Awaiting admin scheduling</p>
+                       <p>{result.status === 'DELIVERED' ? 'Dispatched successfully' : 'Awaiting admin scheduling'}</p>
                     )}
                   </div>
                 </div>
 
-                <div className={`timeline-connector ${result.deliveryDate ? 'completed' : ''}`}></div>
+                <div className={`timeline-connector ${result.status === 'DELIVERED' ? 'completed' : ''}`}></div>
 
                 {/* Step 4: Delivered */}
-                <div className={`timeline-node`}>
+                <div className={`timeline-node ${result.status === 'DELIVERED' ? 'completed' : ''}`}>
                   <div className="node-icon"><CheckCircle size={18} /></div>
                   <div className="node-content">
                     <h4>Delivered</h4>
-                    <p>Pending</p>
+                    <p>{result.status === 'DELIVERED' ? 'Package delivered to the customer' : 'Pending'}</p>
                   </div>
                 </div>
 

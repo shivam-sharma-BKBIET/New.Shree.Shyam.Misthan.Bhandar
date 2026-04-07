@@ -40,13 +40,22 @@ const Contact = () => {
                     href={`https://maps.google.com/?q=${encodeURIComponent(addr)}`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    style={{ color: 'inherit', textDecoration: 'none' }}
+                    style={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
                   >
                     {addr}
                   </a>
                 </p>
               )) : (
-                <p>123 Mithai Wala Lane, Model Town<br/>Sweet City, SC 400001</p>
+                <p>
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent("123 Mithai Wala Lane, Model Town, Sweet City, SC 400001")}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    123 Mithai Wala Lane, Model Town<br/>Sweet City, SC 400001
+                  </a>
+                </p>
               )}
             </div>
             
@@ -57,13 +66,20 @@ const Contact = () => {
                 <p key={index} style={{ marginBottom: '4px' }}>
                   <a 
                     href={`tel:${phone.replace(/\s/g, '')}`} 
-                    style={{ color: 'inherit', textDecoration: 'none' }}
+                    style={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
                   >
                     {phone}
                   </a>
                 </p>
               )) : (
-                <p>+91 98765 43210</p>
+                <p>
+                  <a 
+                    href="tel:+919876543210" 
+                    style={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    +91 98765 43210
+                  </a>
+                </p>
               )}
               <p className="hours-text" style={{ marginTop: '8px', fontSize: '0.9rem', opacity: 0.8 }}>
                 {footerData?.hours || "Mon-Sun: 9:00 AM - 10:00 PM"}
@@ -76,7 +92,7 @@ const Contact = () => {
               <p>
                 <a 
                   href={`mailto:${footerData?.email || "hello@newshreeshyam.com"}`} 
-                  style={{ color: 'inherit', textDecoration: 'none' }}
+                  style={{ color: 'inherit', textDecoration: 'underline', cursor: 'pointer' }}
                 >
                   {footerData?.email || "hello@newshreeshyam.com"}
                 </a>

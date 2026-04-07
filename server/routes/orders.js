@@ -43,7 +43,8 @@ const verifyToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const decoded = jwt.verify(token, secret);
     req.userId = decoded.id || decoded._id || decoded.userId;
     next();
   } catch (error) {

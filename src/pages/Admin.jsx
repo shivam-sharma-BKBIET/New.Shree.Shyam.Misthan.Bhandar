@@ -463,7 +463,7 @@ const Admin = () => {
                             >
                               <Trash size={14} />
                             </button>
-                            {order.transactionStatus === 'PAYMENT_VERIFIED' && (
+                            {['PAYMENT_VERIFIED', 'VERIFIED'].includes(order.transactionStatus) && (
                               <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
                                 <input 
                                   type="date" 
@@ -483,6 +483,17 @@ const Admin = () => {
                                   style={{ padding: '4px', fontSize: '10px', marginTop: '4px' }}
                                 >
                                   Update Schedule
+                                </button>
+                                <button 
+                                  className="btn" 
+                                  onClick={() => {
+                                    if(window.confirm('Mark this order as DELIVERED exclusively?')) {
+                                      handleUpdateStatus(order._id, 'DELIVERED');
+                                    }
+                                  }}
+                                  style={{ padding: '4px', fontSize: '10px', marginTop: '4px', background: '#27ae60', color: 'white', border: 'none' }}
+                                >
+                                  Mark as Delivered <Check size={10} style={{display:'inline', marginLeft:'2px'}}/>
                                 </button>
                               </div>
                             )}

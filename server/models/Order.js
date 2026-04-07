@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: { type: String, default: 'upi' },
   transactionStatus: { 
     type: String, 
-    enum: ['PENDING_ADMIN_APPROVAL', 'VERIFIED_PAID', 'PAYMENT_REJECTED', 'PENDING_VERIFICATION', 'PAYMENT_VERIFIED', 'FRAUD_ATTEMPT', 'PARTIAL_PAYMENT', 'VERIFIED', 'CANCELLED'], 
+    enum: ['PENDING_ADMIN_APPROVAL', 'VERIFIED_PAID', 'PAYMENT_REJECTED', 'PENDING_VERIFICATION', 'PAYMENT_VERIFIED', 'FRAUD_ATTEMPT', 'PARTIAL_PAYMENT', 'VERIFIED', 'CANCELLED', 'DELIVERED'], 
     default: 'PENDING_VERIFICATION' 
   },
   amountPaid: { type: Number },
