@@ -37,31 +37,39 @@ app.get('/', (req, res) => {
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, '0.0.0.0', async () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`📡 BASE_URL for Mobile Magic Links: ${getBaseUrl()}`);
-      
-      // Test Telegram Connection on startup
-      const botToken = process.env.TELEGRAM_BOT_TOKEN;
-      const chatId = process.env.TELEGRAM_CHAT_ID;
-      if (botToken && chatId && !botToken.includes('your_bot')) {
-        try {
-          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: chatId,
-              text: "🚀 *Sweet Shop Server Online!*\nYour Telegram Bot is now connected and ready for orders.",
-              parse_mode: 'Markdown'
-            })
-          });
-          console.log('✅ Telegram Bot Test SMS sent successfully!');
-        } catch (err) {
-          console.error('❌ Telegram Bot Setup Error:', err.message);
+    
+    // Only listen if not in production (Vercel manages the listener)
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, '0.0.0.0', async () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`📡 BASE_URL for Mobile Magic Links: ${getBaseUrl()}`);
+        
+        // Test Telegram Connection on startup
+        const botToken = process.env.TELEGRAM_BOT_TOKEN;
+        const chatId = process.env.TELEGRAM_CHAT_ID;
+        if (botToken && chatId && !botToken.includes('your_bot')) {
+          try {
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: "🚀 *Sweet Shop Server Online!*\nYour Telegram Bot is now connected and ready for orders.",
+                parse_mode: 'Markdown'
+              })
+            });
+            console.log('✅ Telegram Bot Test SMS sent successfully!');
+          } catch (err) {
+            console.error('❌ Telegram Bot Setup Error:', err.message);
+          }
         }
-      }
-    });
+      });
+    }
   })
   .catch((error) => {
     console.error('MongoDB Connection Error:', error.message);
   });
+
+// Export app for Vercel
+export default app;
+
