@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { X, Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import './CartDrawer.css';
 
 const CartDrawer = () => {
   const { isCartOpen, setIsCartOpen, cartItems, updateQuantity, removeFromCart, cartTotal, clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const drawerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -36,7 +38,11 @@ const CartDrawer = () => {
 
   const handleCheckout = () => {
     setIsCartOpen(false);
-    navigate('/checkout');
+    if (isAuthenticated) {
+      navigate('/checkout');
+    } else {
+      navigate('/login?redirect=/checkout');
+    }
   };
 
   if (!isCartOpen) return null;

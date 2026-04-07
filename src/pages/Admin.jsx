@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useProducts } from '../context/ProductContext';
 import { 
   Pencil, Trash, Plus, Search, X, Check, Save, 
-  Package, Info, Settings, Image as ImageIcon, User, Lock, ExternalLink, Layout, MapPin, Tag 
+  Package, Info, Settings, Image as ImageIcon, User, Lock, ExternalLink, Layout, MapPin, Tag, Users, ShoppingCart
 } from 'lucide-react';
 import './Admin.css';
 
@@ -13,10 +13,165 @@ const Admin = () => {
     footerData, updateFooter, addCategory, updateCategory, deleteCategory
   } = useProducts();
   
-  const [activeTab, setActiveTab] = useState('inventory');
+  const [activeTab, setActiveTab] = useState('orders');
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [allOrders, setAllOrders] = useState([]);
+  const [allCustomers, setAllCustomers] = useState([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [lastOrderId, setLastOrderId] = useState(null);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(Notification.permission === 'granted');
+  const [deliverySchedule, setDeliverySchedule] = useState({});
+
+  const handleScheduleChange = (orderId, field, value) => {
+    setDeliverySchedule(prev => ({ ...prev, [orderId]: { ...prev[orderId], [field]: value } }));
+  };
+
+  const updateSchedule = async (orderId) => {
+    const data = deliverySchedule[orderId];
+    if (!data || !data.deliveryDate || !data.deliveryTime) {
+      alert('Please fill both Date and Time');
+      return;
+    }
+    try {
+      const response = await fetch(`/api/admin/orders/${orderId}/schedule`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-key': 'NewShyamSecretKey2026'
+        },
+        body: JSON.stringify(data)
+      });
+      if (response.ok) {
+        showSuccess();
+        fetchOrders();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Handle Notifications Permission
+  const enableNotifications = () => {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        setNotificationsEnabled(true);
+        new Notification("Alerts Enabled!", { body: "You will now receive pop-ups for new orders." });
+      }
+    });
+  };
+
+  // Sound Alert Helper
+  const playAlertSound = () => {
+    const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+    audio.play().catch(e => console.log('Audio play failed:', e));
+  };
+
+  // Fetch Data on tab change or mount
+  React.useEffect(() => {
+    if (activeTab === 'orders') fetchOrders();
+    if (activeTab === 'customers') fetchCustomers();
+  }, [activeTab]);
+
+  // Polling for New Orders
+  React.useEffect(() => {
+    const pollInterval = setInterval(() => {
+      fetchOrdersSilently();
+    }, 10000); // Poll every 10 seconds
+    return () => clearInterval(pollInterval);
+  }, [lastOrderId]); // Dependency on lastOrderId to handle logic
+
+  const fetchOrders = async () => {
+    setIsLoadingData(true);
+    await fetchOrdersSilently();
+    setIsLoadingData(false);
+  };
+
+  const fetchOrdersSilently = async () => {
+    try {
+      const resp = await fetch('/api/admin/orders', { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+      const data = await resp.json();
+      
+      // Check for New Orders
+      if (data.length > 0) {
+        const latestOrder = data[0]; // Orders are sorted by -1 createdAt
+        if (lastOrderId && latestOrder._id !== lastOrderId && latestOrder.transactionStatus === 'PENDING_VERIFICATION') {
+          playAlertSound();
+          if (Notification.permission === 'granted') {
+            new Notification("NEW ORDER ALERT!", {
+              body: `Order #${latestOrder.orderRef} for ₹${latestOrder.totalAmount} is awaiting your approval.`,
+              icon: '/favicon.svg'
+            });
+          }
+        }
+        setLastOrderId(latestOrder._id);
+      }
+      
+      setAllOrders(data);
+    } catch (err) {
+      console.error('Failed to fetch ordersSilently', err);
+    }
+  };
+
+  const fetchCustomers = async () => {
+    setIsLoadingData(true);
+    try {
+      const resp = await fetch('/api/admin/customers', { headers: { 'x-admin-key': 'NewShyamSecretKey2026' } });
+      const data = await resp.json();
+      setAllCustomers(data);
+    } catch (err) {
+      console.error('Failed to fetch customers', err);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  const deleteOrder = async (id) => {
+    if(!window.confirm('Delete this order?')) return;
+    try {
+      await fetch(`/api/admin/orders/${id}`, { 
+        method: 'DELETE',
+        headers: { 'x-admin-key': 'NewShyamSecretKey2026' }
+      });
+      fetchOrders();
+    } catch (err) {
+      console.error('Failed to delete order', err);
+    }
+  };
+
+  const handleUpdateStatus = async (id, status) => {
+    try {
+      const response = await fetch(`/api/admin/orders/${id}/status`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-key': 'NewShyamSecretKey2026' 
+        },
+        body: JSON.stringify({ status })
+      });
+      if (response.ok) {
+        fetchOrders();
+        showSuccess();
+      }
+    } catch (err) {
+      console.error('Failed to update status', err);
+    }
+  };
+
+  const handleResend = async (id) => {
+    try {
+      const response = await fetch(`/api/admin/orders/${id}/resend`, {
+        method: 'POST',
+        headers: { 'x-admin-key': 'NewShyamSecretKey2026' }
+      });
+      if (response.ok) {
+        alert('Check your terminal for the NEW verification link! (SMS/Telegram logic triggered)');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   
   // Product Form State
   const [formData, setFormData] = useState({
@@ -142,15 +297,34 @@ const Admin = () => {
             <h1 className="admin-title">Store <span>Manager</span></h1>
             <p className="admin-subtitle">Manage your inventory, content, and security settings.</p>
           </div>
-          {activeTab === 'inventory' && (
-            <button className="btn btn-primary btn-add" onClick={() => handleOpenModal()}>
-              <Plus size={20} /> Add New Item
-            </button>
-          )}
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {!notificationsEnabled && (
+              <button className="btn btn-outline" onClick={enableNotifications} style={{ borderColor: '#e65100', color: '#e65100' }}>
+                🔔 Enable Mobile Alerts
+              </button>
+            )}
+            {activeTab === 'inventory' && (
+              <button className="btn btn-primary btn-add" onClick={() => handleOpenModal()}>
+                <Plus size={20} /> Add New Item
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Tab Navigation */}
         <div className="admin-tabs">
+          <button 
+            className={`tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
+            onClick={() => setActiveTab('orders')}
+          >
+            <ShoppingCart size={18} /> Orders
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'customers' ? 'active' : ''}`}
+            onClick={() => setActiveTab('customers')}
+          >
+            <Users size={18} /> Customers
+          </button>
           <button 
             className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
             onClick={() => setActiveTab('inventory')}
@@ -192,6 +366,157 @@ const Admin = () => {
         {saveSuccess && (
           <div className="save-toast">
             <Check size={18} /> Changes saved successfully!
+          </div>
+        )}
+
+        {/* Orders Tab */}
+        {activeTab === 'orders' && (
+          <div className="tab-content fadeIn">
+            <div className="admin-controls">
+              <h3>Live Customer Orders</h3>
+              <div className="admin-stats">
+                <span>Total Orders: <strong>{allOrders.length}</strong></span>
+              </div>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Ref ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allOrders.length === 0 ? (
+                    <tr><td colSpan="6" className="text-center py-4">No orders found.</td></tr>
+                  ) : (
+                    allOrders.map(order => (
+                      <tr key={order._id}>
+                        <td className="font-semibold">{order.orderRef}</td>
+                        <td>
+                          <div><strong>{order.userId?.name}</strong></div>
+                          <div className="text-muted" style={{fontSize: '0.8rem'}}>{order.userId?.phone}</div>
+                        </td>
+                        <td>{order.items?.length} items</td>
+                        <td>
+                          <div style={{ fontWeight: 'bold' }}>₹{order.totalAmount}</div>
+                          {order.transactionId && (
+                            <div style={{ fontSize: '0.8rem', color: '#0984e3', marginTop: '4px' }}>
+                              UTR: {order.transactionId}
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <span className={`status-badge status-${order.transactionStatus?.toLowerCase()}`}>
+                            {order.transactionStatus?.replace(/_/g, ' ')}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="admin-actions">
+                            {order.transactionStatus === 'PENDING_VERIFICATION' && (
+                              <>
+                                 <button 
+                                  className="action-btn approve" 
+                                  onClick={() => handleUpdateStatus(order._id, 'PAYMENT_VERIFIED')}
+                                  title="Approve Order"
+                                >
+                                  <Check size={14} />
+                                </button>
+                                <button 
+                                  className="action-btn" 
+                                  style={{ background: '#6c5ce7', color: 'white' }}
+                                  onClick={() => handleResend(order._id)}
+                                  title="Resend Mobile Alert"
+                                >
+                                  <ExternalLink size={14} />
+                                </button>
+                                <button 
+                                  className="action-btn reject" 
+                                  onClick={() => handleUpdateStatus(order._id, 'PAYMENT_REJECTED')}
+                                  title="Reject Order"
+                                >
+                                  <X size={14} />
+                                </button>
+                              </>
+                            )}
+                            <button 
+                              className="action-btn delete" 
+                              onClick={() => deleteOrder(order._id)}
+                              title="Delete Order"
+                            >
+                              <Trash size={14} />
+                            </button>
+                            {order.transactionStatus === 'PAYMENT_VERIFIED' && (
+                              <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                <input 
+                                  type="date" 
+                                  value={deliverySchedule[order._id]?.deliveryDate || order.deliveryDate || ''}
+                                  onChange={(e) => handleScheduleChange(order._id, 'deliveryDate', e.target.value)}
+                                  style={{ padding: '4px', fontSize: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                                />
+                                <input 
+                                  type="time" 
+                                  value={deliverySchedule[order._id]?.deliveryTime || order.deliveryTime || ''}
+                                  onChange={(e) => handleScheduleChange(order._id, 'deliveryTime', e.target.value)}
+                                  style={{ padding: '4px', fontSize: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                                />
+                                <button 
+                                  className="btn btn-primary" 
+                                  onClick={() => updateSchedule(order._id)}
+                                  style={{ padding: '4px', fontSize: '10px', marginTop: '4px' }}
+                                >
+                                  Update Schedule
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Customers Tab */}
+        {activeTab === 'customers' && (
+          <div className="tab-content fadeIn">
+            <div className="admin-controls">
+              <h3>Registered Customers</h3>
+              <div className="admin-stats">
+                <span>Count: <strong>{allCustomers.length}</strong></span>
+              </div>
+            </div>
+
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Joined</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allCustomers.map(customer => (
+                    <tr key={customer._id}>
+                      <td className="font-semibold">{customer.name}</td>
+                      <td>{customer.email}</td>
+                      <td>{customer.phone}</td>
+                      <td>{new Date(customer.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 

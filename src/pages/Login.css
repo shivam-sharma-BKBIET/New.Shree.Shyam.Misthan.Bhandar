@@ -1,0 +1,273 @@
+.void-3d-scene {
+  position: relative;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #1a1a2e 0%, #0c001a 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 2000px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Orbiting Geometric Shapes */
+.floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shape {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  animation: float-orbit 20s infinite linear;
+}
+
+.shape-1 { width: 100px; height: 100px; top: 10%; left: 10%; transform: translateZ(-500px); animation-duration: 40s; }
+.shape-2 { width: 150px; height: 150px; bottom: 15%; right: 10%; transform: translateZ(-300px); animation-duration: 30s; border-radius: 50%; }
+.shape-3 { width: 80px; height: 80px; top: 50%; left: 80%; transform: translateZ(-600px); animation-duration: 50s; rotate: 45deg; }
+
+@keyframes float-orbit {
+  0% { transform: rotateY(0) translateZ(-400px) rotateX(0); }
+  100% { transform: rotateY(360deg) translateZ(-400px) rotateX(360deg); }
+}
+
+/* The Sculpted 3D Panel */
+.sculpted-form-panel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 30px;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transform: rotateX(10deg) rotateY(-5deg);
+  animation: form-intro 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+@keyframes form-intro {
+  from { opacity: 0; transform: rotateX(-50deg) translateZ(-500px); }
+  to { opacity: 1; transform: rotateX(10deg) rotateY(-5deg) translateZ(0); }
+}
+
+.login-header-3d {
+  text-align: center;
+  margin-bottom: 40px;
+  transform: translateZ(30px);
+}
+
+.login-header-3d h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.login-header-3d p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+/* Sculpted Input Fields */
+.dimensional-field-wrapper {
+  margin-bottom: 25px;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dimensional-field-wrapper:focus-within {
+  transform: translateZ(50px) scale(1.02);
+}
+
+.dimensional-input-container {
+  position: relative;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  box-shadow: 
+    inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  transition: all 0.3s ease;
+}
+
+.dimensional-input-container i {
+  color: rgba(255, 255, 255, 0.4);
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+
+.dimensional-field-wrapper:focus-within i {
+  color: #00d2ff;
+  transform: translateZ(10px) rotate(360deg);
+}
+
+.dimensional-input-container input {
+  background: transparent;
+  border: none;
+  height: 60px;
+  width: 100%;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  pointer-events: none;
+  box-shadow: 0 0 0px #00d2ff;
+  transition: box-shadow 0.3s ease;
+}
+
+.dimensional-field-wrapper:focus-within .input-glow {
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+}
+
+/* Mechanical Push Button */
+.mechanical-btn-container {
+  margin-top: 40px;
+  transform-style: preserve-3d;
+}
+
+.mechanical-btn {
+  position: relative;
+  width: 100%;
+  height: 65px;
+  background: #3a0088;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.1s;
+  box-shadow: 0 10px 0 #240055, 0 15px 25px rgba(0,0,0,0.4);
+}
+
+.mechanical-btn:active {
+  transform: translateY(8px) translateZ(-5px);
+  box-shadow: 0 2px 0 #240055, 0 5px 10px rgba(0,0,0,0.4);
+}
+
+.btn-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 15px;
+  transform: translateZ(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Social Tiles */
+.social-3d-grid {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  transform-style: preserve-3d;
+}
+
+.social-tile {
+  flex: 1;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.social-tile:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateZ(20px) rotateY(15deg);
+}
+
+.social-tile img {
+  width: 24px;
+  height: 24px;
+}
+
+.or-divider-3d {
+  text-align: center;
+  margin: 25px 0;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.or-divider-3d::after, .or-divider-3d::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.or-divider-3d::before { left: 0; }
+.or-divider-3d::after { right: 0; }
+
+.forgot-link-3d {
+  display: block;
+  text-align: right;
+  margin-top: -15px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-link-3d:hover { color: #00d2ff; }
+
+.footer-link-3d {
+  text-align: center;
+  margin-top: 30px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.footer-link-3d a {
+  color: #00d2ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .sculpted-form-panel {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+}

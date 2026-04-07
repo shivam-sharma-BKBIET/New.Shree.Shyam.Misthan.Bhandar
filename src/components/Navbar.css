@@ -197,6 +197,65 @@
   transform: translateY(-2px);
 }
 
+/* Auth Styling */
+.nav-auth-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.nav-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--background);
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+}
+
+.nav-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.profile-btn {
+  background-color: var(--surface) !important;
+  color: var(--secondary) !important;
+  width: 34px !important;
+  height: 34px !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-btn:hover {
+  background-color: var(--secondary) !important;
+  color: white !important;
+  transform: rotate(15deg);
+}
+
+.auth-btn {
+  color: var(--text-muted) !important;
+}
+
+.auth-btn:hover {
+  color: var(--secondary) !important;
+  background-color: var(--background) !important;
+}
+
+@media (max-width: 768px) {
+  .nav-user-name {
+    display: none;
+  }
+  
+  .nav-user-info {
+    padding: 0;
+    background: none;
+    border: none;
+  }
+}
+
 .modern-cart-badge {
   position: absolute;
   top: 0px;

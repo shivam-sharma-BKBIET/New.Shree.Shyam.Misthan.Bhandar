@@ -190,6 +190,36 @@
 .cat-chocolates { background: #f5f3ff; color: #7c3aed; }
 .cat-namkin { background: #f0fdf4; color: #16a34a; }
 
+/* Status Badges for Orders */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.status-pending_admin_approval {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.status-verified_paid {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.status-payment_rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
 .admin-actions {
   display: flex;
   gap: 8px;
@@ -216,12 +246,29 @@
 
 .action-btn.edit:hover { background: #dbeafe; }
 
-.action-btn.delete {
+.action-btn.delete:hover { background: #ffe4e6; }
+
+.action-btn.approve {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.action-btn.approve:hover {
+  background: #dcfce7;
+  color: #15803d;
+  transform: translateY(-2px);
+}
+
+.action-btn.reject {
   background: #fff1f2;
   color: #e11d48;
 }
 
-.action-btn.delete:hover { background: #ffe4e6; }
+.action-btn.reject:hover {
+  background: #ffe4e6;
+  color: #be123c;
+  transform: translateY(-2px);
+}
 
 /* Modal Styles */
 .modal-overlay {
