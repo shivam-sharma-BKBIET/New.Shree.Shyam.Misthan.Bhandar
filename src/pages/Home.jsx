@@ -11,24 +11,27 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Banner */}
+      {/* Grand Hero Section */}
       <section className="hero-section">
-        <div className="container hero-container">
-          <div className="hero-content">
-            <h1>{heroData?.heading || "Delicious Sweets Delivered to Your Door"}</h1>
-            <p>{heroData?.subtext || "Experience the finest traditional Indian mithai, premium chocolates, and freshly baked cakes made with love and pure ingredients."}</p>
-            <div className="hero-actions">
-              <Link to="/products" className="btn btn-primary">
-                Shop Now <ArrowRight size={20} />
-              </Link>
+        <div className="container grand-hero-container">
+          <div className="hero-plaque">
+            <div className="hero-image-frame">
+              <img 
+                src={heroData?.image || "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&q=80&w=1000"} 
+                alt="New Shyam Misthan Bhandar" 
+                className="hero-image"
+              />
             </div>
-          </div>
-          <div className="hero-image-wrapper">
-            <img 
-              src={heroData?.image || "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&q=80&w=1000"} 
-              alt="Assorted Indian Sweets" 
-              className="hero-image"
-            />
+            <div className="hero-content">
+              <h1 className="hero-title">{heroData?.heading || "New Shree Shyam Misthan Bhandar"}</h1>
+              <div className="hero-divider"></div>
+              <p className="hero-subtitle">{heroData?.subtext || "Tradition of Purity, Taste of Excellence."}</p>
+              <div className="hero-actions">
+                <Link to="/products" className="btn btn-luxury">
+                  Explore Specialties <ArrowRight size={20} />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

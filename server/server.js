@@ -7,6 +7,7 @@ import orderRoutes, { getBaseUrl } from './routes/orders.js';
 import adminRoutes from './routes/admin.js';
 import paymentRoutes from './routes/payment.js';
 import telegramRoutes from './routes/telegram.js';
+import siteRoutes from './routes/site.js';
 import './services/telegramBot.js'; 
 
 
@@ -26,6 +27,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/telegram', telegramRoutes);
+app.use('/api/site', siteRoutes);
+
 
 
 // Root
