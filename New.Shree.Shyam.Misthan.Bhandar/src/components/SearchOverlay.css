@@ -1,0 +1,226 @@
+/* Search Overlay Modal Styling */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 248, 240, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+  animation: fadeIn 0.3s ease;
+}
+
+.search-overlay-content {
+  padding-top: 3rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Header */
+.search-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.search-input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.search-icon-large {
+  color: var(--secondary);
+}
+
+.overlay-search-input {
+  width: 100%;
+  font-size: 3rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  outline: none;
+  letter-spacing: -1px;
+}
+
+.overlay-search-input::placeholder {
+  color: var(--border);
+}
+
+.close-btn {
+  color: var(--text-primary);
+  background: var(--surface);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.close-btn:hover {
+  background: var(--primary);
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+/* Body & Grid */
+.search-overlay-body {
+  width: 100%;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-bottom: 4rem;
+}
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.search-section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+/* Suggestions */
+.suggestions-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.suggestions-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.suggestions-list li:hover {
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  color: var(--secondary);
+  transform: translateX(5px);
+}
+
+.sugg-icon {
+  color: var(--text-muted);
+}
+
+.search-highlight {
+  background-color: var(--primary);
+  color: var(--text-primary);
+  font-weight: 700;
+  padding: 0 0.1rem;
+  border-radius: 3px;
+}
+
+/* Compact Product Grid */
+.compact-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.search-card-wrapper {
+  transform: scale(0.95);
+  transform-origin: top left;
+  transition: transform 0.3s ease;
+}
+
+.search-card-wrapper:hover {
+  transform: scale(0.98);
+}
+
+.search-no-results {
+  text-align: center;
+  padding: 5rem 0;
+  color: var(--text-primary);
+}
+
+.search-no-results h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.search-hint {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .search-results-grid {
+    grid-template-columns: 1fr;
+  }
+  .overlay-search-input {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-overlay-content {
+    padding-top: 1.5rem;
+  }
+  .overlay-search-input {
+    font-size: 1.8rem;
+  }
+  .close-btn {
+    width: 45px;
+    height: 45px;
+  }
+  .search-card-wrapper {
+    transform: scale(1);
+  }
+}

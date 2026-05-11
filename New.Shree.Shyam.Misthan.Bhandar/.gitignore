@@ -1,0 +1,52 @@
+# Environment files
+.env
+server/.env
+*.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# node_modules / build
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Debug & temp scripts (DO NOT COMMIT)
+server/check_db.js
+server/check_delete.js
+server/fix_db.js
+server/seed.js
+server/index.js
+
+# Temp output/error files
+build_err.txt
+build_err_utf8.txt
+build_out.txt
+build_out2.txt
+true-error.txt
+wiki_urls.txt
+wiki_urls_2.txt
+eslint-errors.json
+
+# Leftover files
+src/FacebookInit.jsx

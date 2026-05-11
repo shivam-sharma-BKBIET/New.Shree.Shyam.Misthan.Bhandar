@@ -1,0 +1,119 @@
+.wishlist-page {
+  padding: 2rem 0;
+  min-height: 60vh;
+}
+
+.empty-wishlist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-wishlist-icon {
+  width: 100px;
+  height: 100px;
+  background-color: #fff0ed;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.wishlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.wishlist-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.wishlist-card-img-wrapper {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.wishlist-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-card:hover .wishlist-card-img {
+  transform: scale(1.05);
+}
+
+.wishlist-card-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.wishlist-item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.wishlist-item-category {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  margin-bottom: 0.75rem;
+}
+
+.wishlist-item-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 1.25rem;
+}
+
+.wishlist-card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn.icon-only {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn {
+  color: #e53e3e;
+  border-color: #feb2b2;
+}
+
+.delete-btn:hover {
+  background-color: #fff5f5;
+  border-color: #e53e3e;
+}

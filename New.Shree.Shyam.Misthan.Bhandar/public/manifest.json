@@ -1,0 +1,25 @@
+{
+  "short_name": "Shree Shyam",
+  "name": "New Shree Shyam Misthan Bhandhar",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logoo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logoo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/manage-store-admin",
+  "display": "standalone",
+  "theme_color": "#e65100",
+  "background_color": "#ffffff"
+}
