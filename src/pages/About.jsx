@@ -21,8 +21,8 @@ const About = () => {
         <div className="about-hero-overlay"></div>
         <div className="container relative z-10">
           <div className="about-hero-inner">
-            <span className="hero-badge">SINCE 1999</span>
-            <h1 className="hero-main-title">Crafting <span>Sweet</span> Memories for Generations</h1>
+            <span className="hero-badge">{aboutData.heroBadge || 'SINCE 1999'}</span>
+            <h1 className="hero-main-title">{aboutData.heroTitle?.split(' ').map((w,i) => w === 'Sweet' || w === 'Memories' ? <span key={i}>{w} </span> : w + ' ')}</h1>
             <p className="hero-description">{aboutData.story}</p>
           </div>
         </div>
@@ -36,7 +36,7 @@ const About = () => {
               <div className="image-frame">
                 <img src={aboutData.heritageImage} alt="Our Heritage" className="heritage-main-img" />
                 <div className="experience-badge">
-                  <span className="years">25+</span>
+                  <span className="years">{aboutData.experienceYears || '25+'}</span>
                   <span className="text">Years of Mastery</span>
                 </div>
               </div>
@@ -45,7 +45,7 @@ const About = () => {
             
             <div className="heritage-content-v2">
               <div className="section-tag">OUR HERITAGE</div>
-              <h2 className="heritage-title">A Tradition of <span>Purity</span> & Taste</h2>
+              <h2 className="heritage-title">{aboutData.heritageTitle || 'A Tradition of Purity & Taste'}</h2>
               <div className="divider-gold"></div>
               <p className="heritage-text">{aboutData.heritageText}</p>
               
@@ -74,8 +74,8 @@ const About = () => {
       <section className="values-v2 section bg-warm">
         <div className="container">
           <div className="section-header-v2">
-            <h2 className="section-title-v2">The Pillars of Our <span>Excellence</span></h2>
-            <p className="section-subtitle">What makes every bite of our sweets special.</p>
+            <h2 className="section-title-v2">{aboutData.valuesTitle || 'The Pillars of Our Excellence'}</h2>
+            <p className="section-subtitle">{aboutData.valuesSubtitle || 'What makes every bite of our sweets special.'}</p>
           </div>
           
           <div className="values-cards-v2">
@@ -114,7 +114,7 @@ const About = () => {
               <div className="visionary-footer">
                 <h3 className="visionary-name">{aboutData.ownerName}</h3>
                 <p className="visionary-role">Founder & Master Confectioner</p>
-                <div className="signature">New Shree Shyam Misthan Bhandar</div>
+                <div className="signature">{aboutData.shopName || 'New Shree Shyam Misthan Bhandar'}</div>
               </div>
             </div>
           </div>

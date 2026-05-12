@@ -18,11 +18,17 @@ export const ProductProvider = ({ children }) => {
   });
   const [aboutData, setAboutData] = useState({
     story: "Bringing traditional Indian flavors to your modern lifestyle with purity, passion, and precision since 1995.",
+    heroBadge: "SINCE 1999",
+    heroTitle: "Crafting Sweet Memories for Generations",
+    heritageTitle: "A Tradition of Purity & Taste",
     heritageText: "Sweet Delight was founded with a single mission: to redefine the experience of traditional Indian sweets. Starting from a small kitchen in the heart of the city, we have grown into a beloved destination for dessert lovers.",
     heritageImage: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&q=80&w=1000",
     ownerImage: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&q=80&w=1000",
     ownerName: "Rajesh & Sunita Sharma",
-    ownerQuote: "\"For us, sweets are more than just food; they are a celebration of life.\""
+    ownerQuote: "\"For us, sweets are more than just food; they are a celebration of life.\"",
+    valuesTitle: "The Pillars of Our Excellence",
+    valuesSubtitle: "What makes every bite of our sweets special.",
+    experienceYears: "25+"
   });
   const [footerData, setFooterData] = useState({
     shopName: "New Shree Shyam Misthan Bhandar",

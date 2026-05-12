@@ -729,6 +729,32 @@ const Admin = () => {
             <div className="admin-card">
               <h3>Manage About Us Content</h3>
               <form onSubmit={handleAboutSubmit} className="admin-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Hero Badge (e.g. SINCE 1999)</label>
+                    <input 
+                      type="text" 
+                      value={aboutForm.heroBadge}
+                      onChange={(e) => setAboutForm({...aboutForm, heroBadge: e.target.value})}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Experience Years (e.g. 25+)</label>
+                    <input 
+                      type="text" 
+                      value={aboutForm.experienceYears}
+                      onChange={(e) => setAboutForm({...aboutForm, experienceYears: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Hero Title</label>
+                  <input 
+                    type="text" 
+                    value={aboutForm.heroTitle}
+                    onChange={(e) => setAboutForm({...aboutForm, heroTitle: e.target.value})}
+                  />
+                </div>
                 <div className="form-group">
                   <label>Hero Story (Sub-headline)</label>
                   <textarea 
@@ -738,12 +764,38 @@ const Admin = () => {
                   />
                 </div>
                 <div className="form-group">
+                  <label>Heritage Title</label>
+                  <input 
+                    type="text" 
+                    value={aboutForm.heritageTitle}
+                    onChange={(e) => setAboutForm({...aboutForm, heritageTitle: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
                   <label>Heritage Story (Main Text)</label>
                   <textarea 
                     value={aboutForm.heritageText}
                     onChange={(e) => setAboutForm({...aboutForm, heritageText: e.target.value})}
                     rows="5"
                   />
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Values Title</label>
+                    <input 
+                      type="text" 
+                      value={aboutForm.valuesTitle}
+                      onChange={(e) => setAboutForm({...aboutForm, valuesTitle: e.target.value})}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Values Subtitle</label>
+                    <input 
+                      type="text" 
+                      value={aboutForm.valuesSubtitle}
+                      onChange={(e) => setAboutForm({...aboutForm, valuesSubtitle: e.target.value})}
+                    />
+                  </div>
                 </div>
                 <div className="form-row">
                   <div className="form-group">
