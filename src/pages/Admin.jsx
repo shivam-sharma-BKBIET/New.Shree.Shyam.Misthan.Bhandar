@@ -25,7 +25,10 @@ const Admin = () => {
   const [allCustomers, setAllCustomers] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [lastOrderId, setLastOrderId] = useState(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(Notification.permission === 'granted');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    const saved = localStorage.getItem('admin_alerts_enabled');
+    return saved === 'true' && Notification.permission === 'granted';
+  });
   const [deliverySchedule, setDeliverySchedule] = useState({});
 
   const handleScheduleChange = (orderId, field, value) => {
@@ -59,10 +62,20 @@ const Admin = () => {
 
   // Handle Notifications Permission
   const enableNotifications = () => {
+    if (notificationsEnabled) {
+      // Toggle OFF
+      setNotificationsEnabled(false);
+      localStorage.setItem('admin_alerts_enabled', 'false');
+      return;
+    }
+
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
         setNotificationsEnabled(true);
-        new Notification("Alerts Enabled!", { body: "You will now receive pop-ups for new orders." });
+        localStorage.setItem('admin_alerts_enabled', 'true');
+        new Notification("Alerts ON!", { body: "Notifications are now active." });
+      } else {
+        alert("Please allow notification permission in your browser settings to turn this ON.");
       }
     });
   };
@@ -343,11 +356,18 @@ const Admin = () => {
             <p className="admin-subtitle">Manage your inventory, content, and security settings.</p>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
-            {!notificationsEnabled && (
-              <button className="btn btn-outline" onClick={enableNotifications} style={{ borderColor: '#e65100', color: '#e65100' }}>
-                🔔 Enable Mobile Alerts
-              </button>
-            )}
+            <button 
+              className="btn" 
+              onClick={enableNotifications} 
+              style={{ 
+                backgroundColor: notificationsEnabled ? '#e65100' : '#d63031', 
+                color: '#fff',
+                borderColor: 'transparent',
+                fontWeight: 'bold'
+              }}
+            >
+              🔔 Mobile Alerts: {notificationsEnabled ? 'ON' : 'OFF'}
+            </button>
             {activeTab === 'inventory' && (
               <button className="btn btn-primary btn-add" onClick={() => handleOpenModal()}>
                 <Plus size={20} /> Add New Item
