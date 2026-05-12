@@ -478,13 +478,14 @@ const Admin = () => {
                     <th>Customer</th>
                     <th>Items</th>
                     <th>Total</th>
+                    <th>Address</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {allOrders.length === 0 ? (
-                    <tr><td colSpan="6" className="text-center py-4">No orders found.</td></tr>
+                    <tr><td colSpan="7" className="text-center py-4">No orders found.</td></tr>
                   ) : (
                     allOrders.map(order => (
                       <tr key={order._id}>
@@ -501,9 +502,6 @@ const Admin = () => {
                         <td>{order.items?.length} items</td>
                         <td>
                           <div style={{ fontWeight: 'bold' }}>₹{order.totalAmount}</div>
-                          <div style={{ fontSize: '0.8rem', color: '#636e72', marginTop: '4px' }}>
-                            📍 {order.address}
-                          </div>
                           {order.paymentMethod && (
                             <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: order.paymentMethod?.toLowerCase() === 'cod' ? '#e65100' : '#27ae60', marginTop: '4px' }}>
                               Method: {order.paymentMethod?.toUpperCase()}
@@ -514,6 +512,12 @@ const Admin = () => {
                               UTR: {order.transactionId}
                             </div>
                           )}
+                        </td>
+                        <td>
+                          <div style={{ fontSize: '0.85rem', maxWidth: '200px', whiteSpace: 'normal', color: '#2d3436' }}>
+                            <MapPin size={12} style={{ display: 'inline', marginRight: '4px', color: '#d63031' }} />
+                            {order.address}
+                          </div>
                         </td>
                         <td>
                           <span className={`status-badge status-${order.transactionStatus?.toLowerCase()}`}>
