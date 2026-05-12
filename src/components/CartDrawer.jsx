@@ -41,7 +41,7 @@ const CartDrawer = () => {
     if (isAuthenticated) {
       navigate('/checkout');
     } else {
-      navigate('/login?redirect=/checkout');
+      navigate('/login');
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import { User, Mail, Lock, Phone, ArrowRight, Loader2, ShieldCheck, CheckCircle2 } from 'lucide-react';
@@ -10,8 +10,7 @@ import './AuthStyles.css';
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [searchParams] = useSearchParams();
-  const redirectUrl = '/'; // Always redirect to home as requested by user
+  const redirectUrl = '/';
 
   const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
   const [otp, setOtp] = useState('');
@@ -277,7 +276,7 @@ const Register = () => {
           </div>
 
           <div className="auth-footer">
-            Already have an account? <Link to={`/login${searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : ''}`}>Login Here</Link>
+            Already have an account? <Link to="/login">Login Here</Link>
           </div>
         </div>
       </div>

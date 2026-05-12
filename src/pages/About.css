@@ -1,10 +1,33 @@
 .about-wrapper {
   --gold: #d4af37;
   --dark-gold: #b38728;
-  --warm-cream: #fff8f0;
+  --warm-cream: rgba(240, 193, 75, 0.05);
   --deep-brown: #3e2723;
   overflow-x: hidden;
   background-color: var(--background);
+}
+
+[data-theme='dark'] .about-wrapper {
+  --warm-cream: rgba(255, 209, 128, 0.1);
+  --deep-brown: #1a0f0b;
+}
+
+[data-theme='dark'] .value-card-v2,
+[data-theme='dark'] .visionary-card-v2,
+[data-theme='dark'] .experience-badge,
+[data-theme='dark'] .feature-icon,
+[data-theme='dark'] .card-icon-box {
+  background-color: var(--surface) !important;
+  background: var(--surface) !important;
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .visionary-quote,
+[data-theme='dark'] .visionary-name,
+[data-theme='dark'] .heritage-title,
+[data-theme='dark'] .section-title-v2 {
+  color: var(--text-primary);
 }
 
 /* Loading State */
@@ -139,7 +162,7 @@
   position: absolute;
   bottom: 40px;
   right: -20px;
-  background: white;
+  background: var(--surface);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.1);
@@ -238,7 +261,7 @@
 
 /* Values Section V2 */
 .bg-warm {
-  background-color: #fffaf5;
+  background-color: var(--background);
 }
 
 .section-header-v2 {
@@ -269,7 +292,7 @@
 }
 
 .value-card-v2 {
-  background: white;
+  background: var(--surface);
   padding: 50px 40px;
   border-radius: 20px;
   text-align: center;
@@ -328,7 +351,7 @@
 .visionary-card-v2 {
   display: grid;
   grid-template-columns: 450px 1fr;
-  background: white;
+  background: var(--surface);
   border-radius: 30px;
   overflow: hidden;
   box-shadow: 0 40px 100px rgba(0,0,0,0.08);

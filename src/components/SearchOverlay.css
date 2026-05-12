@@ -23,6 +23,10 @@
   animation: fadeIn 0.3s ease;
 }
 
+[data-theme='dark'] .search-overlay-backdrop {
+  background: rgba(17, 9, 6, 0.95);
+}
+
 .search-overlay-content {
   padding-top: 3rem;
   max-width: 1200px;
@@ -134,9 +138,14 @@
 
 .suggestions-list li:hover {
   background: var(--surface);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   color: var(--secondary);
   transform: translateX(5px);
+}
+
+[data-theme='dark'] .suggestions-list li:hover {
+  background: rgba(230, 81, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .sugg-icon {

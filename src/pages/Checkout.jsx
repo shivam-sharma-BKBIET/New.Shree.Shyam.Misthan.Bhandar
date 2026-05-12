@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useProducts } from '../context/ProductContext';
@@ -335,13 +335,7 @@ const Checkout = () => {
   }
 
   if (cartItems.length === 0) {
-    return (
-      <div className="section text-center">
-        <h2>Your Cart is Empty</h2>
-        <p>Please add items to your cart before proceeding to checkout.</p>
-        <Link to="/products" className="btn btn-primary mt-4" style={{ display: 'inline-flex' }}>Browse Sweets</Link>
-      </div>
-    );
+    return <Navigate to="/" replace />;
   }
 
   return (

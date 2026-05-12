@@ -7,9 +7,8 @@ import './Home.css';
 
 const Home = () => {
   const { products, categories, heroData, isLoading } = useProducts();
-  const featuredProducts = products.slice(0, 4);
+  const featuredProducts = products?.length > 0 ? products.slice(0, 4) : [];
 
-  if (isLoading) return <div className="loading" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', fontSize: '1.2rem', color: 'var(--primary)' }}>Loading...</div>;
 
   return (
     <div className="home-page">

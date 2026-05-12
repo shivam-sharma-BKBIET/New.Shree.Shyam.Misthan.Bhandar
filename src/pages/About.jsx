@@ -11,12 +11,8 @@ const About = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  if (isLoading) return (
-    <div className="about-loading">
-      <div className="loader-spinner"></div>
-      <p>Unfolding Our Story...</p>
-    </div>
-  );
+  // Removed full-page blocking loading state to enable instant interactive rendering
+
 
   return (
     <div className="about-wrapper">

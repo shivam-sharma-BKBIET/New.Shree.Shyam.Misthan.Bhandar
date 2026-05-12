@@ -42,12 +42,35 @@ export const ProductProvider = ({ children }) => {
     shopLng: 75.0
   });
 
+  // Load from cache on mount
+  useEffect(() => {
+    const cachedData = localStorage.getItem('site_data_cache');
+    if (cachedData) {
+      try {
+        const data = JSON.parse(cachedData);
+        if (data.products) setProducts(data.products);
+        if (data.categories) _setCategories(data.categories);
+        if (data.settings) {
+          if (data.settings.hero) setHeroData(data.settings.hero);
+          if (data.settings.about) setAboutData(data.settings.about);
+          if (data.settings.footer) setFooterData(data.settings.footer);
+          if (data.settings.deliveryCharge !== undefined) setDeliveryCharge(data.settings.deliveryCharge);
+          setDeliverySettings(prev => ({ ...prev, ...data.settings }));
+        }
+        setIsLoading(false); // Immediate activation if cache exists
+      } catch (e) {
+        console.error('Cache load error:', e);
+      }
+    }
+  }, []);
+
   const fetchSiteData = useCallback(async () => {
     try {
       const response = await fetch(getApiUrl('/api/site/data'));
       const data = await response.json();
       
       if (response.ok) {
+        // Update state
         if (data.products?.length > 0) setProducts(data.products);
         if (data.categories?.length > 0) _setCategories(data.categories);
         if (data.settings) {
@@ -63,6 +86,9 @@ export const ProductProvider = ({ children }) => {
             shopLng:             data.settings.shopLng             ?? prev.shopLng,
           }));
         }
+
+        // Update Cache
+        localStorage.setItem('site_data_cache', JSON.stringify(data));
         
         // --- SEEDING LOGIC (One-time migration from LocalStorage to Cloud) ---
         const hasSeeded = localStorage.getItem('cloud_sync_done_v3');
