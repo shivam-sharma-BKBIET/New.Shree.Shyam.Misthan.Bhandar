@@ -239,6 +239,11 @@ const sendTelegramNotification = async (order) => {
 
     const escapedName = order.customerName ? order.customerName.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&') : 'Not provided';
 
+    // Format items list
+    const itemsList = order.items.map(item => 
+      `• ${item.name.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&')} (x${item.quantity})`
+    ).join('\n');
+
     const text = `
 🆕 *NEW ORDER ALERT (${isCod ? 'COD' : 'UPI'})\\!*
 ━━━━━━━━━━━━━━━
@@ -248,6 +253,8 @@ const sendTelegramNotification = async (order) => {
 💰 *Amount:* ₹${order.totalAmount}
 💳 *Method:* ${methodText}
 🏠 *Address:* ${order.address || 'Not provided'}
+📦 *Items:*
+${itemsList}
 📝 *Instructions:* ${order.specialInstructions ? order.specialInstructions.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&') : '_None_'}
 ━━━━━━━━━━━━━━━
 ${instructionCheck}
