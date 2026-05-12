@@ -101,6 +101,10 @@ const Navbar = () => {
             {cartCount > 0 && <span className="modern-cart-badge">{cartCount}</span>}
           </button>
           
+          <button onClick={toggleTheme} className="modern-icon-btn desktop-theme-toggle" aria-label="Toggle theme" title={theme === 'light' ? "Dark Mode" : "Light Mode"}>
+            {theme === 'light' ? <Moon size={18} strokeWidth={2.5} /> : <Sun size={18} strokeWidth={2.5} />}
+          </button>
+          
           <button className="modern-icon-btn mobile-menu-btn" onClick={(e) => { e.stopPropagation(); setIsMobileMenuOpen(!isMobileMenuOpen); }} aria-label="Menu">
             {isMobileMenuOpen ? <X size={20} strokeWidth={2.5} /> : <Menu size={20} strokeWidth={2.5} />}
           </button>

@@ -650,7 +650,17 @@ const Admin = () => {
                 <tbody>
                   {filteredProducts.map(product => (
                     <tr key={product.id}>
-                      <td><img src={product.image} alt="" className="admin-prod-img" /></td>
+                      <td>
+                        <img 
+                          src={product.image} 
+                          alt="" 
+                          className="admin-prod-img" 
+                          onError={(e) => {
+                            e.target.onerror = null; 
+                            e.target.src = '/logoo.png';
+                          }}
+                        />
+                      </td>
                       <td className="font-semibold">
                         {product.name}
                         {product.inStock === false && <span style={{marginLeft: '8px', fontSize: '10px', background: '#ff7675', color: 'white', padding: '2px 6px', borderRadius: '4px'}}>Out of Stock</span>}

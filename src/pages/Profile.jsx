@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getApiUrl } from '../config';
-import { User, Phone, Mail, MapPin, Plus, Trash2, Loader2, Save } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Plus, Trash2, Loader2, Save, LogOut } from 'lucide-react';
 import './Profile.css';
 
 const Profile = () => {
-  const { user, token, isAuthenticated, login } = useAuth();
+  const navigate = useNavigate();
+  const { user, token, isAuthenticated, login, logout } = useAuth();
   const [profileData, setProfileData] = useState({ name: '', phone: '', email: '', addresses: [] });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -174,6 +176,15 @@ const Profile = () => {
             <button type="submit" className="save-btn" disabled={saving}>
               {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
               Save Changes
+            </button>
+
+            <div className="profile-actions-divider"></div>
+            
+            <button type="button" className="profile-logout-btn" onClick={() => {
+              logout();
+              navigate('/');
+            }}>
+              <LogOut size={18} /> Log Out from Account
             </button>
           </form>
         </div>

@@ -93,7 +93,15 @@ const ProductDetails = () => {
           {/* Image section */}
           <div className="product-image-section">
             <div className="main-image-wrapper">
-              <img src={product.image} alt={product.name} className="main-image" />
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="main-image" 
+                onError={(e) => {
+                  e.target.onerror = null; 
+                  e.target.src = '/logoo.png';
+                }}
+              />
             </div>
           </div>
           

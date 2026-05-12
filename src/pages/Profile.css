@@ -177,6 +177,36 @@
   box-shadow: 0 6px 20px rgba(230, 81, 0, 0.3);
 }
 
+.profile-actions-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 30px 0;
+  opacity: 0.5;
+}
+
+.profile-logout-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: rgba(231, 76, 60, 0.05);
+  color: #e74c3c;
+  border: 1.5px solid rgba(231, 76, 60, 0.2);
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-logout-btn:hover {
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 6px 15px rgba(231, 76, 60, 0.2);
+}
+
 /* Addresses Section */
 .address-header {
   display: flex;

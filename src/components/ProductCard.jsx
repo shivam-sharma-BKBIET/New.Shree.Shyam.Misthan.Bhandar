@@ -24,7 +24,16 @@ const ProductCard = ({ product }) => {
   return (
     <Link to={`/product/${product.id}`} className="product-card">
       <div className="product-image-wrapper">
-        <img src={product.image} alt={product.name} className={`product-image ${product.inStock === false ? 'out-of-stock-img' : ''}`} loading="lazy" />
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className={`product-image ${product.inStock === false ? 'out-of-stock-img' : ''}`} 
+          loading="lazy" 
+          onError={(e) => {
+            e.target.onerror = null; 
+            e.target.src = '/logoo.png'; // Fallback to site logo if image fails
+          }}
+        />
         <div className="product-category-tag">{product.category}</div>
         {product.inStock === false && (
           <div className="out-of-stock-overlay">Out of Stock</div>
