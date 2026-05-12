@@ -39,12 +39,7 @@ if (token && !token.includes('your_bot')) {
       const chatId = message.chat.id;
       const messageId = message.message_id;
 
-      // IMMEDIATE acknowledgment to stop the loading circle on Telegram UI
-      try {
-        await global.tgBot.answerCallbackQuery(callbackQueryId);
-      } catch (err) {
-        // Silently skip if answering failed (could be timeout)
-      }
+      /* Removed immediate acknowledgment to allow custom status message later */
 
       if (!data) return;
       const [action, orderId] = data.split('_');
@@ -81,29 +76,35 @@ if (token && !token.includes('your_bot')) {
           await order.save();
           console.log(`Order ${order.orderRef} status updated to ${newStatus} via Telegram`);
 
-          // 📧 Send email to customer
+          // IMMEDIATE UI UPDATE: Remove buttons and show final status before doing slow tasks (emails)
           try {
-            const user = await User.findById(order.userId).select('email');
-            if (user?.email) {
-              if (newStatus === 'PAYMENT_VERIFIED') {
-                await sendPaymentVerifiedEmail(user.email, order);
-                console.log(`✅ Verified email sent to ${user.email}`);
-              } else if (newStatus === 'PAYMENT_REJECTED') {
-                await sendPaymentRejectedEmail(user.email, order);
-                console.log(`❌ Rejected email sent to ${user.email}`);
-              }
-            } else {
-              console.warn('⚠️ No email found for userId:', order.userId);
-            }
-          } catch (emailErr) {
-            console.error('📧 Email send failed:', emailErr.message);
+            await global.tgBot.editMessageText(statusText, {
+              chat_id: chatId,
+              message_id: messageId,
+              parse_mode: 'Markdown',
+              reply_markup: { inline_keyboard: [] }
+            });
+            // Success alert on top of Telegram UI
+            await global.tgBot.answerCallbackQuery(callbackQueryId, { text: `Order ${order.orderRef} ${newStatus.replace('_', ' ')}!` });
+          } catch (editErr) {
+            console.error('Telegram Edit UI Error:', editErr.message);
           }
 
-          // Remove buttons and show final status
-          await global.tgBot.editMessageText(statusText, {
-            chat_id: chatId,
-            message_id: messageId,
-            reply_markup: { inline_keyboard: [] }
+          // 📧 Send email to customer (Async - Don't wait for this to finish UI update)
+          User.findById(order.userId).select('email').then(async (user) => {
+            if (user?.email) {
+              try {
+                if (newStatus === 'PAYMENT_VERIFIED') {
+                  await sendPaymentVerifiedEmail(user.email, order);
+                  console.log(`✅ Verified email sent to ${user.email}`);
+                } else if (newStatus === 'PAYMENT_REJECTED') {
+                  await sendPaymentRejectedEmail(user.email, order);
+                  console.log(`❌ Rejected email sent to ${user.email}`);
+                }
+              } catch (emailErr) {
+                console.error('📧 Email send failed:', emailErr.message);
+              }
+            }
           });
         }
       } catch (error) {
