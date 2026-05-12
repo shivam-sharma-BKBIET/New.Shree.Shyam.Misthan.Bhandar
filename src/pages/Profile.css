@@ -354,6 +354,24 @@
 
 @media (max-width: 480px) {
   .profile-card {
-    padding: 30px 20px;
+    padding: 30px 15px;
+  }
+  .profile-header h2 {
+    font-size: 1.5rem;
+  }
+  .address-header h2 {
+    font-size: 1.5rem;
+  }
+  .address-item {
+    padding: 15px;
+    gap: 12px;
+  }
+  .address-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+  .profile-container {
+    padding: 30px 10px;
   }
 }

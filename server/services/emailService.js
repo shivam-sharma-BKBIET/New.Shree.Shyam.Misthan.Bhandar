@@ -57,6 +57,8 @@ export const sendRegistrationOTPEmail = async (email, otp) => {
 };
 
 export const sendOrderConfirmationEmail = async (email, order) => {
+  const isCOD = order.paymentMethod?.toLowerCase() === 'cod';
+  
   const itemsHtml = order.items.map(item => `
     <tr>
       <td style="padding: 8px 12px; border-bottom: 1px solid #f1f2f6;">${item.name}</td>
@@ -68,7 +70,7 @@ export const sendOrderConfirmationEmail = async (email, order) => {
   const mailOptions = {
     from: `"New Shree Shyam Misthan Bhandar" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: `✅ Order Confirmed! #${order.orderRef} - New Shree Shyam Misthan Bhandar`,
+    subject: `✅ Order Received! #${order.orderRef} - New Shree Shyam Misthan Bhandar`,
     html: `
       <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
         
@@ -80,12 +82,13 @@ export const sendOrderConfirmationEmail = async (email, order) => {
 
         <!-- Body -->
         <div style="padding: 30px;">
-          <p style="color: #2d3436; font-size: 16px;">Namaste! 🙏 Aapka order place ho gaya hai. Hum jald hi aapke payment ko verify karenge.</p>
+          <p style="color: #2d3436; font-size: 16px;">Namaste! 🙏 Aapka order place ho gaya hai. ${isCOD ? 'Hum jald hi aapke order ko verify karenge.' : 'Hum jald hi aapke payment ko verify karenge.'}</p>
 
           <!-- Order Info -->
           <div style="background: #fff8f0; border-left: 4px solid #e65100; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <p style="margin: 0 0 5px; font-size: 13px; color: #636e72;">ORDER REFERENCE</p>
             <h2 style="margin: 0; color: #e65100; font-size: 22px;">#${order.orderRef}</h2>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #636e72;">Payment Method: <strong>${isCOD ? 'Cash on Delivery (COD)' : 'Online UPI'}</strong></p>
           </div>
 
           <!-- Items Table -->
@@ -121,7 +124,11 @@ export const sendOrderConfirmationEmail = async (email, order) => {
 
           <!-- Status -->
           <div style="text-align: center; margin: 25px 0; padding: 20px; background: #fff3cd; border-radius: 10px;">
-            <p style="margin: 0; font-size: 15px; color: #856404;">⏳ <strong>Payment verification pending</strong> — Admin will verify your UPI payment shortly.</p>
+            ${isCOD ? `
+              <p style="margin: 0; font-size: 15px; color: #856404;">⏳ <strong>Order verification pending</strong> — Admin will confirm your order details shortly.</p>
+            ` : `
+              <p style="margin: 0; font-size: 15px; color: #856404;">⏳ <strong>Payment verification pending</strong> — Admin will verify your UPI payment shortly.</p>
+            `}
           </div>
         </div>
 
@@ -138,25 +145,28 @@ export const sendOrderConfirmationEmail = async (email, order) => {
 };
 
 export const sendPaymentVerifiedEmail = async (email, order) => {
+  const isCOD = order.paymentMethod?.toLowerCase() === 'cod';
+  
   const mailOptions = {
     from: `"New Shree Shyam Misthan Bhandar" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: `✅ Payment Confirmed! #${order.orderRef} - New Shree Shyam Misthan Bhandar`,
+    subject: isCOD ? `✅ Order Confirmed! #${order.orderRef}` : `✅ Payment Confirmed! #${order.orderRef}`,
     html: `
       <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
         <div style="background: linear-gradient(135deg, #27ae60, #2ecc71); padding: 30px; text-align: center;">
-          <h1 style="color: #fff; margin: 0; font-size: 26px;">✅ Payment Verified!</h1>
+          <h1 style="color: #fff; margin: 0; font-size: 26px;">${isCOD ? '✅ Order Confirmed!' : '✅ Payment Verified!'}</h1>
           <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0;">New Shree Shyam Misthan Bhandar</p>
         </div>
         <div style="padding: 30px;">
-          <p style="font-size: 16px; color: #2d3436;">Namaste! 🙏 Aapki payment confirm ho gayi hai. Hum aapka order tayar kar rahe hain!</p>
+          <p style="font-size: 16px; color: #2d3436;">Namaste! 🙏 ${isCOD ? 'Aapka order confirm ho gaya hai. Hum aapka order tayar kar rahe hain!' : 'Aapki payment confirm ho gayi hai. Hum aapka order tayar kar rahe hain!'}</p>
           <div style="background: #f0fff4; border-left: 4px solid #27ae60; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <p style="margin: 0 0 5px; font-size: 13px; color: #636e72;">ORDER REFERENCE</p>
             <h2 style="margin: 0; color: #27ae60; font-size: 22px;">#${order.orderRef}</h2>
+            <p style="margin: 5px 0 0; font-size: 14px; color: #636e72;">Payment Method: <strong>${isCOD ? 'Cash on Delivery (COD)' : 'Online UPI'}</strong></p>
           </div>
           <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 10px; margin: 20px 0;">
             <p style="font-size: 28px; margin: 0;">🎉</p>
-            <p style="font-size: 16px; color: #2d3436; margin: 10px 0 0;"><strong>Rs. ${order.totalAmount}</strong> — Payment Received</p>
+            <p style="font-size: 16px; color: #2d3436; margin: 10px 0 0;"><strong>Rs. ${order.totalAmount}</strong> — ${isCOD ? 'Pay at Delivery' : 'Payment Received'}</p>
             <p style="color: #27ae60; margin: 5px 0 0;">Aapka order pack ho raha hai!</p>
           </div>
           <p style="color: #636e72; font-size: 14px; text-align: center;">Delivery ki date aur samay jald hi confirm hogi.</p>

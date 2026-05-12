@@ -224,6 +224,26 @@
   }
   
   .about-hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+  }
+
+  .about-hero {
+    padding: 80px 0;
+  }
+
+  .about-text-content h2 {
+    font-size: 2rem;
+  }
+
+  .owner-info h3 {
+    font-size: 1.8rem;
+  }
+
+  .owner-card {
+    padding: 20px;
+  }
+
+  .about-section {
+    padding: 40px 0;
   }
 }

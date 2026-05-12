@@ -86,8 +86,14 @@
   margin-top: 1rem;
 }
 
-@media (min-width: 992px) {
-  .contact-grid {
-    grid-template-columns: 1fr 2fr;
+@media (max-width: 768px) {
+  .contact-form-container {
+    padding: 1.5rem;
+  }
+  .contact-form-container h2 {
+    font-size: 1.5rem;
+  }
+  .info-card {
+    padding: 1.5rem;
   }
 }

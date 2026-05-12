@@ -484,6 +484,11 @@ const Admin = () => {
                           <div style={{ fontSize: '0.8rem', color: '#636e72', marginTop: '4px' }}>
                             📍 {order.address}
                           </div>
+                          {order.paymentMethod && (
+                            <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: order.paymentMethod?.toLowerCase() === 'cod' ? '#e65100' : '#27ae60', marginTop: '4px' }}>
+                              Method: {order.paymentMethod?.toUpperCase()}
+                            </div>
+                          )}
                           {order.transactionId && (
                             <div style={{ fontSize: '0.8rem', color: '#0984e3', marginTop: '4px' }}>
                               UTR: {order.transactionId}
@@ -492,25 +497,26 @@ const Admin = () => {
                         </td>
                         <td>
                           <span className={`status-badge status-${order.transactionStatus?.toLowerCase()}`}>
-                            {order.transactionStatus?.replace(/_/g, ' ')}
+                            {order.transactionStatus === 'PENDING_VERIFICATION' 
+                              ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'AWAITING VERIFICATION' : 'AWAITING PAYMENT')
+                              : order.transactionStatus?.replace(/_/g, ' ')}
                           </span>
                         </td>
                         <td>
                           <div className="admin-actions">
-                            {order.transactionStatus === 'PENDING_VERIFICATION' && (
+                             {order.transactionStatus === 'PENDING_VERIFICATION' && (
                               <>
                                  <button 
                                   className="action-btn approve" 
                                   onClick={() => handleUpdateStatus(order._id, 'PAYMENT_VERIFIED')}
-                                  title="Approve Order"
+                                  title={order.paymentMethod?.toLowerCase() === 'cod' ? "Confirm Order" : "Approve Payment"}
                                 >
                                   <Check size={14} />
                                 </button>
-
                                 <button 
                                   className="action-btn reject" 
                                   onClick={() => handleUpdateStatus(order._id, 'PAYMENT_REJECTED')}
-                                  title="Reject Order"
+                                  title={order.paymentMethod?.toLowerCase() === 'cod' ? "Reject Order" : "Reject Payment"}
                                 >
                                   <X size={14} />
                                 </button>

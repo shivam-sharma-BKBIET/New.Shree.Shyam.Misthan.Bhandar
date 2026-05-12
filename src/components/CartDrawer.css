@@ -6,7 +6,7 @@
   bottom: 0;
   background-color: rgba(62, 39, 35, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 1000;
+  z-index: 2000; /* Higher than WhatsApp and other UI elements */
   display: flex;
   justify-content: flex-end;
   animation: fadeIn 0.3s ease;
@@ -17,10 +17,17 @@
   width: 100%;
   max-width: 450px;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
   display: flex;
   flex-direction: column;
   box-shadow: -10px 0 30px rgba(62, 39, 35, 0.1);
   animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 480px) {
+  .cart-drawer {
+    max-width: 100%;
+  }
 }
 
 .cart-header {

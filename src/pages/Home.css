@@ -172,6 +172,34 @@
   }
 }
 
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  .hero-plaque {
+    padding: 1.5rem;
+    box-shadow: 
+      0 0 0 4px var(--surface),
+      0 0 0 6px var(--gold-primary),
+      0 10px 30px rgba(0,0,0,0.1);
+  }
+  .hero-image-frame {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+
 .categories-section {
   padding-top: 1rem !important;
 }

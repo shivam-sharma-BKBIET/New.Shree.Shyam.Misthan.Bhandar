@@ -5,14 +5,18 @@ import { getApiUrl } from '../config';
 import { useAuth } from '../context/AuthContext';
 import './TrackOrder.css';
 
-const statusConfig = {
-  DELIVERED: { label: 'Delivered ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
-  VERIFIED: { label: 'Order Confirmed ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
-  PAYMENT_VERIFIED: { label: 'Payment Verified ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
-  CANCELLED: { label: 'Cancelled ❌', color: '#721c24', bg: '#f8d7da', border: '#f5c6cb' },
-  PAYMENT_REJECTED: { label: 'Payment Rejected ❌', color: '#721c24', bg: '#f8d7da', border: '#f5c6cb' },
-  PENDING_VERIFICATION: { label: '⏳ Awaiting Verification', color: '#856404', bg: '#fff3cd', border: '#ffeeba' },
-  PENDING_ADMIN_APPROVAL: { label: '⏳ Awaiting Admin Approval', color: '#856404', bg: '#fff3cd', border: '#ffeeba' },
+const getStatusConfig = (status, paymentMethod) => {
+  const isCOD = paymentMethod?.toLowerCase() === 'cod';
+  const configs = {
+    DELIVERED: { label: 'Delivered ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
+    VERIFIED: { label: isCOD ? 'Order Confirmed ✅' : 'Order Confirmed ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
+    PAYMENT_VERIFIED: { label: isCOD ? 'Order Confirmed ✅' : 'Payment Verified ✅', color: '#155724', bg: '#d4edda', border: '#c3e6cb' },
+    CANCELLED: { label: 'Cancelled ❌', color: '#721c24', bg: '#f8d7da', border: '#f5c6cb' },
+    PAYMENT_REJECTED: { label: isCOD ? 'Order Rejected ❌' : 'Payment Rejected ❌', color: '#721c24', bg: '#f8d7da', border: '#f5c6cb' },
+    PENDING_VERIFICATION: { label: isCOD ? '⏳ Awaiting Order Verification' : '⏳ Awaiting Payment Verification', color: '#856404', bg: '#fff3cd', border: '#ffeeba' },
+    PENDING_ADMIN_APPROVAL: { label: isCOD ? '⏳ Awaiting Admin Approval' : '⏳ Awaiting Admin Approval', color: '#856404', bg: '#fff3cd', border: '#ffeeba' },
+  };
+  return configs[status] || configs['PENDING_VERIFICATION'];
 };
 
 const OrderCard = ({ order, onRefresh }) => {
@@ -21,7 +25,7 @@ const OrderCard = ({ order, onRefresh }) => {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const { token } = useAuth();
 
-  const cfg = statusConfig[order.transactionStatus] || statusConfig['PENDING_VERIFICATION'];
+  const cfg = getStatusConfig(order.transactionStatus, order.paymentMethod);
 
   const isCompleted = (step) => {
     const steps = ['PENDING_VERIFICATION', 'PENDING_ADMIN_APPROVAL', 'VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'];
@@ -92,8 +96,12 @@ const OrderCard = ({ order, onRefresh }) => {
             <div className={`timeline-node ${['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) ? 'completed' : 'active'}`}>
               <div className="node-icon"><CreditCard size={16} /></div>
               <div className="node-content">
-                <h4 style={{ color: 'var(--text-primary)' }}>Payment Verification</h4>
-                <p style={{ color: 'var(--text-muted)' }}>{['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) ? 'Payment confirmed' : 'Admin is verifying your payment'}</p>
+                <h4 style={{ color: 'var(--text-primary)' }}>{order.paymentMethod?.toLowerCase() === 'cod' ? 'Order Verification' : 'Payment Verification'}</h4>
+                <p style={{ color: 'var(--text-muted)' }}>
+                  {['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) 
+                    ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order confirmed' : 'Payment confirmed') 
+                    : (order.paymentMethod?.toLowerCase() === 'cod' ? 'Admin is verifying your order' : 'Admin is verifying your payment')}
+                </p>
               </div>
             </div>
             <div className={`timeline-connector ${['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) ? 'completed' : ''}`}></div>

@@ -11,7 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/';
+  const redirectUrl = '/'; // Always redirect to home as requested by user
 
   const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
   const [otp, setOtp] = useState('');
@@ -93,7 +93,7 @@ const Register = () => {
       if (!response.ok) throw new Error(data.message || 'Registration failed');
 
       alert('Registration successful! Please login.');
-      navigate(`/login${searchParams.get('redirect') ? `?redirect=${searchParams.get('redirect')}` : ''}`);
+      navigate('/login'); // After registration, go to login (which will then go to home)
     } catch (err) {
       setError(err.message);
     } finally {
