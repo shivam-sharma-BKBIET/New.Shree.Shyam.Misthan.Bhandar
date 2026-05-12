@@ -489,7 +489,12 @@ const Admin = () => {
                   ) : (
                     allOrders.map(order => (
                       <tr key={order._id}>
-                        <td className="font-semibold">{order.orderRef}</td>
+                        <td className="font-semibold">
+                          {order.orderRef}
+                          <div style={{ fontSize: '0.75rem', color: '#636e72', fontWeight: 'normal', marginTop: '4px', maxWidth: '150px' }}>
+                            {order.items?.map(item => `${item.name} (x${item.quantity})`).join(', ')}
+                          </div>
+                        </td>
                         <td>
                           <div><strong>{order.userId?.name}</strong></div>
                           <div className="text-muted" style={{fontSize: '0.8rem'}}>{order.userId?.phone}</div>
