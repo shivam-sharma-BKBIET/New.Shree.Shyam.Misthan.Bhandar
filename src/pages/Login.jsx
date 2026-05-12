@@ -146,7 +146,10 @@ const Login = () => {
                     setIsLoading(false);
                   }
                 }}
-                onError={() => setError('Google Login Failed')}
+                onError={(error) => {
+                  console.error('Google Login Error:', error);
+                  setError('Google Login Failed. Check Console for details.');
+                }}
                 useOneTap
               />
           </div>

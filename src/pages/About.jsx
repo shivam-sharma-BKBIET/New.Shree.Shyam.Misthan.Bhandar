@@ -1,46 +1,72 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useProducts } from '../context/ProductContext';
 import './About.css';
-import { Award, ShieldCheck, Heart, Clock } from 'lucide-react';
+import { Award, ShieldCheck, Heart, Clock, Star, Utensils, Zap } from 'lucide-react';
 
 const About = () => {
   const { aboutData, isLoading } = useProducts();
 
-  if (isLoading) return <div className="loading" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', fontSize: '1.2rem', color: 'var(--primary)' }}>Loading...</div>;
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  if (isLoading) return (
+    <div className="about-loading">
+      <div className="loader-spinner"></div>
+      <p>Unfolding Our Story...</p>
+    </div>
+  );
 
   return (
-    <div className="about-page">
-      {/* Hero Section */}
-      <section className="about-hero">
-        <div className="container">
-          <div className="about-hero-content">
-            <h1>Our Story of <span>Sweetness</span></h1>
-            <p>{aboutData.story}</p>
+    <div className="about-wrapper">
+      {/* Premium Hero Section */}
+      <section className="about-hero-v2">
+        <div className="about-hero-overlay"></div>
+        <div className="container relative z-10">
+          <div className="about-hero-inner">
+            <span className="hero-badge">SINCE 1999</span>
+            <h1 className="hero-main-title">Crafting <span>Sweet</span> Memories for Generations</h1>
+            <p className="hero-description">{aboutData.story}</p>
           </div>
         </div>
       </section>
 
-      {/* Heritage Section */}
-      <section className="section heritage-section">
+      {/* Heritage & Legacy Section */}
+      <section className="heritage-v2 section">
         <div className="container">
-          <div className="heritage-grid">
-            <div className="heritage-image">
-              <img src={aboutData.heritageImage} alt="Our Heritage Shop" />
+          <div className="heritage-grid-v2">
+            <div className="heritage-image-container">
+              <div className="image-frame">
+                <img src={aboutData.heritageImage} alt="Our Heritage" className="heritage-main-img" />
+                <div className="experience-badge">
+                  <span className="years">25+</span>
+                  <span className="text">Years of Mastery</span>
+                </div>
+              </div>
+              <div className="decorative-element"></div>
             </div>
-            <div className="heritage-content">
-              <h2 className="section-title">A Legacy of <span>Pure Ingredients</span></h2>
-              <p>{aboutData.heritageText}</p>
+            
+            <div className="heritage-content-v2">
+              <div className="section-tag">OUR HERITAGE</div>
+              <h2 className="heritage-title">A Tradition of <span>Purity</span> & Taste</h2>
+              <div className="divider-gold"></div>
+              <p className="heritage-text">{aboutData.heritageText}</p>
               
-              <div className="stats-grid">
-                <div className="stat-item">
-                  <Award size={32} />
-                  <h4>25+ Years</h4>
-                  <p>Of Excellence</p>
+              <div className="features-list">
+                <div className="feature-item">
+                  <div className="feature-icon"><Utensils size={20} /></div>
+                  <div className="feature-info">
+                    <h4>Traditional Recipes</h4>
+                    <p>Authentic flavors passed down through generations.</p>
+                  </div>
                 </div>
-                <div className="stat-item">
-                  <ShieldCheck size={32} />
-                  <h4>100% Pure</h4>
-                  <p>Quality Guaranteed</p>
+                <div className="feature-item">
+                  <div className="feature-icon"><Zap size={20} /></div>
+                  <div className="feature-info">
+                    <h4>Modern Quality</h4>
+                    <p>Highest standards of hygiene and safety.</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -48,45 +74,81 @@ const About = () => {
         </div>
       </section>
 
-      {/* Meet the Owners */}
-      <section className="section owners-section bg-light">
+      {/* Values & Promises Grid */}
+      <section className="values-v2 section bg-warm">
         <div className="container">
-          <h2 className="section-title text-center">Meet the <span>Visionaries</span></h2>
-          <div className="owners-grid">
-            <div className="owner-card">
-              <div className="owner-image">
-                <img src={aboutData.ownerImage} alt={aboutData.ownerName} />
-              </div>
-              <div className="owner-info">
-                <h3>{aboutData.ownerName}</h3>
-                <p className="owner-title">Founders & Master Confectioners</p>
-                <div className="divider"></div>
-                <p>{aboutData.ownerQuote}</p>
+          <div className="section-header-v2">
+            <h2 className="section-title-v2">The Pillars of Our <span>Excellence</span></h2>
+            <p className="section-subtitle">What makes every bite of our sweets special.</p>
+          </div>
+          
+          <div className="values-cards-v2">
+            <div className="value-card-v2">
+              <div className="card-icon-box"><Heart size={32} /></div>
+              <h3>Handcrafted Love</h3>
+              <p>Each sweet is made by hand with the finest ingredients and genuine care.</p>
+            </div>
+            
+            <div className="value-card-v2 featured">
+              <div className="card-icon-box"><Star size={32} /></div>
+              <h3>Superior Quality</h3>
+              <p>We source only the purest milk, saffron, and nuts for an unmatched taste.</p>
+            </div>
+            
+            <div className="value-card-v2">
+              <div className="card-icon-box"><ShieldCheck size={32} /></div>
+              <h3>Total Hygiene</h3>
+              <p>Prepared in a sanitized, state-of-the-art facility for your peace of mind.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Owner & Visionary Section */}
+      <section className="visionary-section section">
+        <div className="container">
+          <div className="visionary-card-v2">
+            <div className="visionary-image-box">
+              <img src={aboutData.ownerImage} alt={aboutData.ownerName} />
+              <div className="visionary-overlay"></div>
+            </div>
+            <div className="visionary-content-box">
+              <div className="quote-icon">“</div>
+              <p className="visionary-quote">{aboutData.ownerQuote}</p>
+              <div className="visionary-footer">
+                <h3 className="visionary-name">{aboutData.ownerName}</h3>
+                <p className="visionary-role">Founder & Master Confectioner</p>
+                <div className="signature">New Shree Shyam Misthan Bhandar</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="section values-section">
+      {/* Final Call to Action or Trust Section */}
+      <section className="trust-v2 section">
         <div className="container">
-          <h2 className="section-title text-center">Why Choose <span>Sweet Delight</span>?</h2>
-          <div className="values-grid">
-            <div className="value-card">
-              <Heart size={40} className="value-icon" />
-              <h3>Made with Love</h3>
-              <p>Handcrafted by artisans who have mastered the art of dessert making over generations.</p>
+          <div className="trust-banner">
+            <div className="trust-item">
+              <Award size={40} className="trust-icon" />
+              <div className="trust-text">
+                <strong>Certified Quality</strong>
+                <span>FSSAI Licensed Facility</span>
+              </div>
             </div>
-            <div className="value-card">
-              <Clock size={40} className="value-icon" />
-              <h3>Freshly Baked</h3>
-              <p>Items are prepared in small batches daily to ensure you receive them at their peak of freshness.</p>
+            <div className="trust-item">
+              <Clock size={40} className="trust-icon" />
+              <div className="trust-text">
+                <strong>Always Fresh</strong>
+                <span>Batches made every day</span>
+              </div>
             </div>
-            <div className="value-card">
-              <ShieldCheck size={40} className="value-icon" />
-              <h3>Hygiene First</h3>
-              <p>Our state-of-the-art kitchen adheres to the highest international food safety standards.</p>
+            <div className="trust-item">
+              <ShieldCheck size={40} className="trust-icon" />
+              <div className="trust-text">
+                <strong>Secure Ordering</strong>
+                <span>Trusted by 10k+ Customers</span>
+              </div>
             </div>
           </div>
         </div>

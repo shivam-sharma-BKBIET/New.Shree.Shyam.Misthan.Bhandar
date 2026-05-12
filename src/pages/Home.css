@@ -87,7 +87,6 @@
 }
 
 .btn-luxury:hover {
-  transform: translateY(-2px);
   filter: brightness(1.1);
   box-shadow: 0 6px 20px rgba(170, 119, 28, 0.4);
 }

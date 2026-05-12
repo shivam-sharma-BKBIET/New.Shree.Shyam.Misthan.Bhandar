@@ -41,7 +41,7 @@ const UserProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="803081894518-bgrvtqksj3pvbh4q4mlec88p73b75qph.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "803081894518-bgrvtqksj3pvbh4q4mlec88p73b75qph.apps.googleusercontent.com"}>
       <ProductProvider>
         <AuthProvider>
           <CartProvider>
