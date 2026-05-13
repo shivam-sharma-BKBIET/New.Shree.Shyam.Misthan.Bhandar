@@ -3,7 +3,7 @@ import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useProducts } from '../context/ProductContext';
-import { CheckCircle, CreditCard, DollarSign, Check, ShieldCheck, Loader2, Lock } from 'lucide-react';
+import { CheckCircle, CreditCard, DollarSign, Check, ShieldCheck, Loader2, Lock, Package } from 'lucide-react';
 import { getApiUrl } from '../config';
 import './Checkout.css';
 

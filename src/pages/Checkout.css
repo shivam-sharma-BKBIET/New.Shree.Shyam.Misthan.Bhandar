@@ -536,10 +536,23 @@
   top: 100px;
 }
 
+@media (max-width: 991px) {
+  .checkout-price-widget {
+    order: -1; /* Move to top on mobile */
+    margin-bottom: 20px;
+    position: static;
+  }
+  .checkout-layout {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 @media (min-width: 992px) {
   .checkout-price-widget {
     min-width: 350px;
     max-width: 350px;
+    order: 2; /* Normal order on desktop */
   }
 }
 
