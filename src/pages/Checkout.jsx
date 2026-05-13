@@ -20,6 +20,7 @@ const Checkout = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderStatus, setOrderStatus] = useState('IDLE'); // IDLE, AWAITING_APPROVAL, SUCCESS, REJECTED
   const [placedOrderId, setPlacedOrderId] = useState(null);
+  const [placedOrderTotal, setPlacedOrderTotal] = useState(0);
   
   // Date.now() moved to useRef to prevent impure render calls
   const transactionTimeRef = React.useRef(Date.now());
@@ -200,10 +201,12 @@ const Checkout = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Failed to save order');
 
-      // Async Flow: Clear cart and redirect instantly to Tracking page
+      // Enhanced Flow: Show success screen instead of instant redirect
+      setPlacedOrderTotal(finalTotal);
       clearCart();
       setIsVerifying(false);
-      navigate(`/track-order?query=${orderRef}`);
+      setIsSuccess(true);
+      // navigate(`/track-order?query=${orderRef}`); // Commented out to show success screen first
     } catch (err) {
       setIsVerifying(false);
       setError(err.message === 'Failed to fetch' 
@@ -322,19 +325,57 @@ const Checkout = () => {
 
   if (isSuccess) {
     return (
-      <div className="section checkout-success">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <CheckCircle size={80} color="#27ae60" style={{ margin: '0 auto 2rem' }} />
-          <h1>Order Placed Successfully!</h1>
-          <p>Your payment has been verified by our admin. Your sweets are being prepared!</p>
-          <div className="order-ref-pill mt-3">Ref ID: {orderRef}</div>
-          <Link to="/" className="btn btn-primary mt-4" style={{ display: 'inline-flex' }}>Return to Home</Link>
+      <div className="section checkout-success-screen">
+        <div className="container">
+          <div className="success-card">
+            <div className="success-icon-wrapper">
+              <div className="success-checkmark">
+                <CheckCircle size={100} color="#27ae60" strokeWidth={1.5} />
+              </div>
+              <div className="confetti-placeholder"></div>
+            </div>
+            
+            <div className="success-content">
+              <h1 className="success-title">Order Placed Successfully!</h1>
+              <p className="success-message">
+                Thank you for your order. We've received your request and our team is already preparing your delicious sweets!
+              </p>
+              
+              <div className="order-info-card">
+                <div className="info-row">
+                  <span className="info-label">Order Reference</span>
+                  <span className="info-value">#{orderRef}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Amount Paid</span>
+                  <span className="info-value">₹{placedOrderTotal}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Payment Method</span>
+                  <span className="info-value">{paymentMethod === 'upi' ? 'UPI / QR Payment' : 'Cash on Delivery'}</span>
+                </div>
+              </div>
+              
+              <div className="success-actions">
+                <Link to={`/track-order?query=${orderRef}`} className="btn btn-primary track-btn">
+                  <Package size={20} /> Track My Order
+                </Link>
+                <Link to="/" className="btn btn-outline continue-btn">
+                  Continue Shopping
+                </Link>
+              </div>
+            </div>
+            
+            <div className="success-footer">
+              <p>A confirmation has been sent to your phone <strong>{userDetails.phone}</strong></p>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && !isSuccess) {
     return <Navigate to="/" replace />;
   }
 

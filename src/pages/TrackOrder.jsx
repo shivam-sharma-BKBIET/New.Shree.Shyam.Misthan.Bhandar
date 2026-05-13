@@ -217,9 +217,6 @@ const TrackOrder = () => {
   useEffect(() => {
     if (isAuthenticated && token) {
       fetchMyOrders();
-      // Auto-refresh every 30 seconds
-      const interval = setInterval(fetchMyOrders, 10000);
-      return () => clearInterval(interval);
     }
   }, [isAuthenticated, token]);
 
