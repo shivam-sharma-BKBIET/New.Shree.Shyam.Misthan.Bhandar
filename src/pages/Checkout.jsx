@@ -688,9 +688,9 @@ const Checkout = () => {
                                     </div>
                                   </div>
                                   
-                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(0, 188, 140, 0.05)', borderRadius: '8px', border: '1px solid rgba(0, 188, 140, 0.1)' }}>
+                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '12px', background: 'rgba(0, 188, 140, 0.05)', borderRadius: '8px', border: '1px solid rgba(0, 188, 140, 0.1)' }}>
                                     <Lock size={20} color="#00bc8c" />
-                                    <div style={{ textAlign: 'left' }}>
+                                    <div style={{ textAlign: 'center' }}>
                                       <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#2d3436' }}>100% Purchase Protection</div>
                                       <div style={{ fontSize: '0.75rem', color: '#636e72' }}>Secure Payments by New Shree Shyam Misthan Bhandar</div>
                                     </div>
@@ -709,7 +709,7 @@ const Checkout = () => {
                                       <button type="button" onClick={() => setOrderStatus('IDLE')} className="btn btn-orange action-btn mt-2">Try Again</button>
                                     </div>
                                   ) : isPaymentInitiated ? (
-                                    <div className="payment-initiated-notice mt-3">
+                                    <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center' }}>
                                       {error && (
                                         <div className="error-alert mb-2" style={{ 
                                           color: '#d63031', 
@@ -718,7 +718,7 @@ const Checkout = () => {
                                           borderRadius: '8px', 
                                           fontSize: '0.85rem', 
                                           border: '1px solid #ff4d4d',
-                                          textAlign: 'left'
+                                          textAlign: 'center'
                                         }}>
                                           ⚠️ <strong>Verification Error:</strong> {error}
                                         </div>
