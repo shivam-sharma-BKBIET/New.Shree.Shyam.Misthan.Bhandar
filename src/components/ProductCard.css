@@ -148,3 +148,40 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+.cart-item-qty-controls {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  width: 100%;
+}
+
+.qty-action-btn {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.qty-action-btn:hover {
+  transform: scale(1.1);
+}
+
+.qty-count-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}

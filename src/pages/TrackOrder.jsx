@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Package, ShoppingBag, CreditCard, Clock, AlertCircle, Lock, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle, Package, ShoppingBag, CreditCard, Clock, AlertCircle, Lock, RefreshCw, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
 import { getApiUrl } from '../config';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import './TrackOrder.css';
 
 const getStatusConfig = (status, paymentMethod) => {
@@ -24,6 +25,19 @@ const OrderCard = ({ order, onRefresh }) => {
   const [isCancelling, setIsCancelling] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const { token } = useAuth();
+  const { addToCart } = useCart();
+
+  const handleReorder = () => {
+    if (!order.items || order.items.length === 0) return;
+    order.items.forEach(item => {
+      addToCart({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+      }, item.quantity, true);
+    });
+  };
 
   const cfg = getStatusConfig(order.transactionStatus, order.paymentMethod);
 
@@ -142,10 +156,20 @@ const OrderCard = ({ order, onRefresh }) => {
             </div>
           )}
 
-          {/* Cancel Order Section */}
-          {(order.transactionStatus === 'PENDING_VERIFICATION' || order.transactionStatus === 'PENDING_ADMIN_APPROVAL') && (
-            <div style={{ marginTop: '1.25rem', borderTop: '1px solid var(--border)', paddingTop: '1.25rem', display: 'flex', justifyContent: 'flex-end' }}>
-              {!showCancelConfirm ? (
+          {/* Actions Section (Reorder & Cancel) */}
+          <div style={{ marginTop: '1.25rem', borderTop: '1px solid var(--border)', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              <button
+                onClick={handleReorder}
+                style={{ background: 'var(--primary)', color: '#000', border: 'none', padding: '8px 18px', borderRadius: '8px', fontSize: '0.88rem', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 12px rgba(240, 193, 75, 0.3)', transition: 'all 0.2s' }}
+                onMouseEnter={(e) => { e.target.style.transform = 'scale(1.02)'; }}
+                onMouseLeave={(e) => { e.target.style.transform = 'scale(1)'; }}
+              >
+                <RotateCcw size={16} /> Reorder Items
+              </button>
+
+              {((['PENDING_VERIFICATION', 'PENDING_ADMIN_APPROVAL'].includes(order.transactionStatus)) || 
+                (order.paymentMethod?.toLowerCase() !== 'cod' && ['VERIFIED', 'PAYMENT_VERIFIED'].includes(order.transactionStatus))) && !showCancelConfirm && (
                 <button 
                   onClick={() => setShowCancelConfirm(true)}
                   style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fee2e2', padding: '8px 16px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
@@ -154,31 +178,33 @@ const OrderCard = ({ order, onRefresh }) => {
                 >
                   Cancel Order
                 </button>
-              ) : (
-                <div style={{ background: 'var(--background)', border: '1px solid var(--border)', borderRadius: '12px', padding: '1rem', width: '100%' }}>
-                  <p style={{ margin: '0 0 12px 0', fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: '500' }}>
-                    ⚠️ Are you sure you want to cancel this order? This cannot be undone.
-                  </p>
-                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                    <button 
-                      onClick={() => setShowCancelConfirm(false)}
-                      style={{ background: 'var(--surface)', color: 'var(--text-muted)', border: '1px solid var(--border)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: '600', cursor: 'pointer' }}
-                      disabled={isCancelling}
-                    >
-                      No, Keep It
-                    </button>
-                    <button 
-                      onClick={handleCancelOrder}
-                      style={{ background: '#dc2626', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
-                      disabled={isCancelling}
-                    >
-                      {isCancelling ? 'Cancelling...' : 'Yes, Cancel Order'}
-                    </button>
-                  </div>
-                </div>
               )}
             </div>
-          )}
+
+            {showCancelConfirm && (
+              <div style={{ background: 'var(--background)', border: '1px solid var(--border)', borderRadius: '12px', padding: '1rem', width: '100%', marginTop: '5px' }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: '500' }}>
+                  ⚠️ Are you sure you want to cancel this order? This cannot be undone.
+                </p>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                  <button 
+                    onClick={() => setShowCancelConfirm(false)}
+                    style={{ background: 'var(--surface)', color: 'var(--text-muted)', border: '1px solid var(--border)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: '600', cursor: 'pointer' }}
+                    disabled={isCancelling}
+                  >
+                    No, Keep It
+                  </button>
+                  <button 
+                    onClick={handleCancelOrder}
+                    style={{ background: '#dc2626', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+                    disabled={isCancelling}
+                  >
+                    {isCancelling ? 'Cancelling...' : 'Yes, Cancel Order'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
         </div>
       )}

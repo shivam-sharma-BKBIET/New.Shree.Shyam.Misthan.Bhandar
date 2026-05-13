@@ -45,7 +45,20 @@ const CartDrawer = () => {
     }
   };
 
-  if (!isCartOpen) return null;
+  if (!isCartOpen) {
+    if (cartItems.length === 0) return null;
+    return (
+      <div className="floating-cart-bar" onClick={() => setIsCartOpen(true)}>
+        <div className="floating-cart-info">
+          <span className="floating-cart-count">{cartItems.reduce((acc, item) => acc + item.quantity, 0)} item{cartItems.length > 1 ? 's' : ''}</span>
+          <span className="floating-cart-total">₹{cartTotal}</span>
+        </div>
+        <div className="floating-cart-action">
+          View Cart <ArrowRight size={18} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-overlay" onClick={handleOverlayClick}>

@@ -203,3 +203,71 @@
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
+
+/* Floating Cart Bar (Zomato/Swiggy style) */
+.floating-cart-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  background: linear-gradient(135deg, #2e1b15 0%, #4a2c20 100%);
+  border: 1px solid var(--primary);
+  border-radius: 16px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1500;
+  cursor: pointer;
+  animation: translateYFade 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-cart-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.floating-cart-count {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.floating-cart-total {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.floating-cart-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.floating-cart-bar:hover .floating-cart-action {
+  transform: scale(1.05);
+}
+
+@keyframes translateYFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

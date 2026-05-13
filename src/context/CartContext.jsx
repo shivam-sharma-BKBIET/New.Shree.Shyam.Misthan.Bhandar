@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem(key, JSON.stringify(cartItems));
   }, [cartItems, user?.id]);
 
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (product, quantity = 1, openDrawer = false) => {
     setCartItems(prev => {
       const existing = prev.find(item => item.id === product.id);
       if (existing) {
@@ -51,7 +51,9 @@ export const CartProvider = ({ children }) => {
       }
       return [...prev, { ...product, quantity }];
     });
-    setIsCartOpen(true);
+    if (openDrawer) {
+      setIsCartOpen(true);
+    }
   };
 
   const removeFromCart = (productId) => {

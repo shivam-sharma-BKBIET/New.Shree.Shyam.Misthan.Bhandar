@@ -192,7 +192,10 @@ router.put('/:id/cancel', verifyToken, async (req, res) => {
     }
 
     // Prevent cancellation if order is already processed or completed
-    const nonCancellable = ['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED', 'CANCELLED', 'PAYMENT_REJECTED'];
+    const isCod = order.paymentMethod?.toLowerCase() === 'cod';
+    const nonCancellable = isCod 
+      ? ['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED', 'CANCELLED', 'PAYMENT_REJECTED']
+      : ['DELIVERED', 'CANCELLED', 'PAYMENT_REJECTED'];
     if (nonCancellable.includes(order.transactionStatus)) {
       return res.status(400).json({ message: 'Order cannot be cancelled at this stage' });
     }
