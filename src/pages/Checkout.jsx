@@ -69,12 +69,12 @@ const Checkout = () => {
 
   // Ensure the payment accordion stays aligned when toggling payment methods
   useEffect(() => {
-    if (currentStep === 4 && step4Ref.current) {
+    if (currentStep === 4 && step4Ref.current && !isSuccess && !isVerifying) {
       setTimeout(() => {
         step4Ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 50); // slight delay to allow collapsed layout transition to finish
     }
-  }, [paymentMethod, currentStep]);
+  }, [paymentMethod, currentStep, isSuccess, isVerifying]);
 
   const verificationMessages = [
     "Connecting to UPI Secure Gateway...",
