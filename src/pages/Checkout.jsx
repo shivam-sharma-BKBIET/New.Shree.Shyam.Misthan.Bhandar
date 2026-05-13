@@ -333,53 +333,51 @@ const Checkout = () => {
   if (isSuccess) {
     return (
       <div className="section checkout-success-screen">
-        <div className="container">
-          <div className="success-card">
-            <div className="success-icon-wrapper">
-              <div className="success-checkmark">
-                <CheckCircle size={100} color="#27ae60" strokeWidth={1.5} />
-              </div>
-              <div className="confetti-placeholder"></div>
+        <div className="success-card">
+          <div className="success-icon-wrapper">
+            <div className="success-checkmark">
+              <CheckCircle size={100} color="#27ae60" strokeWidth={1.5} />
             </div>
+            <div className="confetti-placeholder"></div>
+          </div>
+          
+          <div className="success-content">
+            <h1 className="success-title">
+              {paymentMethod === 'upi' ? 'Order Received!' : 'Order Placed!'}
+            </h1>
+            <p className="success-message">
+              {paymentMethod === 'upi' 
+                ? "We've received your order and payment request. Our team is currently verifying your payment. Once verified, we'll start preparing your delicious sweets!"
+                : "Thank you for your order! We've received your request and our team will confirm it shortly before preparation."}
+            </p>
             
-            <div className="success-content">
-              <h1 className="success-title">
-                {paymentMethod === 'upi' ? 'Order Received!' : 'Order Placed!'}
-              </h1>
-              <p className="success-message">
-                {paymentMethod === 'upi' 
-                  ? "We've received your order and payment request. Our team is currently verifying your payment. Once verified, we'll start preparing your delicious sweets!"
-                  : "Thank you for your order! We've received your request and our team will confirm it shortly before preparation."}
-              </p>
-              
-              <div className="order-info-card">
-                <div className="info-row">
-                  <span className="info-label">Order Reference</span>
-                  <span className="info-value">#{orderRef}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Amount Paid</span>
-                  <span className="info-value">₹{placedOrderTotal}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Payment Method</span>
-                  <span className="info-value">{paymentMethod === 'upi' ? 'UPI / QR Payment' : 'Cash on Delivery'}</span>
-                </div>
+            <div className="order-info-card">
+              <div className="info-row">
+                <span className="info-label">Order Reference</span>
+                <span className="info-value">#{orderRef}</span>
               </div>
-              
-              <div className="success-actions">
-                <Link to={`/track-order?query=${orderRef}`} className="btn btn-primary track-btn">
-                  <Package size={20} /> Track My Order
-                </Link>
-                <Link to="/" className="btn btn-outline continue-btn">
-                  Continue Shopping
-                </Link>
+              <div className="info-row">
+                <span className="info-label">Amount Paid</span>
+                <span className="info-value">₹{placedOrderTotal}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">Payment Method</span>
+                <span className="info-value">{paymentMethod === 'upi' ? 'UPI / QR Payment' : 'Cash on Delivery'}</span>
               </div>
             </div>
             
-            <div className="success-footer">
-              <p>A confirmation has been sent to your phone <strong>{userDetails.phone}</strong></p>
+            <div className="success-actions">
+              <Link to={`/track-order?query=${orderRef}`} className="btn btn-primary track-btn">
+                <Package size={20} /> Track My Order
+              </Link>
+              <Link to="/" className="btn btn-outline continue-btn">
+                Continue Shopping
+              </Link>
             </div>
+          </div>
+          
+          <div className="success-footer">
+            <p>A confirmation has been sent to your phone <strong>{userDetails.phone}</strong></p>
           </div>
         </div>
       </div>
