@@ -51,6 +51,13 @@ const Checkout = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
+  // Force scroll to top when transition to success/waiting screens happens
+  useEffect(() => {
+    if (isSuccess || orderStatus === 'POST_CHECKOUT_POPUP' || orderStatus === 'REJECTED') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [isSuccess, orderStatus]);
+
 
 
   // Autocomplete / Nominatim OpenStreetMap States

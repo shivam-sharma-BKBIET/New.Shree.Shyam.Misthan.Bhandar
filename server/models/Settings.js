@@ -28,7 +28,11 @@ const settingsSchema = new mongoose.Schema({
   minDeliveryCharge:  { type: Number, default: 20 },
   maxDeliveryDistance:{ type: Number, default: 30 },
   shopLat:            { type: Number, default: 27.7 },
-  shopLng:            { type: Number, default: 75.0 }
+  shopLng:            { type: Number, default: 75.0 },
+  adminAuth: {
+    username: { type: String, default: 'admin' },
+    password: { type: String, default: 'admin123' }
+  }
 }, { timestamps: true });
 
 export default mongoose.model('Settings', settingsSchema);

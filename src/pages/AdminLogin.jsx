@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext';
-import { Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
+import { Lock, User, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
   const { adminAuth } = useProducts();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     
-    // Safely fallback to admin/admin123 if context isn't fully loaded yet
+    // Use adminAuth from context if available, otherwise fallback to defaults
     const validUser = adminAuth?.username || 'admin';
     const validPass = adminAuth?.password || 'admin123';
 
@@ -62,12 +63,31 @@ const AdminLogin = () => {
               <div className="input-wrapper">
                 <Lock size={18} className="input-icon" />
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
+                  style={{ paddingRight: '45px' }}
                 />
+                <button 
+                  type="button" 
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ 
+                    position: 'absolute', 
+                    right: '12px', 
+                    top: '50%', 
+                    transform: 'translateY(-50%)',
+                    color: '#636e72',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
             

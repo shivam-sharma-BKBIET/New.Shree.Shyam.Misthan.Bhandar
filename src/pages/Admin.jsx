@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useProducts } from '../context/ProductContext';
 import { 
   Pencil, Trash, Plus, Search, X, Check, Save, Star,
-  Package, Info, Settings, Image as ImageIcon, User, Lock, ExternalLink, Layout, MapPin, Tag, Users, ShoppingCart
+  Package, Info, Settings, Image as ImageIcon, User, Lock, ExternalLink, Layout, MapPin, Tag, Users, ShoppingCart,
+  Eye, EyeOff
 } from 'lucide-react';
 import { getApiUrl } from '../config';
 import './Admin.css';
@@ -227,10 +228,18 @@ const Admin = () => {
   const [editCatName, setEditCatName] = useState('');
   
   // Auth Form State
-  const [authForm, setAuthForm] = useState({ ...adminAuth });
+  const [authForm, setAuthForm] = useState({ username: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [deliveryChargeInput, setDeliveryChargeInput] = useState(deliveryCharge);
   const [deliveryForm, setDeliveryForm] = useState({ ...deliverySettings });
+
+  // Sync authForm when adminAuth loads from context
+  useEffect(() => {
+    if (adminAuth) {
+      setAuthForm({ ...adminAuth });
+    }
+  }, [adminAuth]);
 
   // Sync inputs when values load from DB
   useEffect(() => {
@@ -1151,13 +1160,35 @@ const Admin = () => {
                     onChange={(e) => setAuthForm({...authForm, username: e.target.value})}
                   />
                 </div>
-                <div className="form-group">
+                 <div className="form-group">
                   <label><Lock size={16} /> New Password</label>
-                  <input 
-                    type="password" 
-                    value={authForm.password}
-                    onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <input 
+                      type={showPassword ? "text" : "password"} 
+                      value={authForm.password}
+                      onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
+                      style={{ paddingRight: '45px' }}
+                    />
+                    <button 
+                      type="button" 
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ 
+                        position: 'absolute', 
+                        right: '10px', 
+                        top: '50%', 
+                        transform: 'translateY(-50%)',
+                        color: '#636e72',
+                        background: 'none',
+                        border: 'none',
+                        padding: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
                 <button type="submit" className="btn btn-primary"><Save size={18} /> Save Credentials</button>
               </form>

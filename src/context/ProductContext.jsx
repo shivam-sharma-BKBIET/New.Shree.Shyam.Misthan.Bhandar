@@ -47,6 +47,7 @@ export const ProductProvider = ({ children }) => {
     shopLat: 27.7,
     shopLng: 75.0
   });
+  const [adminAuth, setAdminAuth] = useState({ username: 'admin', password: 'admin123' });
 
   // Load from cache on mount
   useEffect(() => {
@@ -61,6 +62,7 @@ export const ProductProvider = ({ children }) => {
           if (data.settings.about) setAboutData(data.settings.about);
           if (data.settings.footer) setFooterData(data.settings.footer);
           if (data.settings.deliveryCharge !== undefined) setDeliveryCharge(data.settings.deliveryCharge);
+          if (data.settings.adminAuth) setAdminAuth(data.settings.adminAuth);
           setDeliverySettings(prev => ({ ...prev, ...data.settings }));
         }
         setIsLoading(false); // Immediate activation if cache exists
@@ -84,6 +86,7 @@ export const ProductProvider = ({ children }) => {
           if (data.settings.about) setAboutData(data.settings.about);
           if (data.settings.footer) setFooterData(data.settings.footer);
           if (data.settings.deliveryCharge !== undefined) setDeliveryCharge(data.settings.deliveryCharge);
+          if (data.settings.adminAuth) setAdminAuth(data.settings.adminAuth);
           setDeliverySettings(prev => ({
             perKmCharge:         data.settings.perKmCharge         ?? prev.perKmCharge,
             minDeliveryCharge:   data.settings.minDeliveryCharge   ?? prev.minDeliveryCharge,
@@ -176,6 +179,19 @@ export const ProductProvider = ({ children }) => {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'x-admin-key': import.meta.env.VITE_ADMIN_KEY },
         body: JSON.stringify(settings)
+      });
+    } catch (error) {
+      console.error('ProductContext error:', error);
+    }
+  };
+
+  const updateAuth = async (authData) => {
+    setAdminAuth(authData);
+    try {
+      await fetch(getApiUrl('/api/site/settings'), {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': import.meta.env.VITE_ADMIN_KEY },
+        body: JSON.stringify({ adminAuth: authData })
       });
     } catch (error) {
       console.error('ProductContext error:', error);
@@ -348,6 +364,7 @@ export const ProductProvider = ({ children }) => {
       footerData,
       deliveryCharge,
       deliverySettings,
+      adminAuth,
       isLoading,
       addProduct, 
       updateProduct, 
@@ -362,7 +379,8 @@ export const ProductProvider = ({ children }) => {
       updateDeliverySettings,
       addCategory,
       updateCategory,
-      deleteCategory
+      deleteCategory,
+      updateAuth
     }}>
       {children}
     </ProductContext.Provider>

@@ -195,6 +195,10 @@ const TrackOrder = () => {
   // Scroll to top of the page on mount
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    const timeoutId = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 10);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const fetchMyOrders = async (showLoading = true) => {
