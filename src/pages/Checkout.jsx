@@ -688,11 +688,11 @@ const Checkout = () => {
                                     </div>
                                   </div>
                                   
-                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: 'var(--background)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px', background: 'rgba(0, 188, 140, 0.05)', borderRadius: '8px', border: '1px solid rgba(0, 188, 140, 0.1)' }}>
                                     <Lock size={20} color="#00bc8c" />
                                     <div style={{ textAlign: 'left' }}>
-                                      <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: 'var(--text-primary)' }}>100% Purchase Protection</div>
-                                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Secure Payments by New Shree Shyam Misthan Bhandar</div>
+                                      <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#2d3436' }}>100% Purchase Protection</div>
+                                      <div style={{ fontSize: '0.75rem', color: '#636e72' }}>Secure Payments by New Shree Shyam Misthan Bhandar</div>
                                     </div>
                                   </div>
                                   
@@ -726,7 +726,7 @@ const Checkout = () => {
                                       <button 
                                         type="button" 
                                         onClick={startVerification} 
-                                        className="btn btn-purple action-btn w-100" 
+                                        className="btn btn-orange action-btn w-100" 
                                         disabled={isVerifying}
                                       >
                                         {isVerifying ? 'STARTING...' : 'I HAVE COMPLETED PAYMENT'}
