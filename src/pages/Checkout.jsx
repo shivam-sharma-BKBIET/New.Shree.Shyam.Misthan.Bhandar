@@ -299,13 +299,13 @@ const Checkout = () => {
     return (
       <div className="section checkout-waiting" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: '600px' }}>
-          <div className="waiting-card" style={{ background: 'white', padding: '3rem', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-            <CheckCircle size={80} color="#e65100" style={{ margin: '0 auto 1.5rem' }} />
-            <h2 style={{ color: '#2d3436', marginBottom: '1rem' }}>Order Received!</h2>
-            <p style={{ color: '#636e72', fontSize: '1.2rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+          <div className="waiting-card" style={{ background: 'var(--surface)', padding: '3rem', borderRadius: '20px', boxShadow: 'var(--shadow-lg)' }}>
+            <CheckCircle size={80} color="var(--secondary)" style={{ margin: '0 auto 1.5rem' }} />
+            <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Order Received!</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
               Your payment is being verified by our team. You can track your status anytime on the Home page.
             </p>
-            <div className="order-details-mini mt-4 p-3" style={{ background: '#fff8f0', borderRadius: '12px', border: '1px dashed #e65100', display: 'inline-block', minWidth: '250px' }}>
+            <div className="order-details-mini mt-4 p-3" style={{ background: 'var(--background)', borderRadius: '12px', border: '1px dashed var(--secondary)', display: 'inline-block', minWidth: '250px' }}>
               <p style={{ margin: '0 0 5px 0' }}><strong>Order Ref:</strong> {orderRef}</p>
               <p style={{ margin: '0' }}><strong>Amount:</strong> ₹{cartTotal}</p>
             </div>
@@ -483,7 +483,7 @@ const Checkout = () => {
                               border: address === addr ? '2px solid var(--secondary)' : '1px solid var(--border)', 
                               borderRadius: '8px', 
                               cursor: 'pointer',
-                              background: address === addr ? 'rgba(230, 81, 0, 0.05)' : 'white'
+                              background: address === addr ? 'rgba(230, 81, 0, 0.05)' : 'var(--background)'
                             }}
                           >
                             <p style={{ margin: 0, fontSize: '0.9rem' }}>{addr}</p>
@@ -521,10 +521,10 @@ const Checkout = () => {
                             top: '100%',
                             left: 0,
                             right: 0,
-                            background: 'white',
+                            background: 'var(--surface)',
                             border: '1px solid var(--border)',
                             borderRadius: '8px',
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                            boxShadow: 'var(--shadow-lg)',
                             zIndex: 1000,
                             maxHeight: '200px',
                             overflowY: 'auto',
@@ -537,23 +537,23 @@ const Checkout = () => {
                               onClick={() => handleSelectSuggestion(item)}
                               style={{
                                 padding: '10px 14px',
-                                borderBottom: idx < suggestions.length - 1 ? '1px solid #f1f2f6' : 'none',
+                                borderBottom: idx < suggestions.length - 1 ? '1px solid var(--border)' : 'none',
                                 cursor: 'pointer',
                                 fontSize: '0.85rem',
-                                color: '#2d3436',
+                                color: 'var(--text-primary)',
                                 textAlign: 'left',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: '2px',
                                 transition: 'background 0.2s',
                               }}
-                              onMouseEnter={(e) => e.currentTarget.style.background = '#fff3e0'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--background)'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface)'}
                             >
-                              <strong style={{ color: '#e65100' }}>
+                              <strong style={{ color: 'var(--secondary)' }}>
                                 📍 {item.address.road || item.address.suburb || item.address.village || item.address.town || item.address.city || 'Location'}
                               </strong>
-                              <span style={{ color: '#636e72', fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {item.display_name}
                               </span>
                             </div>
@@ -688,24 +688,24 @@ const Checkout = () => {
                                     </div>
                                   </div>
                                   
-                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: '#f8f9fa', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: 'var(--background)', borderRadius: '8px', border: '1px solid var(--border)' }}>
                                     <Lock size={20} color="#00bc8c" />
                                     <div style={{ textAlign: 'left' }}>
-                                      <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#2d3436' }}>100% Purchase Protection</div>
-                                      <div style={{ fontSize: '0.75rem', color: '#636e72' }}>Secure Payments by New Shree Shyam Misthan Bhandar</div>
+                                      <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: 'var(--text-primary)' }}>100% Purchase Protection</div>
+                                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Secure Payments by New Shree Shyam Misthan Bhandar</div>
                                     </div>
                                   </div>
                                   
                                   {orderStatus === 'AWAITING_APPROVAL' ? (
-                                    <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center', padding: '20px', background: '#fff', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-                                      <Loader2 size={40} className="spinner" style={{ color: '#e65100', margin: '0 auto 15px auto', display: 'flex' }} />
-                                      <h4 style={{ color: '#e65100', margin: '0 0 10px 0' }}>Verifying payment...</h4>
-                                      <p style={{ color: '#636e72', fontSize: '0.9rem', marginBottom: 0 }}>Waiting for shop owner to confirm your payment.<br/><strong>Please do not close this window.</strong></p>
+                                    <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center', padding: '20px', background: 'var(--surface)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                                      <Loader2 size={40} className="spinner" style={{ color: 'var(--secondary)', margin: '0 auto 15px auto', display: 'flex' }} />
+                                      <h4 style={{ color: 'var(--secondary)', margin: '0 0 10px 0' }}>Verifying payment...</h4>
+                                      <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 0 }}>Waiting for shop owner to confirm your payment.<br/><strong>Please do not close this window.</strong></p>
                                     </div>
                                   ) : orderStatus === 'REJECTED' ? (
-                                    <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center', background: '#ffeaa7', padding: '20px', borderRadius: '8px' }}>
+                                    <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center', background: 'rgba(214, 48, 49, 0.1)', padding: '20px', borderRadius: '8px', border: '1px solid rgba(214, 48, 49, 0.3)' }}>
                                       <h4 style={{ color: '#d63031', margin: '0 0 10px 0' }}>Payment Rejected</h4>
-                                      <p style={{ color: '#636e72', fontSize: '0.9rem' }}>The shop owner marked your payment as missing.</p>
+                                      <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>The shop owner marked your payment as missing.</p>
                                       <button type="button" onClick={() => setOrderStatus('IDLE')} className="btn btn-orange action-btn mt-2">Try Again</button>
                                     </div>
                                   ) : isPaymentInitiated ? (

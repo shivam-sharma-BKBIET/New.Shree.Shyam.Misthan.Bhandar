@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X, Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './CartDrawer.css';
@@ -10,6 +10,9 @@ const CartDrawer = () => {
   const { isAuthenticated } = useAuth();
   const drawerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isCheckoutPage = location.pathname === '/checkout';
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -46,7 +49,7 @@ const CartDrawer = () => {
   };
 
   if (!isCartOpen) {
-    if (cartItems.length === 0) return null;
+    if (cartItems.length === 0 || isCheckoutPage) return null;
     return (
       <div className="floating-cart-bar" onClick={() => setIsCartOpen(true)}>
         <div className="floating-cart-info">
