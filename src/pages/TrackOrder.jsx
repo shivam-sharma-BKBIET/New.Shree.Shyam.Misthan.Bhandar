@@ -197,8 +197,8 @@ const TrackOrder = () => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  const fetchMyOrders = async () => {
-    setLoading(true);
+  const fetchMyOrders = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     setError('');
     try {
       const res = await fetch(getApiUrl('/api/orders/my-orders'), {
@@ -206,17 +206,35 @@ const TrackOrder = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      setOrders(data.data || []);
+      
+      const newOrders = data.data || [];
+      setOrders(newOrders);
+      
+      // Update cache
+      localStorage.setItem(`orders_cache_${user?.id || user?._id}`, JSON.stringify(newOrders));
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated && token) {
-      fetchMyOrders();
+      // 1. Try to load from cache first for instant UI
+      const cachedOrders = localStorage.getItem(`orders_cache_${user?.id || user?._id}`);
+      if (cachedOrders) {
+        try {
+          setOrders(JSON.parse(cachedOrders));
+          // Fetch fresh data in background without showing full-page loader
+          fetchMyOrders(false);
+        } catch (e) {
+          fetchMyOrders(true);
+        }
+      } else {
+        // No cache, show full loader
+        fetchMyOrders(true);
+      }
     }
   }, [isAuthenticated, token]);
 
