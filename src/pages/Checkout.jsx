@@ -343,9 +343,13 @@ const Checkout = () => {
             </div>
             
             <div className="success-content">
-              <h1 className="success-title">Order Placed Successfully!</h1>
+              <h1 className="success-title">
+                {paymentMethod === 'upi' ? 'Order Received!' : 'Order Placed!'}
+              </h1>
               <p className="success-message">
-                Thank you for your order. We've received your request and our team is already preparing your delicious sweets!
+                {paymentMethod === 'upi' 
+                  ? "We've received your order and payment request. Our team is currently verifying your payment. Once verified, we'll start preparing your delicious sweets!"
+                  : "Thank you for your order! We've received your request and our team will confirm it shortly before preparation."}
               </p>
               
               <div className="order-info-card">
