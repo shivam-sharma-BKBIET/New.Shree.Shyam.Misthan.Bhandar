@@ -30,4 +30,7 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Optimize queries by indexing userId and createdAt
+orderSchema.index({ userId: 1, createdAt: -1 });
+
 export default mongoose.model('Order', orderSchema);
