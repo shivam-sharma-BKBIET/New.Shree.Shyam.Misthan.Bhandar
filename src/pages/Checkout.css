@@ -317,12 +317,39 @@
 .placard-header {
   background-color: #00adef;
   color: #fff;
-  padding: 12px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.paytm-logo-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.accepted-here {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  opacity: 0.9;
 }
 
 .placard-body {
   padding: 20px;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scan-pay-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 12px;
 }
 
 .qr-image-wrapper {
@@ -330,11 +357,51 @@
   padding: 10px;
   border: 1px solid #eee;
   border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .payment-qr {
-  width: 100%;
-  height: auto;
+  width: 160px;
+  height: 160px;
+  display: block;
+}
+
+.upi-id-display {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+.upi-id-display span {
+  font-weight: 700;
+  color: #222;
+}
+
+.placard-footer {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+}
+
+.bhim-upi-logos {
+  display: flex;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #444;
+}
+
+.powered-by-paytm {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #002e6e;
+}
+
+.powered-by-paytm span {
+  color: #ff0000;
 }
 
 /* Price Widget */
