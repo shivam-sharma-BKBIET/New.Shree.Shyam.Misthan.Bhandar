@@ -688,7 +688,7 @@ const Checkout = () => {
                                     </div>
                                   </div>
                                   
-                                  <div className="amazon-trust-badges mt-3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '12px', background: 'rgba(0, 188, 140, 0.05)', borderRadius: '8px', border: '1px solid rgba(0, 188, 140, 0.1)' }}>
+                                  <div className="amazon-trust-badges mt-4 mb-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '12px', background: 'rgba(0, 188, 140, 0.05)', borderRadius: '8px', border: '1px solid rgba(0, 188, 140, 0.1)' }}>
                                     <Lock size={20} color="#00bc8c" />
                                     <div style={{ textAlign: 'center' }}>
                                       <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#2d3436' }}>100% Purchase Protection</div>
@@ -711,7 +711,7 @@ const Checkout = () => {
                                   ) : isPaymentInitiated ? (
                                     <div className="payment-initiated-notice mt-3" style={{ textAlign: 'center' }}>
                                       {error && (
-                                        <div className="error-alert mb-2" style={{ 
+                                        <div className="error-alert mb-3" style={{ 
                                           color: '#d63031', 
                                           background: '#fff0f0', 
                                           padding: '10px', 
@@ -726,12 +726,12 @@ const Checkout = () => {
                                       <button 
                                         type="button" 
                                         onClick={startVerification} 
-                                        className="btn btn-orange action-btn w-100" 
+                                        className="btn btn-orange action-btn w-100 mb-3" 
                                         disabled={isVerifying}
                                       >
                                         {isVerifying ? 'STARTING...' : 'I HAVE COMPLETED PAYMENT'}
                                       </button>
-                                      <p className="helper-text mt-2 text-center" style={{ fontSize: '0.8rem' }}>
+                                      <p className="helper-text text-center" style={{ fontSize: '0.85rem', color: '#636e72', fontStyle: 'italic' }}>
                                         (Click after you finish payment to verify)
                                       </p>
                                     </div>
