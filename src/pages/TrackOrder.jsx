@@ -45,7 +45,7 @@ const OrderCard = ({ order, onRefresh }) => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to cancel order');
-      onRefresh(); // Trigger list refresh
+      onRefresh(false); // Trigger background refresh without full-page loader
     } catch (err) {
       alert(err.message);
     } finally {
