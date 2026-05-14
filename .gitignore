@@ -50,3 +50,7 @@ eslint-errors.json
 
 # Leftover files
 src/FacebookInit.jsx
+
+# Image update scripts (contain credentials)
+update_images.mjs
+*.backup
