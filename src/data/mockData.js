@@ -1,11 +1,11 @@
 export const categories = [
-  { id: 'sweets', name: 'Mithai (Sweets)', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Laddu_Sweet.JPG/800px-Laddu_Sweet.JPG' },
-  { id: 'chocolates', name: 'Premium Chocolates', image: 'https://images.unsplash.com/photo-1548907040-4baa42d10919?w=800&q=80' },
-  { id: 'cakes', name: 'Designer Cakes', image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80' },
-  { id: 'namkin', name: 'Savory Namkin', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Shop_selling_Bikaneri_bhujia_in_Jaipur.jpg/800px-Shop_selling_Bikaneri_bhujia_in_Jaipur.jpg' },
-  { id: 'wafers', name: 'Crispy Wafers', image: 'https://images.unsplash.com/photo-1621236378699-8597fac6bb1d?w=800&q=80' },
-  { id: 'biscuits', name: 'Luxury Biscuits', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bourbon_and_Custard_Cream.jpeg/800px-Bourbon_and_Custard_Cream.jpeg' },
-  { id: 'drinks', name: 'Cold Drinks', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Salt_lassi.jpg/800px-Salt_lassi.jpg' },
+  { id: 'sweets', name: 'Mithai (Sweets)', image: 'https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'chocolates', name: 'Premium Chocolates', image: 'https://images.pexels.com/photos/65882/pexels-photo-65882.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'cakes', name: 'Designer Cakes', image: 'https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'namkin', name: 'Savory Namkin', image: 'https://images.pexels.com/photos/8992923/pexels-photo-8992923.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'wafers', name: 'Crispy Wafers', image: 'https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'biscuits', name: 'Luxury Biscuits', image: 'https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=800' },
+  { id: 'drinks', name: 'Cold Drinks', image: 'https://images.pexels.com/photos/29684991/pexels-photo-29684991.jpeg?auto=compress&cs=tinysrgb&w=800' },
 ];
 
 const generateProducts = () => {
@@ -13,92 +13,157 @@ const generateProducts = () => {
   let id = 1;
 
   const exactImages = {
-    // Sweets (Wikimedia)
-    'Gulab Jamun': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Bowl_of_Gulab_Jamuns.jpg/800px-Bowl_of_Gulab_Jamuns.jpg',
-    'Rasgulla': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Rasgulla.jpg/800px-Rasgulla.jpg',
-    'Kaju Katli': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Kaju_katli_sweet.jpg/800px-Kaju_katli_sweet.jpg',
-    'Motichoor Laddu': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Laddu_Sweet.JPG/800px-Laddu_Sweet.JPG',
-    'Besan Laddu': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Saffron_Ladoo.jpg/800px-Saffron_Ladoo.jpg',
-    'Mysore Pak': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Mysore_pak.jpg/800px-Mysore_pak.jpg',
-    'Soan Papdi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Soan_sohan_papdi_India_Festive_Sweets.jpg/800px-Soan_sohan_papdi_India_Festive_Sweets.jpg',
-    'Jalebi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Jalebi_%28Zulbia%29.jpg/800px-Jalebi_%28Zulbia%29.jpg',
-    'Imarti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Imarti_Sweet.jpg/800px-Imarti_Sweet.jpg',
-    'Barfi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Almond_Khoa_based_burfi_Mumbai_India_%28cropped%29.jpg/800px-Almond_Khoa_based_burfi_Mumbai_India_%28cropped%29.jpg',
-    'Peda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Mathura_Peda.jpg/800px-Mathura_Peda.jpg',
-    'Gajar Ka Halwa': 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Cuisine_%28268%29_44.jpg',
-    'Moong Dal Halwa': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Moong_dal_halwa.JPG/800px-Moong_dal_halwa.JPG',
-    'Rasmalai': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Rasmalai%2C_Indian_Dessert.jpg/800px-Rasmalai%2C_Indian_Dessert.jpg',
-    'Khas Khas Halwa': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Poppy_seed_halwa.jpg/800px-Poppy_seed_halwa.jpg',
-    'Chum Chum': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Cham_cham_sweet.jpg/800px-Cham_cham_sweet.jpg',
-    'Sandesh': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Bengali_Sandesh_-_1.jpg/800px-Bengali_Sandesh_-_1.jpg',
-    'Rabri': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Rabri_Sweet.jpg/800px-Rabri_Sweet.jpg',
-    'Balushahi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Balushahi.jpg/800px-Balushahi.jpg',
-    'Ghevar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Ghevar_Sweet.jpg/800px-Ghevar_Sweet.jpg',
-    'Gujiya': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Gujiya1.jpg/800px-Gujiya1.jpg',
-    'Shrikhand': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Shrikhand.JPG/800px-Shrikhand.JPG',
-    'Phirni': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Phirni.jpg/800px-Phirni.jpg',
-    'Malpua': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/MalPua.JPG/800px-MalPua.JPG',
-    'Kala Jamun': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Kala_jamun.jpg/800px-Kala_jamun.jpg',
-    'Boondi Laddu': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Boondi_Ladoo.jpg/800px-Boondi_Ladoo.jpg',
-    'Dharwad Peda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Dharwad_pedha.jpg/800px-Dharwad_pedha.jpg',
-    'Agra Pethas': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Petha.jpg/800px-Petha.jpg',
-    'Mathura Peda': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Kesar_Peda.jpg/800px-Kesar_Peda.jpg',
-    'Adhirasam': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Adhirasam.jpeg/800px-Adhirasam.jpeg',
-    'Ariselu': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Ariselu_or_Adhirasam_or_Kajjaya_or_Athirasa.jpg/800px-Ariselu_or_Adhirasam_or_Kajjaya_or_Athirasa.jpg',
-    
-    // Namkin (Wikimedia)
-    'Aloo Bhujia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Aloo_Bhujia.jpg/800px-Aloo_Bhujia.jpg',
-    'Bikaneri Bhujia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Shop_selling_Bikaneri_bhujia_in_Jaipur.jpg/800px-Shop_selling_Bikaneri_bhujia_in_Jaipur.jpg',
-    'Moong Dal': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Moong_dal_snack.jpg/800px-Moong_dal_snack.jpg',
-    'Chana Dal': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Chana_dal_fry.jpg/800px-Chana_dal_fry.jpg',
-    'Mini Samosa': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Mini_Samosa.jpg/800px-Mini_Samosa.jpg',
-    'Murukku': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Murukku_South_Indian_Snack.jpg/800px-Murukku_South_Indian_Snack.jpg',
-    'Chakli': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Chakli_Snack.jpg/800px-Chakli_Snack.jpg',
-    'Bhel Puri Mix': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bhel_Puri_Chaat.jpg/800px-Bhel_Puri_Chaat.jpg',
-
-    // Fallbacks (Unsplash unique pools)
-    '__cakesPool': [
-      'photo-1599785209707-a456fc1337bb', 'photo-1586788680434-30d324631ff6', 'photo-1606890737304-57a1ca8a5b62',
-      'photo-1578985545062-69928b1d9587', 'photo-1535141192574-5d4897c12636', 'photo-1464349153735-7db50ed83c84',
-      'photo-1565958011703-44f9829ba187', 'photo-1606313564200-e75d5e30476c', 'photo-1571115177098-24ec42ed204d',
-      'photo-1516738901171-8eb4fc13bd20', 'photo-1544850225-9f7045263062', 'photo-1550617931-e17a7b70dce2',
-      'photo-1495474472287-4d71bcdd2085', 'photo-1582215256331-7482e4828552', 'photo-1571877227200-a0d98ea607e9',
-      'photo-1504113888839-1c8950233dce', 'photo-1519869325930-281384150729', 'photo-1516054120332-5ac5a3597395',
-      'photo-1558301211-0d8c8ddee6ec', 'photo-1582196615556-9188402280d8', 'photo-1551024506-0bccd828d307',
-      'photo-1533134242443-d4fd215305ad', 'photo-1488477181946-6428a0291777', 'photo-1576618148400-f54b8859df8d',
-      'photo-1588195538326-c5b1e9f80a1b', 'photo-1557308535-4421df454839', 'photo-1496116218417-1a781b1c416c',
-      'photo-1505976378723-9726bd5da04c', 'photo-1582716401301-b2407dc7563d', 'photo-1506459225024-1428097a7a18',
-      'photo-1551024601-bec78aea704b', 'photo-1562233237-10a0c5014dca', 'photo-1627834377411-8da5f4f09de1',
-      'photo-1621303837174-89787a7d4729', 'photo-1517433670267-08bbd4be890f', 'photo-1542826438-bd32f43d626f',
-      'photo-1508737027454-e6454ef45afd', 'photo-1534433880262-f47958500d47', 'photo-1614707267537-b85aaf00c4b7',
-      'photo-1542826438-bd32f43d626f', 'photo-1557928203-346764d081f2', 'photo-1606312619070-d48b4c6c2a52',
-      'photo-1551024709-8f23befc6f87', 'photo-1578985545062-69928b1d9587', 'photo-1516738901171-8eb4fc13bd20',
-      'photo-1544850225-9f7045263062', 'photo-1550617931-e17a7b70dce2', 'photo-1495474472287-4d71bcdd2085',
-      'photo-1582215256331-7482e4828552', 'photo-1571877227200-a0d98ea607e9'
-    ],
-    '__drinksPool': [
-      'photo-1544145945-f904253db0ad', 'photo-1513558161293-cdaf765ed2fd', 'photo-1556679343-c7306c1976bc',
-      'photo-1540189549336-e6e99c3679fe', 'photo-1542990253-0d0f5be5f0ed', 'photo-1551024709-8f23befc6f87',
-      'photo-1570197788417-0e93327c63ad', 'photo-1497515114629-f71d768fd07c', 'photo-1517048676732-d65bc937f952',
-      'photo-1517701604599-bb29b565090c', 'photo-1536939459926-301728717817', 'photo-1510626176961-4b57d4fbadff',
-      'photo-1541167760496-1629557bd579', 'photo-1495474472287-4d71bcdd2085', 'photo-1509042239860-f550ce710b93',
-      'photo-1511920170033-f8396924c348', 'photo-1514432324607-a09d9b4aefdd', 'photo-1512568400610-62da28bc8a13',
-      'photo-1525351484163-7529414344d8', 'photo-1444418776041-9c7e33cc5a9c', 'photo-1525351484163-7529414344d8',
-      'photo-1444418776041-9c7e33cc5a9c', 'photo-1544145945-f904253db0ad', 'photo-1513558161293-cdaf765ed2fd',
-      'photo-1556679343-c7306c1976bc', 'photo-1540189549336-e6e99c3679fe', 'photo-1542990253-0d0f5be5f0ed',
-      'photo-1551024709-8f23befc6f87', 'photo-1570197788417-0e93327c63ad', 'photo-1497515114629-f71d768fd07c'
-    ],
-    '__namkinPool': [
-      'photo-1601050690597-df0568f70950', 'photo-1613113073258-7228a012bb36', 'photo-1613113253258-7228a012bb36',
-      'photo-1601050690597-df0568f70950', 'photo-1613113073258-7228a012bb36', 'photo-1613113253258-7228a012bb36',
-      'photo-1601050690597-df0568f70950', 'photo-1613113073258-7228a012bb36', 'photo-1613113253258-7228a012bb36',
-      'photo-1601050690597-df0568f70950', 'photo-1613113073258-7228a012bb36', 'photo-1613113253258-7228a012bb36',
-      'photo-1601050690597-df0568f70950', 'photo-1613113073258-7228a012bb36', 'photo-1613113253258-7228a012bb36'
-    ],
-    '__sweetsFallback': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Laddu_Sweet.JPG/800px-Laddu_Sweet.JPG'
+    "Gulab Jamun": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Rasgulla": "https://images.pexels.com/photos/16005658/pexels-photo-16005658.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Kaju Katli": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Motichoor Laddu": "https://images.pexels.com/photos/27695746/pexels-photo-27695746.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Besan Laddu": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mysore Pak": "https://images.pexels.com/photos/26341215/pexels-photo-26341215.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Soan Papdi": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Jalebi": "https://images.pexels.com/photos/29253305/pexels-photo-29253305.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Imarti": "https://images.pexels.com/photos/27695747/pexels-photo-27695747.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Peda": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Gajar Ka Halwa": "https://images.pexels.com/photos/37153764/pexels-photo-37153764.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Moong Dal Halwa": "https://images.pexels.com/photos/30203314/pexels-photo-30203314.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Rasmalai": "https://images.pexels.com/photos/29699512/pexels-photo-29699512.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Khas Khas Halwa": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chum Chum": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Sandesh": "https://images.pexels.com/photos/26341215/pexels-photo-26341215.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Rabri": "https://images.pexels.com/photos/29684991/pexels-photo-29684991.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Balushahi": "https://images.pexels.com/photos/27695747/pexels-photo-27695747.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Ghevar": "https://images.pexels.com/photos/14775031/pexels-photo-14775031.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Gujiya": "https://images.pexels.com/photos/37106474/pexels-photo-37106474.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Shrikhand": "https://images.pexels.com/photos/29684991/pexels-photo-29684991.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Phirni": "https://images.pexels.com/photos/15820609/pexels-photo-15820609.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Malpua": "https://images.pexels.com/photos/9552567/pexels-photo-9552567.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Lapsi": "https://images.pexels.com/photos/11644812/pexels-photo-11644812.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Kala Jamun": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Boondi Laddu": "https://images.pexels.com/photos/27695746/pexels-photo-27695746.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Dharwad Peda": "https://images.pexels.com/photos/20434731/pexels-photo-20434731.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Agra Pethas": "https://images.pexels.com/photos/11521904/pexels-photo-11521904.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mathura Peda": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Kaju Roll": "https://images.pexels.com/photos/37106473/pexels-photo-37106473.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Anjeer Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Dry Fruit Laddu": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Coconut Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mawa Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Kesar Peda": "https://images.pexels.com/photos/29066270/pexels-photo-29066270.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Champakali": "https://images.pexels.com/photos/26341215/pexels-photo-26341215.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Lobongo Lotika": "https://images.pexels.com/photos/37106474/pexels-photo-37106474.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Patisapta": "https://images.pexels.com/photos/37106473/pexels-photo-37106473.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Narkel Naru": "https://images.pexels.com/photos/27695747/pexels-photo-27695747.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Adhirasam": "https://images.pexels.com/photos/23948798/pexels-photo-23948798.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Ariselu": "https://images.pexels.com/photos/9552567/pexels-photo-9552567.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mysore Pak Premium": "https://images.pexels.com/photos/20586597/pexels-photo-20586597.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Doodh Peda": "https://images.pexels.com/photos/28664618/pexels-photo-28664618.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Badam Halwa": "https://images.pexels.com/photos/15820609/pexels-photo-15820609.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Kaju Pista Roll": "https://images.pexels.com/photos/15801053/pexels-photo-15801053.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chocolate Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Rose Barfi": "https://images.pexels.com/photos/7247318/pexels-photo-7247318.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mango Barfi": "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Saffron Laddu": "https://images.pexels.com/photos/27695746/pexels-photo-27695746.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Black Forest": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Red Velvet": "https://images.pexels.com/photos/12027376/pexels-photo-12027376.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Pineapple Delight": "https://images.pexels.com/photos/20120560/pexels-photo-20120560.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chocolate Truffle": "https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Vanilla Bean": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Butterscotch": "https://images.pexels.com/photos/11145155/pexels-photo-11145155.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Fruit Overload": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Dark Fantasy": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "White Forest": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Strawberry Bliss": "https://images.pexels.com/photos/12027376/pexels-photo-12027376.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mango Tango": "https://images.pexels.com/photos/20120560/pexels-photo-20120560.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Blueberry Glaze": "https://images.pexels.com/photos/2144411/pexels-photo-2144411.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Coffee Mocha": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Caramel Crunch": "https://images.pexels.com/photos/11145155/pexels-photo-11145155.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Tiramisu": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Hazelnut Praline": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Lemon Zest": "https://images.pexels.com/photos/2144411/pexels-photo-2144411.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Pistachio Rose": "https://images.pexels.com/photos/15820609/pexels-photo-15820609.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Rainbow Cake": "https://images.pexels.com/photos/12027376/pexels-photo-12027376.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Omni Chocolate": "https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Belgian Dark": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Swiss Milk": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Ferrero Rocher Special": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "KitKat Overload": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Oreo Crush": "https://images.pexels.com/photos/1414234/pexels-photo-1414234.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Red Wine Velvet": "https://images.pexels.com/photos/12027376/pexels-photo-12027376.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Almond Crunch": "https://images.pexels.com/photos/15820609/pexels-photo-15820609.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Cherry Blossom": "https://images.pexels.com/photos/12027376/pexels-photo-12027376.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Orange Blossom": "https://images.pexels.com/photos/20120560/pexels-photo-20120560.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Honey Cake": "https://images.pexels.com/photos/11145155/pexels-photo-11145155.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Japanese Cheesecake": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "New York Style Cheese": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Opera Cake": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Medovik": "https://images.pexels.com/photos/11145155/pexels-photo-11145155.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Pavlova": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Lamington": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Madeira Cake": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Battenberg": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Victoria Sponge": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Princess Cake": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Sachertorte": "https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Gâteau Basque": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Dobos Torte": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Esterházy Cake": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Schwarzwälder": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "St. Honoré": "https://images.pexels.com/photos/1721932/pexels-photo-1721932.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Charlotte Royale": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Blackcurrant Cake": "https://images.pexels.com/photos/2144411/pexels-photo-2144411.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Passion Fruit Cake": "https://images.pexels.com/photos/25585181/pexels-photo-25585181.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Exotic Lychee": "https://images.pexels.com/photos/27689938/pexels-photo-27689938.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Aloo Bhujia": "https://images.pexels.com/photos/29684988/pexels-photo-29684988.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Bikaneri Bhujia": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Khatta Meetha": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Moong Dal": "https://images.pexels.com/photos/30203314/pexels-photo-30203314.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chana Dal": "https://images.pexels.com/photos/30203314/pexels-photo-30203314.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Masala Peanuts": "https://images.pexels.com/photos/6448483/pexels-photo-6448483.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Cornflakes Mixture": "https://images.pexels.com/photos/37180554/pexels-photo-37180554.png?auto=compress&cs=tinysrgb&w=800",
+    "Soya Sticks": "https://images.pexels.com/photos/343873/pexels-photo-343873.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Mini Samosa": "https://images.pexels.com/photos/8992923/pexels-photo-8992923.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Dry Kachori": "https://images.pexels.com/photos/34949285/pexels-photo-34949285.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Murukku": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chakli": "https://images.pexels.com/photos/18012040/pexels-photo-18012040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Sev Puri Mix": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Bhel Puri Mix": "https://images.pexels.com/photos/29699504/pexels-photo-29699504.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Navratan Mix": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Panchratan Mix": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Potato Wafers": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Banana Chips": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Garlic Sev": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Ratlam Sev": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Longo Sev": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Plain Sev": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Papdi Gathiya": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Bhavnagari Gathiya": "https://images.pexels.com/photos/6485578/pexels-photo-6485578.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Methi Gathiya": "https://images.pexels.com/photos/35156984/pexels-photo-35156984.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Moongfali": "https://images.pexels.com/photos/7090155/pexels-photo-7090155.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Cashew Salted": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Badam Masala": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Pista Salted": "https://images.pexels.com/photos/20727015/pexels-photo-20727015.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Roasted Makhana": "https://images.pexels.com/photos/20556455/pexels-photo-20556455.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Masala Makhana": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Peri Peri Fox Nuts": "https://images.pexels.com/photos/20556452/pexels-photo-20556452.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Cheesy Jowar Puffs": "https://images.pexels.com/photos/26341212/pexels-photo-26341212.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Quinoa Puffs": "https://images.pexels.com/photos/6895775/pexels-photo-6895775.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Corn Puffs": "https://images.pexels.com/photos/24031437/pexels-photo-24031437.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Jackfruit Chips": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Tapioca Chips": "https://images.pexels.com/photos/6485538/pexels-photo-6485538.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Sweet Potato Chips": "https://images.pexels.com/photos/6485538/pexels-photo-6485538.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Beetroot Chips": "https://images.pexels.com/photos/6468551/pexels-photo-6468551.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Veggie Crisps": "https://images.pexels.com/photos/11663127/pexels-photo-11663127.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Gujarati Mix": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Madras Mixture": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Bombay Mix": "https://images.pexels.com/photos/37180553/pexels-photo-37180553.png?auto=compress&cs=tinysrgb&w=800",
+    "Kara Boondi": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Spicy Sev": "https://images.pexels.com/photos/34270742/pexels-photo-34270742.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Onion Murukku": "https://images.pexels.com/photos/32986487/pexels-photo-32986487.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Butter Murukku": "https://images.pexels.com/photos/20206800/pexels-photo-20206800.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Ribbon Pakoda": "https://images.pexels.com/photos/3631685/pexels-photo-3631685.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Thattai": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "Chekkalu": "https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800"
   };
-
-  const getUnsplashUrl = (id) => `https://images.unsplash.com/photo-${id}?w=800&q=80`;
 
   const sweetsNames = [
     'Gulab Jamun', 'Rasgulla', 'Kaju Katli', 'Motichoor Laddu', 'Besan Laddu', 
@@ -113,12 +178,7 @@ const generateProducts = () => {
     'Kaju Pista Roll', 'Chocolate Barfi', 'Rose Barfi', 'Mango Barfi', 'Saffron Laddu'
   ];
   sweetsNames.forEach((name, index) => {
-    let img = exactImages[name] || exactImages['__sweetsFallback'];
-    // For varieties not in exactImages, use unique Unsplash IDs or different Wikimedia thumbnails if possible
-    if (!exactImages[name]) {
-        // Unique fallback logic for sweets to ensure no duplicates
-        img = `https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Laddu_Sweet.JPG/800px-Laddu_Sweet.JPG?v=${index}`;
-    }
+    let img = exactImages[name] || "https://images.pexels.com/photos/9951856/pexels-photo-9951856.jpeg?auto=compress&cs=tinysrgb&w=800";
     products.push({ id: id++, name, category: 'sweets', price: 200 + (index * 10), rating: 4.5 + (Math.random() * 0.5), description: `Delicious handcrafted ${name} made with pure ghee.`, image: img, reviews: [] });
   });
 
@@ -135,8 +195,8 @@ const generateProducts = () => {
     'St. Honoré', 'Charlotte Royale', 'Blackcurrant Cake', 'Passion Fruit Cake', 'Exotic Lychee'
   ];
   cakeNames.forEach((name, index) => {
-    const photoId = exactImages['__cakesPool'][index % exactImages['__cakesPool'].length];
-    products.push({ id: id++, name, category: 'cakes', price: 500 + (index * 20), rating: 4.6 + (Math.random() * 0.4), description: `Premium ${name} cake, freshly baked.`, image: getUnsplashUrl(photoId), reviews: [] });
+    const img = exactImages[name] || "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=800";
+    products.push({ id: id++, name, category: 'cakes', price: 500 + (index * 20), rating: 4.6 + (Math.random() * 0.4), description: `Premium ${name} cake, freshly baked.`, image: img, reviews: [] });
   });
 
   const namkinNames = [
@@ -152,7 +212,7 @@ const generateProducts = () => {
     'Onion Murukku', 'Butter Murukku', 'Ribbon Pakoda', 'Thattai', 'Chekkalu'
   ];
   namkinNames.forEach((name, index) => {
-    let img = exactImages[name] || `https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Bombaymix.jpg/800px-Bombaymix.jpg?v=${index}`;
+    const img = exactImages[name] || "https://images.pexels.com/photos/8992923/pexels-photo-8992923.jpeg?auto=compress&cs=tinysrgb&w=800";
     products.push({ id: id++, name, category: 'namkin', price: 50 + (index * 5), rating: 4.4 + (Math.random() * 0.6), description: `Crispy and delicious ${name}.`, image: img, reviews: [] });
   });
 
@@ -165,7 +225,7 @@ const generateProducts = () => {
     'Zesty Lime Wafers', 'Buffalo Wings Wafers', 'Jalapeno Wafers', 'Ranch Wafers', 'Double Salted Wafers'
   ];
   wafersNames.forEach((name, index) => {
-    products.push({ id: id++, name, category: 'wafers', price: 40 + (index * 2), rating: 4.3 + (Math.random() * 0.7), description: `Thin and crispy ${name}, perfectly seasoned.`, image: `https://images.unsplash.com/photo-1566478431375-704288757ff5?w=800&q=80&v=${index}`, reviews: [] });
+    products.push({ id: id++, name, category: 'wafers', price: 40 + (index * 2), rating: 4.3 + (Math.random() * 0.7), description: `Thin and crispy ${name}, perfectly seasoned.`, image: `https://images.pexels.com/photos/30622220/pexels-photo-30622220.jpeg?auto=compress&cs=tinysrgb&w=800`, reviews: [] });
   });
 
   const biscuitsNames = [
@@ -177,7 +237,7 @@ const generateProducts = () => {
     'Premium Assorted Box', 'Handcrafted Cookies', 'Whole Wheat Biscuits', 'Sugar Free Cookies', 'Multigrain Biscuits'
   ];
   biscuitsNames.forEach((name, index) => {
-    products.push({ id: id++, name, category: 'biscuits', price: 60 + (index * 5), rating: 4.5 + (Math.random() * 0.5), description: `Freshly baked ${name}, melt-in-your-mouth texture.`, image: `https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bourbon_and_Custard_Cream.jpeg/800px-Bourbon_and_Custard_Cream.jpeg?v=${index}`, reviews: [] });
+    products.push({ id: id++, name, category: 'biscuits', price: 60 + (index * 5), rating: 4.5 + (Math.random() * 0.5), description: `Freshly baked ${name}, melt-in-your-mouth texture.`, image: `https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=800`, reviews: [] });
   });
 
   const drinksNames = [
@@ -189,8 +249,7 @@ const generateProducts = () => {
     'Grape Juice', 'Guava Punch', 'Litchi Delight', 'Apple Juice', 'Mixed Fruit Blast'
   ];
   drinksNames.forEach((name, index) => {
-    const photoId = exactImages['__drinksPool'][index % exactImages['__drinksPool'].length];
-    products.push({ id: id++, name, category: 'drinks', price: 80 + (index * 5), rating: 4.6 + (Math.random() * 0.4), description: `Chilled and refreshing ${name}, made fresh to order.`, image: getUnsplashUrl(photoId), reviews: [] });
+    products.push({ id: id++, name, category: 'drinks', price: 80 + (index * 5), rating: 4.6 + (Math.random() * 0.4), description: `Chilled and refreshing ${name}, made fresh to order.`, image: `https://images.pexels.com/photos/29684991/pexels-photo-29684991.jpeg?auto=compress&cs=tinysrgb&w=800`, reviews: [] });
   });
 
   const chocolateNames = [
@@ -199,7 +258,7 @@ const generateProducts = () => {
     'Espresso Shot', 'Peanut Butter Cup', 'Luxury Gold Box', 'Handcrafted Truffles', 'Praline Selection'
   ];
   chocolateNames.forEach((name, index) => {
-    products.push({ id: id++, name, category: 'chocolates', price: 150 + (index * 30), rating: 4.7 + (Math.random() * 0.3), description: `Premium handcrafted ${name}.`, image: `https://images.unsplash.com/photo-1548907040-4baa42d10919?w=800&q=80&v=${index}`, reviews: [] });
+    products.push({ id: id++, name, category: 'chocolates', price: 150 + (index * 30), rating: 4.7 + (Math.random() * 0.3), description: `Premium handcrafted ${name}.`, image: `https://images.pexels.com/photos/65882/pexels-photo-65882.jpeg?auto=compress&cs=tinysrgb&w=800`, reviews: [] });
   });
 
   return products;
