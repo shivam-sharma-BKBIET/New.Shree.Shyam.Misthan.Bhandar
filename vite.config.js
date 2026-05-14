@@ -12,9 +12,5 @@ export default defineConfig({
       }
     }
   },
-  css: {
-    transformer: 'postcss',
-    lightningcss: false,
-  },
   base: '/',
 })
