@@ -98,7 +98,6 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} {footerData?.shopName || "New Shree Shyam Misthan Bhandar"}. All rights reserved.</p>
-        <p className="text-xs text-gray-500 mt-1">Some product images are sourced from Wikimedia Commons & Pexels under Creative Commons licenses.</p>
       </div>
     </footer>
   );
