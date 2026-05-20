@@ -208,7 +208,7 @@ const OrderCard = ({ order, onRefresh }) => {
 };
 
 const TrackOrder = () => {
-  const { user, token, isAuthenticated, loading: authLoading } = useAuth();
+  const { user, token, isAuthenticated, loading: authLoading, logout } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -230,7 +230,14 @@ const TrackOrder = () => {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403 || data.message === 'Invalid token' || data.message === 'Token expired') {
+          logout();
+          throw new Error('Your session has expired. Please log in again.');
+        }
+        throw new Error(data.message);
+      }
       
       const newOrders = data.data || [];
       setOrders(newOrders);
