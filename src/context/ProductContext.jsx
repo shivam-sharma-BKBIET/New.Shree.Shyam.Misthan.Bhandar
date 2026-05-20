@@ -50,14 +50,42 @@ export const ProductProvider = ({ children }) => {
   });
   const [adminAuth, setAdminAuth] = useState({ username: 'admin', password: 'admin123' });
 
+  // Helper to enforce exact category order when loading from DB/Cache
+  const categoryOrderPriority = ['sweets', 'cakes', 'chocolates', 'namkin', 'wafers', 'drinks'];
+  
+  const setCategoriesSorted = (cats) => {
+    if (!cats || cats.length === 0) return;
+    const sorted = [...cats].sort((a, b) => {
+      let idxA = categoryOrderPriority.indexOf(a.id);
+      let idxB = categoryOrderPriority.indexOf(b.id);
+      if (idxA === -1) idxA = 999;
+      if (idxB === -1) idxB = 999;
+      return idxA - idxB;
+    });
+    _setCategories(sorted);
+  };
+
+  // Helper to enforce exact product order based on initial mockData
+  const setProductsSorted = (prods) => {
+    if (!prods || prods.length === 0) return;
+    const sorted = [...prods].sort((a, b) => {
+      let idxA = initialProducts.findIndex(p => p.id === a.id);
+      let idxB = initialProducts.findIndex(p => p.id === b.id);
+      if (idxA === -1) idxA = 9999;
+      if (idxB === -1) idxB = 9999;
+      return idxA - idxB;
+    });
+    setProducts(sorted);
+  };
+
   // Load from cache on mount
   useEffect(() => {
     const cachedData = localStorage.getItem('site_data_cache');
     if (cachedData) {
       try {
         const data = JSON.parse(cachedData);
-        if (data.products) setProducts(data.products);
-        if (data.categories) _setCategories(data.categories);
+        if (data.products) setProductsSorted(data.products);
+        if (data.categories) setCategoriesSorted(data.categories);
         if (data.settings) {
           if (data.settings.hero) setHeroData(data.settings.hero);
           if (data.settings.about) setAboutData(data.settings.about);
@@ -80,8 +108,8 @@ export const ProductProvider = ({ children }) => {
       
       if (response.ok) {
         // Update state
-        if (data.products?.length > 0) setProducts(data.products);
-        if (data.categories?.length > 0) _setCategories(data.categories);
+        if (data.products?.length > 0) setProductsSorted(data.products);
+        if (data.categories?.length > 0) setCategoriesSorted(data.categories);
         if (data.settings) {
           if (data.settings.hero) setHeroData(data.settings.hero);
           if (data.settings.about) setAboutData(data.settings.about);

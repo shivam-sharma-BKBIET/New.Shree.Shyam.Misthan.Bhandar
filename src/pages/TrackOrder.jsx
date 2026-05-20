@@ -41,12 +41,7 @@ const OrderCard = ({ order, onRefresh }) => {
 
   const cfg = getStatusConfig(order.transactionStatus, order.paymentMethod);
 
-  const isCompleted = (step) => {
-    const steps = ['PENDING_VERIFICATION', 'PENDING_ADMIN_APPROVAL', 'VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'];
-    const current = steps.indexOf(order.transactionStatus);
-    const target = steps.indexOf(step);
-    return current >= target;
-  };
+  // Removed unused isCompleted function
 
   const handleCancelOrder = async () => {
     setIsCancelling(true);
@@ -102,7 +97,7 @@ const OrderCard = ({ order, onRefresh }) => {
         <div style={{ padding: '1.5rem' }}>
           {/* Timeline */}
           <div className="amazon-timeline" style={{ marginBottom: '1.5rem' }}>
-            <div className={`timeline-node ${true ? 'completed' : ''}`}>
+            <div className="timeline-node completed">
               <div className="node-icon"><ShoppingBag size={16} /></div>
               <div className="node-content"><h4 style={{ color: 'var(--text-primary)' }}>Order Placed</h4><p style={{ color: 'var(--text-muted)' }}>We received your order</p></div>
             </div>

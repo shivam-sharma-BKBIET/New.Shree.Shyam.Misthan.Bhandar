@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('cart_guest'); // Prevent old guest cart from appearing after logout
   };
 
   return (

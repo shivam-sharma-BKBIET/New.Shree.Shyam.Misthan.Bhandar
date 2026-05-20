@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   const { user } = useAuth();
 
   // Generate a user-specific cart key
-  const getCartKey = (u) => u?.id ? `cart_${u.id}` : 'cart_guest';
+  const getCartKey = (u) => (u?.id || u?._id) ? `cart_${u.id || u._id}` : 'cart_guest';
 
   const loadCart = (key) => {
     try {
@@ -31,13 +31,13 @@ export const CartProvider = ({ children }) => {
     const key = getCartKey(user);
     setCartItems(loadCart(key));
     setIsCartOpen(false);
-  }, [user?.id]); // Only triggers when user ID changes
+  }, [user?.id, user?._id]); // Only triggers when user ID changes
 
   // Save cart whenever items change
   useEffect(() => {
     const key = getCartKey(user);
     localStorage.setItem(key, JSON.stringify(cartItems));
-  }, [cartItems, user?.id]);
+  }, [cartItems, user?.id, user?._id]);
 
   const addToCart = (product, quantity = 1, openDrawer = false) => {
     setCartItems(prev => {
