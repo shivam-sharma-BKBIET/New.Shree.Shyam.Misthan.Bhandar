@@ -28,7 +28,8 @@ export const ProductProvider = ({ children }) => {
     ownerQuote: "\"For us, sweets are more than just food; they are a celebration of life.\"",
     valuesTitle: "The Pillars of Our Excellence",
     valuesSubtitle: "What makes every bite of our sweets special.",
-    experienceYears: "25+"
+    experienceYears: "25+",
+    branchGalleryData: null
   });
   const [footerData, setFooterData] = useState({
     shopName: "New Shree Shyam Misthan Bhandar",

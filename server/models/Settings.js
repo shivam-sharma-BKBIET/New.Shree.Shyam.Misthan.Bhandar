@@ -9,11 +9,18 @@ const settingsSchema = new mongoose.Schema({
   },
   about: {
     story: String,
+    heroBadge: String,
+    heroTitle: String,
+    heritageTitle: String,
     heritageText: String,
     heritageImage: String,
     ownerImage: String,
     ownerName: String,
-    ownerQuote: String
+    ownerQuote: String,
+    valuesTitle: String,
+    valuesSubtitle: String,
+    experienceYears: String,
+    branchGalleryData: mongoose.Schema.Types.Mixed
   },
   footer: {
     shopName: String,

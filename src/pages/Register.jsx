@@ -21,6 +21,36 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOtpLoading, setIsOtpLoading] = useState(false);
 
+  // Google Sign-in Extra Phone Flow States
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const [pendingGoogleUser, setPendingGoogleUser] = useState(null);
+  const [googlePhoneInput, setGooglePhoneInput] = useState('');
+  const [isPhoneSubmitting, setIsPhoneSubmitting] = useState(false);
+
+  const handleGooglePhoneSubmit = async () => {
+    if (googlePhoneInput.length !== 10) return;
+    setIsPhoneSubmitting(true);
+    try {
+      await fetch(getApiUrl('/api/auth/update-phone'), {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${pendingGoogleUser.token}`
+        },
+        body: JSON.stringify({ phone: googlePhoneInput })
+      });
+      
+      const updatedUser = { ...pendingGoogleUser.user, phone: googlePhoneInput };
+      login(updatedUser, pendingGoogleUser.token);
+      navigate(redirectUrl);
+    } catch (err) {
+      setError(err.message || 'Failed to update phone number');
+      setShowPhoneModal(false);
+    } finally {
+      setIsPhoneSubmitting(false);
+    }
+  };
+
   const handleSendOTP = async () => {
     if (!formData.email || !formData.email.includes('@')) {
       setError('Please enter a valid email address.');
@@ -245,28 +275,16 @@ const Register = () => {
                   if (!response.ok) throw new Error(data.message || 'Google registration failed');
                   
                   if (data.user.phone === '0000000000') {
-                    const userPhone = window.prompt("Welcome! Please enter your mobile number for order delivery:");
-                    if (userPhone && userPhone.length === 10) {
-                      await fetch(getApiUrl('/api/auth/update-phone'), {
-                        method: 'PUT',
-                        headers: { 
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${data.token}`
-                        },
-                        body: JSON.stringify({ phone: userPhone })
-                      });
-                      data.user.phone = userPhone;
-                    } else {
-                      alert("Valid phone number is required for ordering.");
-                      return;
-                    }
+                    setPendingGoogleUser({ user: data.user, token: data.token });
+                    setShowPhoneModal(true);
+                    setIsLoading(false);
+                    return; // Wait for modal submission
                   }
 
                   login(data.user, data.token);
                   navigate(redirectUrl);
                 } catch (err) {
                   setError(err.message);
-                } finally {
                   setIsLoading(false);
                 }
               }}
@@ -280,6 +298,44 @@ const Register = () => {
           </div>
         </div>
       </div>
+
+      {/* Modern Phone Number Modal for Google Login */}
+      {showPhoneModal && (
+        <div className="phone-modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px' }}>
+          <div className="auth-card phone-modal-card" style={{ maxWidth: '420px', width: '100%', animation: 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+            <div className="auth-header" style={{ marginBottom: '25px' }}>
+              <div className="auth-logo-icon" style={{ margin: '0 auto 15px', background: 'var(--primary)', color: 'white' }}>NS</div>
+              <h3 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '10px' }}>Welcome! <span>One Last Step</span></h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Please provide your phone number for secure order tracking and delivery updates.</p>
+            </div>
+            
+            <div className="auth-group">
+              <label>Mobile Number</label>
+              <div className="auth-input-wrapper">
+                <Phone size={18} className="auth-input-icon" />
+                <input 
+                  type="tel" 
+                  className="auth-input"
+                  placeholder="Enter 10-digit number"
+                  maxLength={10}
+                  value={googlePhoneInput}
+                  onChange={(e) => setGooglePhoneInput(e.target.value.replace(/\D/g, ''))}
+                  autoFocus
+                />
+              </div>
+            </div>
+            
+            <button 
+              className="btn btn-primary btn-auth" 
+              style={{ marginTop: '25px' }}
+              disabled={googlePhoneInput.length !== 10 || isPhoneSubmitting}
+              onClick={handleGooglePhoneSubmit}
+            >
+              {isPhoneSubmitting ? <Loader2 className="animate-spin" size={24} /> : <>Complete Profile <ArrowRight size={18} /></>}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import {
   Eye, EyeOff
 } from 'lucide-react';
 import { getApiUrl } from '../config';
+import { branchGalleryData as defaultBranchGalleryData } from './About';
 import './Admin.css';
 
 const ADMIN_KEY = import.meta.env.VITE_ADMIN_KEY || 'NewShyamSecretKey2026';
@@ -215,6 +216,7 @@ const Admin = () => {
 
   // About Form State
   const [aboutForm, setAboutForm] = useState({ ...aboutData });
+  const [adminActiveBranch, setAdminActiveBranch] = useState('sultana');
   
   // Hero Form State
   const [heroForm, setHeroForm] = useState({ ...heroData });
@@ -249,6 +251,16 @@ const Admin = () => {
   useEffect(() => {
     setDeliveryForm({ ...deliverySettings });
   }, [deliverySettings.perKmCharge, deliverySettings.shopLat]);
+
+  // Sync aboutForm when aboutData loads from context or DB
+  useEffect(() => {
+    if (aboutData) {
+      setAboutForm({
+        ...aboutData,
+        branchGalleryData: aboutData.branchGalleryData || defaultBranchGalleryData
+      });
+    }
+  }, [aboutData]);
 
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -306,6 +318,87 @@ const Admin = () => {
     e.preventDefault();
     updateAbout(aboutForm);
     showSuccess();
+  };
+
+  const handleBranchTextChange = (branchKey, field, value) => {
+    setAboutForm(prev => {
+      const branchData = prev.branchGalleryData || { ...defaultBranchGalleryData };
+      const currentBranch = branchData[branchKey] || { name: '', tag: '', description: '', items: [] };
+      return {
+        ...prev,
+        branchGalleryData: {
+          ...branchData,
+          [branchKey]: {
+            ...currentBranch,
+            [field]: value
+          }
+        }
+      };
+    });
+  };
+
+  const handleBranchItemChange = (branchKey, index, field, value) => {
+    setAboutForm(prev => {
+      const branchData = prev.branchGalleryData || { ...defaultBranchGalleryData };
+      const currentBranch = branchData[branchKey] || { name: '', tag: '', description: '', items: [] };
+      const updatedItems = [...(currentBranch.items || [])];
+      if (updatedItems[index]) {
+        updatedItems[index] = { ...updatedItems[index], [field]: value };
+      }
+      return {
+        ...prev,
+        branchGalleryData: {
+          ...branchData,
+          [branchKey]: {
+            ...currentBranch,
+            items: updatedItems
+          }
+        }
+      };
+    });
+  };
+
+  const addBranchItem = (branchKey) => {
+    setAboutForm(prev => {
+      const branchData = prev.branchGalleryData || { ...defaultBranchGalleryData };
+      const currentBranch = branchData[branchKey] || { name: '', tag: '', description: '', items: [] };
+      const newItem = {
+        id: 'item_' + Date.now(),
+        type: 'image',
+        title: '',
+        description: '',
+        url: '',
+        thumbnail: ''
+      };
+      return {
+        ...prev,
+        branchGalleryData: {
+          ...branchData,
+          [branchKey]: {
+            ...currentBranch,
+            items: [...(currentBranch.items || []), newItem]
+          }
+        }
+      };
+    });
+  };
+
+  const deleteBranchItem = (branchKey, index) => {
+    setAboutForm(prev => {
+      const branchData = prev.branchGalleryData || { ...defaultBranchGalleryData };
+      const currentBranch = branchData[branchKey] || { name: '', tag: '', description: '', items: [] };
+      const updatedItems = (currentBranch.items || []).filter((_, i) => i !== index);
+      return {
+        ...prev,
+        branchGalleryData: {
+          ...branchData,
+          [branchKey]: {
+            ...currentBranch,
+            items: updatedItems
+          }
+        }
+      };
+    });
   };
 
   const handleAuthSubmit = (e) => {
@@ -871,6 +964,164 @@ const Admin = () => {
                     />
                   </div>
                 </div>
+
+                {/* Branch Gallery Editor Section */}
+                <div className="branch-gallery-editor" style={{ marginTop: '30px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
+                  <h4 style={{ fontSize: '1.2rem', marginBottom: '15px', color: '#2d3436' }}>Branch Galleries & Media</h4>
+                  
+                  {/* Branch Tab Switching inside editor */}
+                  <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                    <button 
+                      type="button" 
+                      onClick={() => setAdminActiveBranch('sultana')}
+                      className={`btn ${adminActiveBranch === 'sultana' ? 'btn-primary' : ''}`}
+                      style={{ fontSize: '0.9rem', padding: '8px 16px' }}
+                    >
+                      Sultana Branch (Heritage)
+                    </button>
+                    <button 
+                      type="button" 
+                      onClick={() => setAdminActiveBranch('jhunjhunu')}
+                      className={`btn ${adminActiveBranch === 'jhunjhunu' ? 'btn-primary' : ''}`}
+                      style={{ fontSize: '0.9rem', padding: '8px 16px' }}
+                    >
+                      Jhunjhunu Branch (Flagship)
+                    </button>
+                  </div>
+
+                  {/* Branch Details */}
+                  {(() => {
+                    const branchKey = adminActiveBranch;
+                    const branchData = (aboutForm.branchGalleryData && aboutForm.branchGalleryData[branchKey]) 
+                      ? aboutForm.branchGalleryData[branchKey] 
+                      : defaultBranchGalleryData[branchKey];
+
+                    return (
+                      <div key={branchKey} className="branch-editor-card admin-card" style={{ padding: '20px', borderRadius: '8px', marginBottom: '20px', border: '1px solid var(--border-color)' }}>
+                        <h5 style={{ fontSize: '1.05rem', marginBottom: '15px', textTransform: 'capitalize' }}>
+                          Editing {branchKey} branch details & gallery
+                        </h5>
+                        
+                        <div className="form-group">
+                          <label>Branch Store Name</label>
+                          <input 
+                            type="text" 
+                            value={branchData.name || ''} 
+                            onChange={(e) => handleBranchTextChange(branchKey, 'name', e.target.value)}
+                          />
+                        </div>
+
+                        <div className="form-row">
+                          <div className="form-group">
+                            <label>Branch Tag / Estd. Year</label>
+                            <input 
+                              type="text" 
+                              value={branchData.tag || ''} 
+                              onChange={(e) => handleBranchTextChange(branchKey, 'tag', e.target.value)}
+                            />
+                          </div>
+                          <div className="form-group" style={{ flex: 2 }}>
+                            <label>Description</label>
+                            <textarea 
+                              value={branchData.description || ''} 
+                              onChange={(e) => handleBranchTextChange(branchKey, 'description', e.target.value)}
+                              rows="2"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Media Items */}
+                        <div style={{ marginTop: '25px' }}>
+                          <h6 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>Media Items ({branchData.items?.length || 0})</span>
+                            <button 
+                              type="button" 
+                              onClick={() => addBranchItem(branchKey)}
+                              className="btn btn-primary"
+                              style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                            >
+                              + Add Photo/Video
+                            </button>
+                          </h6>
+
+                          {(!branchData.items || branchData.items.length === 0) ? (
+                            <p style={{ fontStyle: 'italic', fontSize: '0.9rem', opacity: 0.7 }}>No media items added yet. Click "Add Photo/Video" above to add items.</p>
+                          ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                              {branchData.items.map((item, index) => (
+                                <div key={item.id || index} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '15px', position: 'relative' }}>
+                                  <button 
+                                    type="button" 
+                                    onClick={() => deleteBranchItem(branchKey, index)}
+                                    style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent', border: 'none', color: '#d63031', cursor: 'pointer' }}
+                                    title="Delete item"
+                                  >
+                                    <X size={18} />
+                                  </button>
+
+                                  <div className="form-row" style={{ marginBottom: '10px' }}>
+                                    <div className="form-group" style={{ flex: '0 0 150px' }}>
+                                      <label>Media Type</label>
+                                      <select 
+                                        value={item.type || 'image'} 
+                                        onChange={(e) => handleBranchItemChange(branchKey, index, 'type', e.target.value)}
+                                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+                                      >
+                                        <option value="image">Photo</option>
+                                        <option value="video">Video</option>
+                                      </select>
+                                    </div>
+                                    <div className="form-group">
+                                      <label>Title</label>
+                                      <input 
+                                        type="text" 
+                                        value={item.title || ''} 
+                                        onChange={(e) => handleBranchItemChange(branchKey, index, 'title', e.target.value)}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="form-group" style={{ marginBottom: '10px' }}>
+                                    <label>Description</label>
+                                    <input 
+                                      type="text" 
+                                      value={item.description || ''} 
+                                      onChange={(e) => handleBranchItemChange(branchKey, index, 'description', e.target.value)}
+                                    />
+                                  </div>
+
+                                  <div className="form-row">
+                                    <div className="form-group">
+                                      <label>{item.type === 'video' ? 'Video File URL' : 'Photo Image URL'}</label>
+                                      <input 
+                                        type="text" 
+                                        value={item.url || ''} 
+                                        onChange={(e) => handleBranchItemChange(branchKey, index, 'url', e.target.value)}
+                                        placeholder={item.type === 'video' ? 'e.g. https://domain.com/video.mp4' : 'e.g. https://domain.com/photo.jpg'}
+                                      />
+                                    </div>
+                                    {item.type === 'video' && (
+                                      <div className="form-group">
+                                        <label>Video Thumbnail Image URL</label>
+                                        <input 
+                                          type="text" 
+                                          value={item.thumbnail || ''} 
+                                          onChange={(e) => handleBranchItemChange(branchKey, index, 'thumbnail', e.target.value)}
+                                          placeholder="e.g. https://domain.com/thumbnail.jpg"
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+
                 <button type="submit" className="btn btn-primary"><Save size={18} /> Update Content</button>
               </form>
             </div>

@@ -1,4 +1,5 @@
 import express from 'express';
+// Force server restart to apply schema updates
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
