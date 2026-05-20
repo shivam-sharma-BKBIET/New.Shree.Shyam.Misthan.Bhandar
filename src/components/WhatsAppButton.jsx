@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { MessageCircle, X, Phone, User } from 'lucide-react';
+import { useProducts } from '../context/ProductContext';
 import './WhatsAppButton.css';
 
 const WhatsAppButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const numbers = [
+  const { whatsappNumbers } = useProducts();
+  const numbers = whatsappNumbers?.length > 0 ? whatsappNumbers : [
     { label: 'Support 1', phone: '9828710346' },
     { label: 'Support 2', phone: '9928349207' }
   ];
   
-  const defaultMessage = "Hello Sweet Delight! I'd like to inquire about your products.";
+  const defaultMessage = "Hello! I'd like to inquire about your products.";
 
   const getWhatsappUrl = (phone) => {
     return `https://wa.me/91${phone}?text=${encodeURIComponent(defaultMessage)}`;

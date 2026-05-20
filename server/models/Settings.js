@@ -39,7 +39,8 @@ const settingsSchema = new mongoose.Schema({
   adminAuth: {
     username: { type: String, default: 'admin' },
     password: { type: String, default: 'admin123' }
-  }
+  },
+  whatsappNumbers: [{ label: String, phone: String }]
 }, { timestamps: true });
 
 export default mongoose.model('Settings', settingsSchema);

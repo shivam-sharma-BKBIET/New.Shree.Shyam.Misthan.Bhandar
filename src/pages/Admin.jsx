@@ -16,7 +16,8 @@ const Admin = () => {
     products, addProduct, updateProduct, deleteProduct, categories,
     aboutData, updateAbout, adminAuth, updateAuth, heroData, updateHero,
     footerData, updateFooter, addCategory, updateCategory, deleteCategory,
-    deleteReview, deliveryCharge, updateDeliveryCharge, deliverySettings, updateDeliverySettings
+    deleteReview, deliveryCharge, updateDeliveryCharge, deliverySettings, updateDeliverySettings,
+    whatsappNumbers, updateWhatsappNumbers
   } = useProducts();
   
   const [activeTab, setActiveTab] = useState('orders');
@@ -235,6 +236,12 @@ const Admin = () => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [deliveryChargeInput, setDeliveryChargeInput] = useState(deliveryCharge);
   const [deliveryForm, setDeliveryForm] = useState({ ...deliverySettings });
+  const [waForm, setWaForm] = useState(whatsappNumbers || [{ label: 'Support 1', phone: '' }, { label: 'Support 2', phone: '' }]);
+
+  // Sync waForm when whatsappNumbers loads from DB
+  useEffect(() => {
+    if (whatsappNumbers?.length > 0) setWaForm(whatsappNumbers);
+  }, [whatsappNumbers?.length]);
 
   // Sync authForm when adminAuth loads from context
   useEffect(() => {
@@ -1328,6 +1335,57 @@ const Admin = () => {
                 
                 <button type="submit" className="btn btn-primary mt-4"><Save size={18} /> Update Content</button>
               </form>
+            </div>
+
+            {/* WhatsApp Numbers Editor */}
+            <div className="admin-section" style={{ marginTop: '2rem' }}>
+              <div className="admin-controls">
+                <h3>📱 WhatsApp Numbers</h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: '4px 0 0' }}>Jo numbers "Chat with us" popup mein dikhte hain</p>
+              </div>
+              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {waForm.map((entry, idx) => (
+                  <div key={idx} style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <input
+                      type="text"
+                      placeholder="Label (e.g. Support 1)"
+                      value={entry.label}
+                      onChange={(e) => {
+                        const updated = [...waForm];
+                        updated[idx] = { ...updated[idx], label: e.target.value };
+                        setWaForm(updated);
+                      }}
+                      style={{ flex: 1, minWidth: '120px', padding: '10px 14px', borderRadius: '10px', border: '1.5px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.95rem' }}
+                    />
+                    <input
+                      type="tel"
+                      placeholder="10-digit number (e.g. 9828710346)"
+                      maxLength={10}
+                      value={entry.phone}
+                      onChange={(e) => {
+                        const updated = [...waForm];
+                        updated[idx] = { ...updated[idx], phone: e.target.value.replace(/\D/g, '') };
+                        setWaForm(updated);
+                      }}
+                      style={{ flex: 2, minWidth: '180px', padding: '10px 14px', borderRadius: '10px', border: '1.5px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.95rem' }}
+                    />
+                    <button
+                      onClick={() => setWaForm(waForm.filter((_, i) => i !== idx))}
+                      style={{ padding: '8px 14px', borderRadius: '8px', border: 'none', background: '#fef2f2', color: '#dc2626', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem' }}
+                    >Remove</button>
+                  </div>
+                ))}
+                <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                  <button
+                    onClick={() => setWaForm([...waForm, { label: `Support ${waForm.length + 1}`, phone: '' }])}
+                    style={{ padding: '9px 18px', borderRadius: '10px', border: '1.5px dashed var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600' }}
+                  >+ Add Number</button>
+                  <button
+                    onClick={() => { updateWhatsappNumbers(waForm); showSuccess(); }}
+                    style={{ padding: '9px 22px', borderRadius: '10px', border: 'none', background: '#25d366', color: '#fff', cursor: 'pointer', fontWeight: '700', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >💾 Save WhatsApp Numbers</button>
+                </div>
+              </div>
             </div>
           </div>
         )}

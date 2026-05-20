@@ -49,6 +49,10 @@ export const ProductProvider = ({ children }) => {
     shopLng: 75.0
   });
   const [adminAuth, setAdminAuth] = useState({ username: 'admin', password: 'admin123' });
+  const [whatsappNumbers, setWhatsappNumbers] = useState([
+    { label: 'Support 1', phone: '9828710346' },
+    { label: 'Support 2', phone: '9928349207' }
+  ]);
 
   // Helper to enforce exact category order when loading from DB/Cache
   const categoryOrderPriority = ['sweets', 'cakes', 'chocolates', 'namkin', 'wafers', 'drinks'];
@@ -92,6 +96,7 @@ export const ProductProvider = ({ children }) => {
           if (data.settings.footer) setFooterData(data.settings.footer);
           if (data.settings.deliveryCharge !== undefined) setDeliveryCharge(data.settings.deliveryCharge);
           if (data.settings.adminAuth) setAdminAuth(data.settings.adminAuth);
+          if (data.settings.whatsappNumbers?.length > 0) setWhatsappNumbers(data.settings.whatsappNumbers);
           setDeliverySettings(prev => ({ ...prev, ...data.settings }));
         }
         setIsLoading(false); // Immediate activation if cache exists
@@ -116,6 +121,7 @@ export const ProductProvider = ({ children }) => {
           if (data.settings.footer) setFooterData(data.settings.footer);
           if (data.settings.deliveryCharge !== undefined) setDeliveryCharge(data.settings.deliveryCharge);
           if (data.settings.adminAuth) setAdminAuth(data.settings.adminAuth);
+          if (data.settings.whatsappNumbers?.length > 0) setWhatsappNumbers(data.settings.whatsappNumbers);
           setDeliverySettings(prev => ({
             perKmCharge:         data.settings.perKmCharge         ?? prev.perKmCharge,
             minDeliveryCharge:   data.settings.minDeliveryCharge   ?? prev.minDeliveryCharge,
@@ -384,6 +390,19 @@ export const ProductProvider = ({ children }) => {
     }));
   };
 
+  const updateWhatsappNumbers = async (numbers) => {
+    setWhatsappNumbers(numbers);
+    try {
+      await fetch(getApiUrl('/api/site/settings'), {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': import.meta.env.VITE_ADMIN_KEY },
+        body: JSON.stringify({ whatsappNumbers: numbers })
+      });
+    } catch (error) {
+      console.error('ProductContext error:', error);
+    }
+  };
+
   return (
     <ProductContext.Provider value={{ 
       products, 
@@ -409,7 +428,9 @@ export const ProductProvider = ({ children }) => {
       addCategory,
       updateCategory,
       deleteCategory,
-      updateAuth
+      updateAuth,
+      whatsappNumbers,
+      updateWhatsappNumbers
     }}>
       {children}
     </ProductContext.Provider>
