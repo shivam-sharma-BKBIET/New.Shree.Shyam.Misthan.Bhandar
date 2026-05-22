@@ -99,39 +99,73 @@ const OrderCard = ({ order, onRefresh }) => {
         <div style={{ padding: '1.5rem' }}>
           {/* Timeline */}
           <div className="amazon-timeline" style={{ marginBottom: '1.5rem' }}>
+            {/* Step 1: Order Placed - always completed */}
             <div className="timeline-node completed">
-              <div className="node-icon"><ShoppingBag size={16} /></div>
-              <div className="node-content"><h4 style={{ color: 'var(--text-primary)' }}>Order Placed</h4><p style={{ color: 'var(--text-muted)' }}>We received your order</p></div>
+              <div className="node-icon"><CheckCircle size={18} /></div>
+              <div className="node-content"><h4 style={{ color: '#27ae60' }}>Order Placed</h4><p style={{ color: 'var(--text-muted)' }}>We received your order</p></div>
             </div>
             <div className="timeline-connector completed"></div>
-            <div className={`timeline-node ${['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) ? 'completed' : 'active'}`}>
-              <div className="node-icon"><CreditCard size={16} /></div>
-              <div className="node-content">
-                <h4 style={{ color: 'var(--text-primary)' }}>{order.paymentMethod?.toLowerCase() === 'cod' ? 'Order Verification' : 'Payment Verification'}</h4>
-                <p style={{ color: order.transactionStatus === 'PAYMENT_REJECTED' ? '#dc2626' : 'var(--text-muted)' }}>
-                  {['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) 
-                    ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order confirmed' : 'Payment confirmed') 
-                    : (order.transactionStatus === 'PAYMENT_REJECTED' 
-                        ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order rejected' : 'Payment rejected')
-                        : (order.paymentMethod?.toLowerCase() === 'cod' ? 'Admin is verifying your order' : 'Admin is verifying your payment'))}
-                </p>
-              </div>
-            </div>
+
+            {/* Step 2: Payment Verification */}
+            {(() => {
+              const paymentDone = ['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus);
+              const paymentRejected = order.transactionStatus === 'PAYMENT_REJECTED';
+              return (
+                <div className={`timeline-node ${paymentDone ? 'completed' : 'active'}`}>
+                  <div className="node-icon">
+                    {paymentDone ? <CheckCircle size={18} /> : <CreditCard size={16} />}
+                  </div>
+                  <div className="node-content">
+                    <h4 style={{ color: paymentDone ? '#27ae60' : 'var(--text-primary)' }}>
+                      {order.paymentMethod?.toLowerCase() === 'cod' ? 'Order Verification' : 'Payment Verification'}
+                    </h4>
+                    <p style={{ color: paymentRejected ? '#dc2626' : 'var(--text-muted)' }}>
+                      {paymentDone
+                        ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order confirmed ✓' : 'Payment confirmed ✓')
+                        : (paymentRejected
+                            ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order rejected' : 'Payment rejected')
+                            : (order.paymentMethod?.toLowerCase() === 'cod' ? 'Admin is verifying your order' : 'Admin is verifying your payment'))}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
             <div className={`timeline-connector ${['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) ? 'completed' : ''}`}></div>
-            <div className={`timeline-node ${order.deliveryDate || order.transactionStatus === 'DELIVERED' ? 'completed' : ''}`}>
-              <div className="node-icon"><Package size={16} /></div>
-              <div className="node-content">
-                <h4 style={{ color: 'var(--text-primary)' }}>Order Scheduled</h4>
-                {order.deliveryDate
-                  ? <p style={{ color: '#27ae60', fontWeight: '500' }}>📅 {order.deliveryDate} at {order.deliveryTime}</p>
-                  : <p style={{ color: 'var(--text-muted)' }}>Awaiting scheduling</p>}
-              </div>
-            </div>
+
+            {/* Step 3: Order Scheduled */}
+            {(() => {
+              const scheduled = !!(order.deliveryDate || order.transactionStatus === 'DELIVERED');
+              return (
+                <div className={`timeline-node ${scheduled ? 'completed' : ''}`}>
+                  <div className="node-icon">
+                    {scheduled ? <CheckCircle size={18} /> : <Package size={16} />}
+                  </div>
+                  <div className="node-content">
+                    <h4 style={{ color: scheduled ? '#27ae60' : 'var(--text-primary)' }}>Order Scheduled</h4>
+                    {order.deliveryDate
+                      ? <p style={{ color: '#27ae60', fontWeight: '500' }}>📅 {order.deliveryDate} at {order.deliveryTime}</p>
+                      : <p style={{ color: 'var(--text-muted)' }}>Awaiting scheduling</p>}
+                  </div>
+                </div>
+              );
+            })()}
             <div className={`timeline-connector ${order.transactionStatus === 'DELIVERED' ? 'completed' : ''}`}></div>
-            <div className={`timeline-node ${order.transactionStatus === 'DELIVERED' ? 'completed' : ''}`}>
-              <div className="node-icon"><CheckCircle size={16} /></div>
-              <div className="node-content"><h4 style={{ color: 'var(--text-primary)' }}>Delivered</h4><p style={{ color: 'var(--text-muted)' }}>{order.transactionStatus === 'DELIVERED' ? 'Delivered successfully 🎉' : 'Pending'}</p></div>
-            </div>
+
+            {/* Step 4: Delivered */}
+            {(() => {
+              const delivered = order.transactionStatus === 'DELIVERED';
+              return (
+                <div className={`timeline-node ${delivered ? 'completed' : ''}`}>
+                  <div className="node-icon">
+                    {delivered ? <CheckCircle size={18} /> : <CheckCircle size={16} />}
+                  </div>
+                  <div className="node-content">
+                    <h4 style={{ color: delivered ? '#27ae60' : 'var(--text-primary)' }}>Delivered</h4>
+                    <p style={{ color: 'var(--text-muted)' }}>{delivered ? 'Delivered successfully 🎉' : 'Pending'}</p>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Items */}
