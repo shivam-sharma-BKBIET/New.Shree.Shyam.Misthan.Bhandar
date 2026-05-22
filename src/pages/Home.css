@@ -19,8 +19,8 @@
   align-items: center;
   text-align: center;
   background: var(--surface);
-  padding: 3rem;
-  border-radius: 4px;
+  padding: 1.5rem;
+  border-radius: 8px;
   border: 1px solid var(--gold-primary);
   position: relative;
   box-shadow: 
@@ -33,11 +33,11 @@
 
 .hero-image-frame {
   width: 100%;
-  max-width: 600px;
-  margin-bottom: 2.5rem;
+  max-width: 100%;
+  margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
-  border: 1px solid #eee;
+  border-radius: 4px;
 }
 
 .hero-image {
@@ -179,7 +179,7 @@
     font-size: 1.1rem;
   }
   .hero-plaque {
-    padding: 1.5rem;
+    padding: 1rem;
     box-shadow: 
       0 0 0 4px var(--surface),
       0 0 0 6px var(--gold-primary),
