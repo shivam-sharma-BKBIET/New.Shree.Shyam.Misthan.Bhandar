@@ -227,8 +227,10 @@ const Admin = () => {
   
   // Category Form State
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoryImage, setNewCategoryImage] = useState('');
   const [editingCatId, setEditingCatId] = useState(null);
   const [editCatName, setEditCatName] = useState('');
+  const [editCatImage, setEditCatImage] = useState('');
   
   // Auth Form State
   const [authForm, setAuthForm] = useState({ username: '', password: '' });
@@ -433,21 +435,24 @@ const Admin = () => {
   const handleAddCategory = (e) => {
     e.preventDefault();
     if(newCategoryName.trim() === '') return;
-    addCategory(newCategoryName.trim());
+    addCategory(newCategoryName.trim(), newCategoryImage.trim());
     setNewCategoryName('');
+    setNewCategoryImage('');
     showSuccess();
   };
 
   const startEditCat = (cat) => {
     setEditingCatId(cat.id);
     setEditCatName(cat.name);
+    setEditCatImage(cat.image || '');
   };
   
   const saveEditCat = () => {
     if (editCatName.trim() === '') return;
-    updateCategory(editingCatId, editCatName.trim());
+    updateCategory(editingCatId, editCatName.trim(), editCatImage.trim());
     setEditingCatId(null);
     setEditCatName('');
+    setEditCatImage('');
     showSuccess();
   };
 
@@ -1141,13 +1146,20 @@ const Admin = () => {
             <div className="admin-card">
               <h3>Manage Categories</h3>
               
-              <div className="admin-form" style={{ display: 'flex', gap: '10px', marginBottom: '30px', alignItems: 'center' }}>
+              <div className="admin-form" style={{ display: 'flex', gap: '10px', marginBottom: '30px', alignItems: 'center', flexWrap: 'wrap' }}>
                 <input 
                   type="text" 
                   placeholder="New Category Name (e.g. Snacks)..."
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, minWidth: '150px' }}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Image URL (e.g. https://example.com/img.jpg)"
+                  value={newCategoryImage}
+                  onChange={(e) => setNewCategoryImage(e.target.value)}
+                  style={{ flex: 2, minWidth: '200px' }}
                 />
                 <button type="button" onClick={handleAddCategory} className="btn btn-primary" style={{ whiteSpace: 'nowrap' }}>
                   <Plus size={18} /> Add Category
@@ -1173,7 +1185,15 @@ const Admin = () => {
                                 type="text" 
                                 value={editCatName} 
                                 onChange={(e) => setEditCatName(e.target.value)} 
+                                style={{ width: '100%', padding: '6px 12px', border: '1.5px solid #e1e1e1', borderRadius: '8px', outline: 'none', marginBottom: '6px' }}
+                                placeholder="Category Name"
+                              />
+                              <input 
+                                type="text" 
+                                value={editCatImage} 
+                                onChange={(e) => setEditCatImage(e.target.value)} 
                                 style={{ width: '100%', padding: '6px 12px', border: '1.5px solid #e1e1e1', borderRadius: '8px', outline: 'none' }}
+                                placeholder="Image URL (e.g. https://example.com/img.jpg)"
                               />
                             </td>
                             <td>
