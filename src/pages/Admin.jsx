@@ -989,7 +989,7 @@ const Admin = () => {
                       className={`btn ${adminActiveBranch === 'sultana' ? 'btn-primary' : ''}`}
                       style={{ fontSize: '0.9rem', padding: '8px 16px' }}
                     >
-                      Sultana Branch (Heritage)
+                      {aboutForm.branchGalleryData?.sultana?.name || defaultBranchGalleryData?.sultana?.name || 'Sultana Branch'}
                     </button>
                     <button 
                       type="button" 
@@ -997,7 +997,7 @@ const Admin = () => {
                       className={`btn ${adminActiveBranch === 'jhunjhunu' ? 'btn-primary' : ''}`}
                       style={{ fontSize: '0.9rem', padding: '8px 16px' }}
                     >
-                      Jhunjhunu Branch (Flagship)
+                      {aboutForm.branchGalleryData?.jhunjhunu?.name || defaultBranchGalleryData?.jhunjhunu?.name || 'Jhunjhunu Branch'}
                     </button>
                   </div>
 
