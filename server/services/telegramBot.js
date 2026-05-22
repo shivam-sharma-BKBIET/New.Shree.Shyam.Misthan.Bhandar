@@ -22,14 +22,14 @@ if (token && !token.includes('your_bot')) {
       global.tgBot = new TelegramBot(token, { polling: false });
       
       // Auto-set Webhook in production
-      const baseUrl = process.env.BASE_URL;
+      const baseUrl = process.env.BASE_URL || process.env.RENDER_EXTERNAL_URL;
       if (baseUrl && !baseUrl.includes('localhost')) {
         const webhookUrl = `${baseUrl}/api/telegram/webhook`;
         global.tgBot.setWebHook(webhookUrl)
           .then(() => console.log(`✅ Telegram Webhook set to: ${webhookUrl}`))
           .catch(err => console.error('❌ Telegram Webhook Error:', err.message));
       } else {
-        console.warn('⚠️ [TELEGRAM WARNING] BASE_URL not set for production webhook! Buttons will NOT work.');
+        console.warn('⚠️ [TELEGRAM WARNING] BASE_URL and RENDER_EXTERNAL_URL not set for production webhook! Buttons will NOT work.');
       }
     }
 

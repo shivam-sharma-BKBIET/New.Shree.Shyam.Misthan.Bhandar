@@ -275,16 +275,16 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  const addCategory = async (name) => {
+  const addCategory = async (name, image = '') => {
     const id = name.toLowerCase().replace(/\s+/g, '-');
     if (!categories.find(c => c.id === id)) {
-      const newCats = [...categories, { id, name, icon: '🏷️' }];
+      const newCats = [...categories, { id, name, image, icon: '🏷️' }];
       _setCategories(newCats);
       try {
         await fetch(getApiUrl('/api/site/categories'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-admin-key': import.meta.env.VITE_ADMIN_KEY },
-          body: JSON.stringify({ id, name, icon: '🏷️' })
+          body: JSON.stringify({ id, name, image, icon: '🏷️' })
         });
       } catch (error) {
         console.error('ProductContext error:', error);
@@ -305,14 +305,14 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  const updateCategory = async (categoryId, newName) => {
-    const updatedCats = categories.map(c => c.id === categoryId ? { ...c, name: newName } : c);
+  const updateCategory = async (categoryId, newName, image = '') => {
+    const updatedCats = categories.map(c => c.id === categoryId ? { ...c, name: newName, image } : c);
     _setCategories(updatedCats);
     try {
       await fetch(getApiUrl(`/api/site/categories/${categoryId}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'x-admin-key': import.meta.env.VITE_ADMIN_KEY },
-        body: JSON.stringify({ name: newName })
+        body: JSON.stringify({ name: newName, image })
       });
     } catch (error) {
       console.error('ProductContext error:', error);

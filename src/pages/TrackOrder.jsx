@@ -21,7 +21,9 @@ const getStatusConfig = (status, paymentMethod) => {
 };
 
 const OrderCard = ({ order, onRefresh }) => {
-  const [expanded, setExpanded] = useState(false);
+  const queryParams = new URLSearchParams(window.location.search);
+  const queryRef = queryParams.get('query');
+  const [expanded, setExpanded] = useState(queryRef === order.orderRef);
   const [isCancelling, setIsCancelling] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const { token } = useAuth();
@@ -106,10 +108,12 @@ const OrderCard = ({ order, onRefresh }) => {
               <div className="node-icon"><CreditCard size={16} /></div>
               <div className="node-content">
                 <h4 style={{ color: 'var(--text-primary)' }}>{order.paymentMethod?.toLowerCase() === 'cod' ? 'Order Verification' : 'Payment Verification'}</h4>
-                <p style={{ color: 'var(--text-muted)' }}>
+                <p style={{ color: order.transactionStatus === 'PAYMENT_REJECTED' ? '#dc2626' : 'var(--text-muted)' }}>
                   {['VERIFIED', 'PAYMENT_VERIFIED', 'DELIVERED'].includes(order.transactionStatus) 
                     ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order confirmed' : 'Payment confirmed') 
-                    : (order.paymentMethod?.toLowerCase() === 'cod' ? 'Admin is verifying your order' : 'Admin is verifying your payment')}
+                    : (order.transactionStatus === 'PAYMENT_REJECTED' 
+                        ? (order.paymentMethod?.toLowerCase() === 'cod' ? 'Order rejected' : 'Payment rejected')
+                        : (order.paymentMethod?.toLowerCase() === 'cod' ? 'Admin is verifying your order' : 'Admin is verifying your payment'))}
                 </p>
               </div>
             </div>
@@ -226,8 +230,12 @@ const TrackOrder = () => {
     if (showLoading) setLoading(true);
     setError('');
     try {
-      const res = await fetch(getApiUrl('/api/orders/my-orders'), {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const res = await fetch(getApiUrl(`/api/orders/my-orders?t=${Date.now()}`), {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
       });
       const data = await res.json();
       
@@ -269,6 +277,24 @@ const TrackOrder = () => {
       }
     }
   }, [isAuthenticated, token]);
+
+  // Background polling to automatically update order status if any are pending
+  useEffect(() => {
+    let intervalId = null;
+    const hasPendingOrder = orders.some(order => 
+      ['PENDING_VERIFICATION', 'PENDING_ADMIN_APPROVAL'].includes(order.transactionStatus)
+    );
+
+    if (hasPendingOrder && isAuthenticated && token) {
+      intervalId = setInterval(() => {
+        fetchMyOrders(false);
+      }, 5000); // Poll every 5 seconds
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [orders, isAuthenticated, token]);
 
   // Not logged in
   if (!authLoading && !isAuthenticated) {

@@ -32,6 +32,9 @@ export const getBaseUrl = () => {
   if (process.env.BASE_URL && !process.env.BASE_URL.includes('localhost')) {
     return process.env.BASE_URL;
   }
+  if (process.env.RENDER_EXTERNAL_URL) {
+    return process.env.RENDER_EXTERNAL_URL;
+  }
   const ip = getLocalIp();
   const url = `http://${ip}:5000`;
   return url;
@@ -99,6 +102,10 @@ router.post('/', verifyToken, async (req, res) => {
 // Get My Orders (Logged-in User Only)
 router.get('/my-orders', verifyToken, async (req, res) => {
   try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -123,6 +130,10 @@ router.get('/my-orders', verifyToken, async (req, res) => {
 // Track Order specific by Phone or Order ID
 router.get('/track/status', async (req, res) => {
   try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     const { query } = req.query;
     if (!query) return res.status(400).json({ message: 'Query parameter is required' });
 
@@ -157,6 +168,10 @@ router.get('/track/status', async (req, res) => {
 // Check Order Status (For Frontend Polling)
 router.get('/:id/status', async (req, res) => {
   try {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     const { id } = req.params;
 
     // Validate if the ID is a valid MongoDB ObjectId to avoid Cast Error
