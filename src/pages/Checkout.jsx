@@ -140,15 +140,8 @@ const Checkout = () => {
     setCalculatedDeliveryCharge(deliveryCharge || 0);
   }, [deliveryCharge]);
 
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible' && hasDeepLinked && !isSuccess && !isVerifying) {
-        startVerification();
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [hasDeepLinked, isSuccess, isVerifying]);
+  // The visibilitychange auto-submit has been removed to prevent false orders.
+  // Users will now manually click 'I HAVE COMPLETED PAYMENT' upon returning from UPI apps.
 
   useEffect(() => {
     if (user && token) {
