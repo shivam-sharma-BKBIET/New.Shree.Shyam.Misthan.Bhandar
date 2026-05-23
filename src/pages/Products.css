@@ -90,6 +90,13 @@
 
 .mt-4 { margin-top: 1.5rem; }
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
 @media (min-width: 768px) {
   .filter-bar {
     flex-direction: row;
