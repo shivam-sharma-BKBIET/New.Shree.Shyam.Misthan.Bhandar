@@ -1539,6 +1539,7 @@ const Admin = () => {
                     type="number" min="0" step="1"
                     value={deliveryChargeInput}
                     onChange={(e) => setDeliveryChargeInput(e.target.value)}
+                    onWheel={(e) => e.target.blur()}
                     placeholder="e.g. 50"
                     required
                   />
@@ -1568,7 +1569,7 @@ const Admin = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Price</label>
-                  <input type="number" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} required />
+                  <input type="number" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} onWheel={(e) => e.target.blur()} required />
                 </div>
                 <div className="form-group">
                   <label>Unit / Quantity (e.g. 1 kg, 1 box)</label>
