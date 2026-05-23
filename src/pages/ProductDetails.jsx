@@ -119,7 +119,7 @@ const ProductDetails = () => {
             
             <div className="product-rating-box">
               <Star fill="#ffca28" color="#ffca28" size={20} />
-              <span className="rating-value">{product.rating}</span>
+              <span className="rating-value">{Number(product.rating).toFixed(1)}</span>
               <span className="rating-count">({product.reviews?.length || 0} Reviews)</span>
             </div>
             
