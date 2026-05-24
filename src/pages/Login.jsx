@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, Phone } from 'lucide-react';
@@ -10,7 +10,9 @@ import './AuthStyles.css';
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const redirectUrl = '/';
+  const [searchParams] = useSearchParams();
+  // Read redirect URL from query param (e.g. /login?redirect=%2Fcheckout)
+  const redirectUrl = searchParams.get('redirect') || '/';
 
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);

@@ -32,11 +32,15 @@ const AdminProtectedRoute = ({ children }) => {
   return isAdmin ? children : <Navigate to="/admin-login" />;
 };
 
-// User Protected Route for Checkout
+// User Protected Route — stores intended destination so user returns there after login
 const UserProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return null;
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  if (!isAuthenticated) {
+    const currentPath = window.location.pathname;
+    return <Navigate to={`/login?redirect=${encodeURIComponent(currentPath)}`} />;
+  }
+  return children;
 };
 
 function App() {

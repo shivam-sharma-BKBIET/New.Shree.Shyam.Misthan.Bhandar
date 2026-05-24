@@ -21,6 +21,7 @@ const Home = () => {
                 src={heroData?.image || "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&q=80&w=1000"} 
                 alt="New Shyam Misthan Bhandar" 
                 className="hero-image"
+                fetchpriority="high"
               />
             </div>
             <div className="hero-content">
@@ -44,7 +45,7 @@ const Home = () => {
           <div className="category-grid">
             {categories.map((category) => (
               <Link to={`/products?category=${category.id}`} key={category.id} className="category-card">
-                <img src={category.image} alt={category.name} className="category-image" />
+                <img src={category.image} alt={category.name} className="category-image" loading="lazy" />
                 <div className="category-overlay">
                   <h3>{category.name}</h3>
                 </div>

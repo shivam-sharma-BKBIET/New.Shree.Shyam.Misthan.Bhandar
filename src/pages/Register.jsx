@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import { User, Mail, Lock, Phone, ArrowRight, Loader2, ShieldCheck, CheckCircle2 } from 'lucide-react';
@@ -10,7 +10,9 @@ import './AuthStyles.css';
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const redirectUrl = '/';
+  const [searchParams] = useSearchParams();
+  // Preserve redirect param so user goes to /checkout after registering + logging in
+  const redirectUrl = searchParams.get('redirect') || '/';
 
   const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
   const [otp, setOtp] = useState('');
@@ -121,8 +123,9 @@ const Register = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Registration failed');
 
-      alert('Registration successful! Please login.');
-      navigate('/login'); // After registration, go to login (which will then go to home)
+      // Auto-login the user after registration and redirect to intended page
+      login(data.user, data.token);
+      navigate(redirectUrl);
     } catch (err) {
       setError(err.message);
     } finally {
