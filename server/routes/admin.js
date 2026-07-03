@@ -6,7 +6,7 @@ import { sendPaymentVerifiedEmail, sendPaymentRejectedEmail } from '../services/
 
 const router = express.Router();
 
-const ADMIN_API_KEY = process.env.ADMIN_API_KEY || 'NewShyamSecretKey2026';
+const ADMIN_API_KEY = process.env.ADMIN_API_KEY;
 
 // Middleware to verify Admin API Key
 const verifyAdmin = async (req, res, next) => {

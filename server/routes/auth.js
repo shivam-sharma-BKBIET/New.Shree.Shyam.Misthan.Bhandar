@@ -108,7 +108,7 @@ router.post('/login', loginLimiter, async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const secret = process.env.JWT_SECRET;
     const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, secret, { expiresIn: '7d' });
     res.json({
       token,
@@ -143,7 +143,7 @@ router.post('/google', async (req, res) => {
       });
     }
 
-    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const secret = process.env.JWT_SECRET ;
     const appToken = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, secret, { expiresIn: '7d' });
 
     res.json({
@@ -242,7 +242,7 @@ router.post('/facebook', async (req, res) => {
       });
     }
 
-    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const secret = process.env.JWT_SECRET ;
     const appToken = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, secret, { expiresIn: '7d' });
 
     res.json({
@@ -262,7 +262,7 @@ router.put('/update-phone', async (req, res) => {
     if (!authHeader) return res.status(401).json({ message: 'No token provided' });
     
     const token = authHeader.split(' ')[1];
-    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const secret = process.env.JWT_SECRET;
     const decoded = jwt.verify(token, secret);
     
     const { phone } = req.body;

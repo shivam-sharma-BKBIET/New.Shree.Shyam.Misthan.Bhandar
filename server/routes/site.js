@@ -7,7 +7,7 @@ import Category from '../models/Category.js';
 const router = express.Router();
 
 // Admin Middleware
-const ADMIN_API_KEY = process.env.ADMIN_API_KEY || 'NewShyamSecretKey2026';
+const ADMIN_API_KEY = process.env.ADMIN_API_KEY ;
 const verifyAdmin = (req, res, next) => {
   const apiKey = req.headers['x-admin-key'];
   if (!apiKey || apiKey !== ADMIN_API_KEY) {
@@ -27,7 +27,7 @@ const verifyUserOrAdmin = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Unauthorized' });
   try {
-    const secret = process.env.JWT_SECRET || 'super_secret_sweet_delight_2026';
+    const secret = process.env.JWT_SECRET ;
     const decoded = jwt.verify(token, secret);
     req.userId = decoded.id || decoded._id || decoded.userId;
     req.isAdmin = false;

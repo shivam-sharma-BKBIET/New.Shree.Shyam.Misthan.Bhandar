@@ -16,6 +16,13 @@ import './services/telegramBot.js';
 
 dotenv.config();
 
+// Ensure critical security environment variables are present
+if (!process.env.JWT_SECRET || !process.env.ADMIN_API_KEY) {
+  console.error("CRITICAL SECURITY ERROR: Missing JWT_SECRET or ADMIN_API_KEY in .env file!");
+  console.error("Server cannot start without these security keys.");
+  process.exit(1); // Force exit if keys are missing
+}
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
