@@ -5,12 +5,32 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { sendOTPEmail, sendRegistrationOTPEmail } from '../services/emailService.js';
 import bot from '../services/telegramBot.js';
+import rateLimit from 'express-rate-limit';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const router = express.Router();
 
+// --- Rate Limiters ---
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 10 requests per windowMs
+  message: { message: 'Too many login attempts, please try again after 15 minutes' }
+});
+
+const otpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 requests per windowMs
+  message: { message: 'Too many OTP requests, please try again later' }
+});
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: { message: 'Too many accounts created from this IP, please try again after an hour' }
+});
+
 // Register
-router.post('/register', async (req, res) => {
+router.post('/register', registerLimiter, async (req, res) => {
   try {
     const { name, email, password, phone, otp } = req.body;
     const userExists = await User.findOne({ email });
@@ -32,7 +52,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Send OTP to Email for Registration
-router.post('/send-otp-email', async (req, res) => {
+router.post('/send-otp-email', otpLimiter, async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: 'Email is required' });
@@ -59,8 +79,19 @@ router.post('/send-otp-email', async (req, res) => {
 router.post('/verify-otp-email', async (req, res) => {
   try {
     const { email, otp } = req.body;
-    const otpRecord = await OTP.findOne({ email, otp });
+    
+    const otpRecord = await OTP.findOne({ email });
     if (!otpRecord) return res.status(400).json({ message: 'Invalid or expired OTP' });
+    
+    if (otpRecord.otp !== otp) {
+      otpRecord.attempts += 1;
+      if (otpRecord.attempts >= 5) {
+        await OTP.deleteOne({ _id: otpRecord._id });
+        return res.status(400).json({ message: 'Too many failed attempts. Please request a new OTP.' });
+      }
+      await otpRecord.save();
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
 
     res.json({ message: 'Email verified successfully' });
   } catch (error) {
@@ -69,7 +100,7 @@ router.post('/verify-otp-email', async (req, res) => {
 });
 
 // Login
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -126,7 +157,7 @@ router.post('/google', async (req, res) => {
 });
 
 // 1. Request OTP for Password Reset
-router.post('/forgot-password', async (req, res) => {
+router.post('/forgot-password', otpLimiter, async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
@@ -154,8 +185,18 @@ router.post('/verify-otp-reset', async (req, res) => {
     const { email, otp, newPassword } = req.body;
 
     // Check if OTP matches
-    const otpRecord = await OTP.findOne({ email, otp });
+    const otpRecord = await OTP.findOne({ email });
     if (!otpRecord) return res.status(400).json({ message: 'Invalid or expired OTP' });
+
+    if (otpRecord.otp !== otp) {
+      otpRecord.attempts += 1;
+      if (otpRecord.attempts >= 5) {
+        await OTP.deleteOne({ _id: otpRecord._id });
+        return res.status(400).json({ message: 'Too many failed attempts. Please request a new OTP.' });
+      }
+      await otpRecord.save();
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
 
     // Update user password
     const user = await User.findOne({ email });
